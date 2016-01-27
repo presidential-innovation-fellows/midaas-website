@@ -1,5 +1,6 @@
 body {
   background-color: lighten($color-gray-cool-light, 3);
+  -webkit-font-smoothing: antialiased;
 }
 
 .main-content {
@@ -7,6 +8,7 @@ body {
 
   .chart-widget {
     @extend %card;
+    position: relative;
   }
 
   .ct-series-a {
@@ -27,9 +29,103 @@ body {
   }
 }
 
+.perspectives {
+  position: absolute;
+  right: 1em;
+  top: 1em;
+
+  li {
+    @include transition(all 0.1s ease);
+    $toggle-border-color: lighten($color-gray-light, 10);
+    $toggle-thickness: 1px;
+    color: darken($color-gray-light, 10);
+    cursor: pointer;
+    font-size: 0.65em;
+    font-weight: bold;
+    padding: 0.85em 1em;
+
+    &::after {
+      margin-bottom: 0;
+    }
+
+    &::before {
+      content: "";
+      padding-right: 0;
+    }
+
+    &:first-child {
+      border-bottom: $toggle-thickness solid $toggle-border-color;
+      border-left: $toggle-thickness solid $toggle-border-color;
+      border-radius: 0.5em 0 0 0.5em;
+      border-top: $toggle-thickness solid $toggle-border-color;
+    }
+
+    &:hover {
+      color: $color-primary;
+    }
+
+    &:last-child {
+      border-bottom: $toggle-thickness solid $toggle-border-color;
+      border-radius: 0 0.5em 0.5em 0;
+      border-right: $toggle-thickness solid $toggle-border-color;
+      border-top: $toggle-thickness solid $toggle-border-color;
+    }
+
+    &.active {
+      background-color: $color-primary;
+      border-color: $color-primary;
+      color: lighten($color-primary, 60);
+
+      &.middle-child {
+        border-bottom: $toggle-thickness solid $color-primary;
+        border-top: $toggle-thickness solid $color-primary;
+      }
+    }
+
+    &.middle-child {
+      border-bottom: $toggle-thickness solid $toggle-border-color;
+      border-top: $toggle-thickness solid $toggle-border-color;
+    }
+  }
+
+  ul {
+    float: right;
+    list-style-type: none;
+    margin: 0 auto;
+
+    li {
+      display: inline-block;
+      line-height: 0.7em;
+      margin: 0;
+      vertical-align: center;
+    }
+  }
+}
+
+.primary-widget {
+
+  .widget-header {
+    margin-bottom: 1em;
+    text-align: center;
+
+    h2 {
+      font-size: 1.5em;
+    }
+  }
+}
+
 .widget-header {
-  color: lighten($color-gray-dark, 10);
-  font-size: 1em;
-  line-height: 1em;
-  margin: 0 0 0.75em;
+
+  h2 {
+    color: lighten($color-gray-dark, 10);
+    font-size: 1em;
+    line-height: 1em;
+    margin: 0 0 0.15em;
+  }
+
+  p {
+    color: lighten($color-gray-dark, 30);
+    font-size: 0.8em;
+    margin: 0;
+  }
 }

@@ -38,7 +38,7 @@ midaas.chart = {
             return midaas.formatMoney.toDollars(value);
           }
         },
-        chartPadding: { left: 15, top: 10 },
+        chartPadding: { left: 15, top: 10, right: -10 },
         fullWidth: true,
         height: "350px",
         low: 0,

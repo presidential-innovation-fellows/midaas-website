@@ -2,6 +2,12 @@ var midaas = midaas || {};
 
 midaas.indexPage = {
 
+  bindToggles: function() {
+    $(".toggle").on("click", function(event){
+      midaas.indexPage.togglePerspective(event);
+    });
+  },
+
   loadChart: function() {
     var labels = [
       "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "95%",
@@ -15,8 +21,14 @@ midaas.indexPage = {
 
     midaas.chart.createChart(labels, data);
   },
+
+  togglePerspective: function(event) {
+    $(".toggles li").removeClass("active");
+    $(event.target).addClass("active");
+  }
 };
 
 $(document).ready(function() {
+  midaas.indexPage.bindToggles();
   midaas.indexPage.loadChart();
 });

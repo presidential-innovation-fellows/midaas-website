@@ -2202,6 +2202,9 @@ fieldset {
     margin-bottom: 0; }
 
 .main-content .chart-widget {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
   background-color: #ffffff;
   box-shadow: 0 -1px 0 #f1f1f2, 0 0 2px rgba(0, 0, 0, 0.05), 0 2px 4px rgba(0, 0, 0, 0.09);
   padding: 1em; }
@@ -2228,10 +2231,13 @@ fieldset {
   margin: 0; }
 
 body {
-  background-color: #e7ecf4; }
+  background-color: #e7ecf4;
+  -webkit-font-smoothing: antialiased; }
 
 .main-content {
   padding-top: 2em; }
+  .main-content .chart-widget {
+    position: relative; }
   .main-content .ct-series-a .gray-line {
     fill: none;
     stroke: #e7ecf4;
@@ -2241,10 +2247,70 @@ body {
   .main-content .ct-label {
     font-size: 0.6em; }
 
-.widget-header {
+.perspectives {
+  position: absolute;
+  right: 1em;
+  top: 1em; }
+  .perspectives li {
+    -webkit-transition: all 0.1s ease;
+    -moz-transition: all 0.1s ease;
+    transition: all 0.1s ease;
+    color: #93969d;
+    cursor: pointer;
+    font-size: 0.65em;
+    font-weight: bold;
+    padding: 0.85em 1em; }
+    .perspectives li::after {
+      margin-bottom: 0; }
+    .perspectives li::before {
+      content: "";
+      padding-right: 0; }
+    .perspectives li:first-child {
+      border-bottom: 1px solid #c9cacd;
+      border-left: 1px solid #c9cacd;
+      border-radius: 0.5em 0 0 0.5em;
+      border-top: 1px solid #c9cacd; }
+    .perspectives li:hover {
+      color: #0071bc; }
+    .perspectives li:last-child {
+      border-bottom: 1px solid #c9cacd;
+      border-radius: 0 0.5em 0.5em 0;
+      border-right: 1px solid #c9cacd;
+      border-top: 1px solid #c9cacd; }
+    .perspectives li.active {
+      background-color: #0071bc;
+      border-color: #0071bc;
+      color: #eff9ff; }
+      .perspectives li.active.middle-child {
+        border-bottom: 1px solid #0071bc;
+        border-top: 1px solid #0071bc; }
+    .perspectives li.middle-child {
+      border-bottom: 1px solid #c9cacd;
+      border-top: 1px solid #c9cacd; }
+  .perspectives ul {
+    float: right;
+    list-style-type: none;
+    margin: 0 auto; }
+    .perspectives ul li {
+      display: inline-block;
+      line-height: 0.7em;
+      margin: 0;
+      vertical-align: center; }
+
+.primary-widget .widget-header {
+  margin-bottom: 1em;
+  text-align: center; }
+  .primary-widget .widget-header h2 {
+    font-size: 1.5em; }
+
+.widget-header h2 {
   color: #475363;
   font-size: 1em;
   line-height: 1em;
-  margin: 0 0 0.75em; }
+  margin: 0 0 0.15em; }
+.widget-header p {
+  color: #75859b;
+  font-size: 0.8em;
+  margin: 0; }
 
 /*# sourceMappingURL=main.css.map */
