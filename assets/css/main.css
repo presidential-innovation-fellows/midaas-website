@@ -2201,4 +2201,24 @@ fieldset {
   .usa-accordion-content > *:last-child {
     margin-bottom: 0; }
 
+.app-nav {
+  padding: 1em 0; }
+
+.beta {
+  bottom: 0.6em;
+  font-size: 0.8em;
+  position: absolute;
+  right: 0; }
+
+.logo {
+  position: relative;
+  width: 10.3em; }
+
+.logotype {
+  font-size: 2em;
+  margin: 0; }
+
+body {
+  padding: 0 2em; }
+
 /*# sourceMappingURL=main.css.map */
