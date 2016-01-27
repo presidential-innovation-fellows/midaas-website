@@ -45,11 +45,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="assets/css/vendor/chartist.min.css">
     <link rel="shortcut icon" type="image/ico" href="assets/img/favicons/favicon.ico">
 
     <link rel="icon" type="image/png" href="assets/img/favicons/favicon.png">
     <script src="assets/js/vendor/jquery-1.11.3.min.js"></script>
+    <script src="assets/js/vendor/chartist.min.js"></script>
     <script src="assets/js/components.js"></script>
+    <script src="assets/js/format-money.js"></script>
+    <script src="assets/js/chart.js"></script>
+    <script src="assets/js/index.js"></script>
     <!-- Scripts -->
       <!--[if lte IE 8]>
         <script src="assets/js/vendor/respond.min.js"></script>
@@ -60,13 +65,23 @@
       <![endif]-->
   </head>
   <body>
-    <nav class="app-nav usa-grid">
-      <div class="logo">
-        <h1 class="logotype">MIDAAS</h1>
-        <div class="beta">
-          Beta
+    <nav class="app-nav">
+      <div class="usa-grid">
+        <div class="logo">
+          <h1 class="logotype">MIDAAS</h1>
+          <div class="beta">
+            Beta
+          </div>
         </div>
       </div>
     </nav>
+    <section class="main-content">
+      <div class="usa-grid">
+        <div class="chart-widget widget">
+          <h2 class="widget-header">National Income Data</h2>
+          <div class="chart" id="chart"></div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

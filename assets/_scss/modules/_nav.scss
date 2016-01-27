@@ -1,9 +1,12 @@
 .app-nav {
-  padding: 1em 0;
+  background-color: $color-gray-dark;
+  padding-bottom: 0.75em;
+  padding-top: 0.75em;
 }
 
 .beta {
-  bottom: 0.6em;
+  bottom: 0.4em;
+  color: $color-gray-light;
   font-size: 0.8em;
   position: absolute;
   right: 0;
@@ -11,10 +14,11 @@
 
 .logo {
   position: relative;
-  width: 10.3em;
+  width: 9.2em;
 }
 
 .logotype {
-  font-size: 2em;
+  color: $color-gray-lightest;
+  font-size: 1.75em;
   margin: 0;
 }

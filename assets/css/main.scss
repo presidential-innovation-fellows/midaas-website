@@ -1,4 +1,8 @@
 @import "../_scss/all";
 
+//* Custom Components *//
+@import "../_scss/extends/card";
+
+//* Imported Styles *//
 @import "../_scss/modules/all";
 @import "../_scss/pages/index";

@@ -1,3 +1,35 @@
 body {
-  padding: 0 2em;
+  background-color: lighten($color-gray-cool-light, 3);
+}
+
+.main-content {
+  padding-top: 2em;
+
+  .chart-widget {
+    @extend %card;
+  }
+
+  .ct-series-a {
+
+    .gray-line {
+      fill: none;
+      stroke: lighten($color-gray-cool-light, 3);
+      stroke-width: 15px;
+    }
+
+    .ct-bar {
+      stroke: $color-primary;
+    }
+  }
+
+  .ct-label {
+    font-size: 0.6em;
+  }
+}
+
+.widget-header {
+  color: lighten($color-gray-dark, 10);
+  font-size: 1em;
+  line-height: 1em;
+  margin: 0 0 0.75em;
 }
