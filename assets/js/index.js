@@ -19,7 +19,8 @@ midaas.indexPage = {
       200000, 300000
     ]];
 
-    midaas.chart.createChart(labels, data);
+    midaas.chart.createChart(labels, "#chart", data);
+    midaas.chart.createChart(labels, "#distribution-chart", data);
   },
 
   togglePerspective: function(event) {

@@ -64,34 +64,48 @@
         <script src="assets/js/vendor/html5shiv.js"></script>
       <![endif]-->
   </head>
-  <body>
+  <body class="page-simulation">
     <nav class="app-nav">
       <div class="usa-grid">
+
         <div class="logo">
           <h1 class="logotype">MIDAAS</h1>
           <div class="beta">
             Beta
           </div>
         </div>
+
+        <div class="app-links">
+          <ul>
+            <li>
+              <a href="overview.html">Overview</a>
+            </li>
+            <li>
+              <a class="inactive" href="history.html">History</a>
+            </li>
+            <li>
+              <a href="simulation.html">Simulation</a>
+            </li>
+          </ul>
+        </div>
       </div>
     </nav>
+
     <section class="main-content">
       <div class="usa-grid">
-        <div class="chart-widget widget primary-widget">
+
+        <div class="distribution-widget widget">
           <div class="widget-header">
-            <h2>National Income Data</h2>
-            <p>United States of America - 2012</p>
+            <h2>How would you change Income Distribution?</h2>
           </div>
-          <div class="perspectives">
-            <ul class="toggles">
-              <li class="active toggle">Percent</li>
-              <li class="middle-child toggle">Race</li>
-              <li class="middle-child toggle">Gender</li>
-              <li class="toggle">Age</li>
-            </ul>
+          <div class="widget-content">
+            <div class="chart" id="distribution-chart"></div>
+            <div class="slider">
+              <input class="slider-input" type="range" />
+            </div>
           </div>
-          <div class="chart" id="chart"></div>
         </div>
+
       </div>
     </div>
   </body>
