@@ -2,7 +2,7 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
 
-    clean: ["dist"],
+    clean: ['dist'],
 
     jade: {
       compile: {
@@ -12,7 +12,7 @@ module.exports = function(grunt) {
           }
         },
         files: {
-          "dist/index.html": "src/index.jade"
+          'dist/index.html': 'src/index.jade'
         }
       }
     },
@@ -31,33 +31,33 @@ module.exports = function(grunt) {
     copy: {
       css: {
         expand: true,
-        cwd: "src/assets/css/",
-        src: ["**/*.css", "**/*.map"],
-        dest: "dist/assets/css/"
+        cwd: 'src/assets/css/',
+        src: ['**/*.css', '**/*.map'],
+        dest: 'dist/assets/css/'
       },
       fonts: {
         expand: true,
-        cwd: "src/assets/fonts/",
-        src: "**",
-        dest: "dist/assets/fonts/"
+        cwd: 'src/assets/fonts/',
+        src: '**',
+        dest: 'dist/assets/fonts/'
       },
       img: {
         expand: true,
-        cwd: "src/assets/img/",
-        src: "**",
-        dest: "dist/assets/img/"
+        cwd: 'src/assets/img/',
+        src: '**',
+        dest: 'dist/assets/img/'
       },
       js: {
         expand: true,
-        cwd: "src/assets/js/",
-        src: "**",
-        dest: "dist/assets/js/"
+        cwd: 'src/assets/js/',
+        src: '**',
+        dest: 'dist/assets/js/'
       },
       jade: {
         expand: true,
-        cwd: "src/",
-        src: "!**/*.jade",
-        dest: "dist/"
+        cwd: 'src/',
+        src: '!**/*.jade',
+        dest: 'dist/'
       }
     },
 
@@ -67,7 +67,7 @@ module.exports = function(grunt) {
           patterns: [
             {
               match: 'the-eagle-has-landed',
-              replacement: '<%= grunt.file.read("src/eagle.txt") %>'
+              replacement: '<%= grunt.file.read('src/eagle.txt') %>'
             }
           ]
         },
@@ -82,7 +82,7 @@ module.exports = function(grunt) {
         options: {
           livereload: 9004,
           port: 8000,
-          base: "dist/"
+          base: 'dist/'
         }
       }
     },
@@ -115,8 +115,8 @@ module.exports = function(grunt) {
 
   });
 
-  grunt.loadNpmTasks('grunt-contrib-clean')
-  grunt.loadNpmTasks('grunt-contrib-copy')
+  grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-jade');
   grunt.loadNpmTasks('grunt-replace');
   grunt.loadNpmTasks('grunt-sass');
