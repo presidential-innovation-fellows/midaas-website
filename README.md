@@ -1,6 +1,6 @@
 #MIDAAS Website
 
-To get the SASS working, run `sass --watch assets/css/main.scss` from the project directory.
+Run `grunt` in the project directory to compile sass and jade.
 
 ### Public domain
 
