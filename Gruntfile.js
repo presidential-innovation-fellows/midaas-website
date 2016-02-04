@@ -82,7 +82,7 @@ module.exports = function(grunt) {
         options: {
           livereload: 9004,
           port: 8000,
-          // base: "/"
+          base: "dist/"
         }
       }
     },
