@@ -3,10 +3,7 @@ var midaas = midaas || {};
 midaas.chart = {
 
   addGrayBars: function(chart) {
-    var parentId = "#" + chart.svg._node.parentElement.id;
-
-    console.log(parentId);
-    $("" + parentId + " .ct-series .ct-bar").each(function() {
+    $(".ct-series .ct-bar").each(function() {
       var x = $(this).attr("x1"),
           y = $(this).attr("y1"),
           y2 = 10;
@@ -28,8 +25,8 @@ midaas.chart = {
     }
   },
 
-  createChart: function(labels, chartId, data) {
-    var chart = new Chartist.Bar(chartId, {
+  createChart: function(labels, data) {
+    var chart = new Chartist.Bar("#chart", {
       labels: labels,
       series: data
       }, {
@@ -43,7 +40,7 @@ midaas.chart = {
         },
         chartPadding: { left: 15, top: 10, right: -10 },
         fullWidth: true,
-        height: "320px",
+        height: "350px",
         low: 0,
     });
 
