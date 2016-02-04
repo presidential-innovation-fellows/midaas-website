@@ -1,5 +1,0 @@
-scss:
-  config_file: config/.scss-style.yml
-
-javascript:
-  ignore_file: config/.javascript_ignore
