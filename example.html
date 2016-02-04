@@ -1,0 +1,46 @@
+<html>
+	<head>
+		<title>example</title>
+		<!-- Load jquery -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.min.js"></script>
+
+		<!-- Load c3.css -->
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.css" rel="stylesheet" type="text/css">
+
+		<!-- Load d3.js and c3.js -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.14/d3.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.js" charset="utf-8"></script>
+		<script>
+		$(function() {
+			var chart = c3.generate({
+			    data: {
+			        x: 'x',
+			        columns: [
+			            ['x', '5%', '10%', '20%', '30%', '40%', '50%', '60%', '70%', '80%', '90%', '95%', '99%'],
+			            ['White', 130, 100, 140, 200, 150, 50, 130, 100, 140, 200, 150, 50],
+			            ['Black', 30, 200, 100, 400, 150, 250, 30, 200, 100, 400, 150, 250],
+			            ['Asian', 130, 150, 200, 300, 200, 100, 130, 150, 200, 300, 200, 100],
+			            ['Hispanic', 120, 160, 20, 350, 120, 180, 120, 160, 20, 350, 120, 180]
+			        ],
+			        type: 'bar'
+			    },
+			    bar: {
+			        width: {
+			            ratio: 0.7 // this makes bar width 50% of length between ticks
+			        }
+			        // or
+			        //width: 100 // this makes bar width 100px
+			    },
+			    axis : {
+			        x : {
+			            type : 'category'
+			        }
+			    }
+			});
+		});
+	</script>
+	</head>
+	<body>
+		<div id="chart"></div>
+	</body>
+</html>
