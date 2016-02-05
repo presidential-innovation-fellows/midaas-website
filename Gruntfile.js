@@ -65,22 +65,6 @@ module.exports = function(grunt) {
       }
     },
 
-    replace: {
-      dist: {
-        options: {
-          patterns: [
-            {
-              match: 'the-eagle-has-landed',
-              replacement: "<%= grunt.file.read('src/eagle.txt') %>"
-            }
-          ]
-        },
-        files: [
-          {expand: true, flatten: true, src: ['dist/index.html'], dest: 'dist/'}
-        ]
-      }
-    },
-
     connect: {
       server: {
         options: {
@@ -97,7 +81,7 @@ module.exports = function(grunt) {
       },
       jade: {
         files: ['src/**/*.jade', 'src/!**/_*.jade', 'src/eagle.txt'],
-        tasks: ['jade', 'copy:jade', 'replace:dist']
+        tasks: ['jade', 'copy:jade']
       },
       sass: {
         files: ['src/assets/css/main.scss', 'src/assets/_scss/**/*.scss'],
@@ -122,7 +106,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-jade');
-  grunt.loadNpmTasks('grunt-replace');
   grunt.loadNpmTasks('grunt-sass');
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-watch');
@@ -132,7 +115,6 @@ module.exports = function(grunt) {
     'jade',
     'sass',
     'copy',
-    'replace',
     'connect:server',
     'watch'
   ]);
