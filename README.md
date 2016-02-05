@@ -1,6 +1,12 @@
 #MIDAAS Website
 
-Run `grunt` in the project directory to compile sass and jade.
+This project requires `node` and `grunt`. Once `node` is installed, please do the following...
+
+```
+cd midaas-website
+npm install
+grunt
+```
 
 ### Public domain
 
