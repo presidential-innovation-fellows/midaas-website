@@ -13,7 +13,11 @@ module.exports = function(grunt) {
         },
         files: [ {
           cwd: 'src',
-          src: ['**/*.jade', '!**/_*.jade'],
+          src: [
+            '**/*.jade',
+            '!**/_*.*',
+            '!**/_*/**'
+          ],
           dest: 'dist',
           expand: true,
           ext: '.html'
@@ -26,41 +30,31 @@ module.exports = function(grunt) {
         sourceMap: true
       },
       dist: {
-        files: {
-          'src/assets/css/main.css': 'src/assets/css/main.scss'
-        }
+        files: [ {
+          cwd: 'src',
+          src: [
+            '**/*.scss',
+            '!**/_*.*',
+            '!**/_*/**'
+          ],
+          dest: 'dist',
+          expand: true,
+          ext: '.css'
+        } ]
       }
     },
 
     copy: {
-      css: {
+      src: {
         expand: true,
-        cwd: 'src/assets/css/',
-        src: ['**/*.css', '**/*.map'],
-        dest: 'dist/assets/css/'
-      },
-      fonts: {
-        expand: true,
-        cwd: 'src/assets/fonts/',
-        src: '**',
-        dest: 'dist/assets/fonts/'
-      },
-      img: {
-        expand: true,
-        cwd: 'src/assets/img/',
-        src: '**',
-        dest: 'dist/assets/img/'
-      },
-      js: {
-        expand: true,
-        cwd: 'src/assets/js/',
-        src: '**',
-        dest: 'dist/assets/js/'
-      },
-      jade: {
-        expand: true,
-        cwd: 'src/',
-        src: '!**/*.jade',
+        cwd: 'src',
+        src: [
+          '**/*',
+          '!**/*.scss',
+          '!**/*.jade',
+          '!**/_*.*',
+          '!**/_*/**'
+        ],
         dest: 'dist/'
       }
     },
@@ -80,24 +74,20 @@ module.exports = function(grunt) {
         livereload: 9004
       },
       jade: {
-        files: ['src/**/*.jade', 'src/!**/_*.jade', 'src/eagle.txt'],
-        tasks: ['jade', 'copy:jade']
+        files: ['src/**/*.jade'],
+        tasks: ['jade']
       },
       sass: {
-        files: ['src/assets/css/main.scss', 'src/assets/_scss/**/*.scss'],
-        tasks: ['sass', 'copy:css']
+        files: ['src/**/*.scss'],
+        tasks: ['sass']
       },
-      fonts: {
-        files: ['src/assets/fonts/**'],
-        tasks: ['copy:fonts']
-      },
-      img: {
-        files: ['src/assets/img/**'],
-        tasks: ['copy:img']
-      },
-      js: {
-        files: ['src/assets/js/**'],
-        tasks: ['copy:js']
+      other: {
+        files: [
+          'src/**/*',
+          '!src/**/*.jade',
+          '!src/**/*.scss'
+        ],
+        tasks: ['newer:copy']
       }
     }
 
@@ -107,6 +97,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-jade');
   grunt.loadNpmTasks('grunt-sass');
+  grunt.loadNpmTasks('grunt-newer');
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-watch');
 
