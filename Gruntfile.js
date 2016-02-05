@@ -11,9 +11,13 @@ module.exports = function(grunt) {
             debug: false
           }
         },
-        files: {
-          'dist/index.html': 'src/index.jade'
-        }
+        files: [ {
+          cwd: 'src',
+          src: '**/*.jade',
+          dest: 'dist',
+          expand: true,
+          ext: '.html'
+        } ]
       }
     },
 
