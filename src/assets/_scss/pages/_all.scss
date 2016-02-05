@@ -20,8 +20,53 @@ body {
   }
 }
 
+.chart {
+  min-height: 300px;
+}
+
 .ct-label {
   font-size: 0.6em;
+}
+
+.chart-error {
+  display: none;
+  left: 50%;
+  margin-left: -200px;
+  position: absolute;
+  text-align: center;
+  top: 40%;
+  width: 400px;
+
+  &.active {
+    display: block;
+  }
+
+  p {
+    color: lighten($color-gray-dark, 10);
+    font-size: 0.9em;
+    margin-top: 0;
+  }
+}
+
+.error-icon {
+  color: $color-secondary;
+  font-size: 3em;
+  margin: 0 auto;
+  text-align: center;
+  width: 50px;
+}
+
+.loading-icon {
+  height: 50px;
+  left: 50%;
+  margin: -25px 0 0 -25px;
+  position: absolute;
+  top: 50%;
+  width: 50px;
+
+  img {
+    width: 100%;
+  }
 }
 
 .main-content {

@@ -18,14 +18,23 @@ midaas.indexPage = {
     // ]];
 
     // fetch data remotely...
-    $.getJSON( "https://x0suepap69.execute-api.us-east-1.amazonaws.com/development/income/quantiles", function( data ) {
-      dataArr = [];
-      for (var d in data) {
-        dataArr.push(data[d]);
-      }
-      midaas.chart.createChart(labels, [dataArr]);
-    });
+    var dataArr = [],
+        url =  "https://x0suepap69.execute-api.us-east-1.amazonaws.com/development/income/quantiles";
 
+    $.ajax({
+        dataType: "json",
+        url: url,
+        data: function(data) {
+          for (var d in data) {
+            dataArr.push(data[d]);
+          }
+        },
+        timeout: 10000
+    }).done(function(){
+      midaas.chart.createChart(labels, [dataArr])
+    }).fail(function(error){
+      midaas.chart.returnError(error)
+    });
   },
 
   togglePerspective: function(event) {

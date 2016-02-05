@@ -50,8 +50,18 @@ midaas.chart = {
 
     chart.on("created", function(createdChart) {
       midaas.chart.addGrayBars(createdChart);
+      midaas.chart.removeLoadingIcon();
     });
 
     return chart;
-  }
+  },
+
+  removeLoadingIcon: function() {
+    $("#loading-icon").fadeOut("fast");
+  },
+
+  returnError: function(error) {
+    $("#loading-icon").fadeOut("fast");
+    $("#chart-error").fadeIn("fast");
+  },
 };
