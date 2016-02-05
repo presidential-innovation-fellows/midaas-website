@@ -96,7 +96,7 @@ module.exports = function(grunt) {
         livereload: 9004
       },
       jade: {
-        files: ['src/**/*.jade', 'src/eagle.txt'],
+        files: ['src/**/*.jade', 'src/!**/_*.jade', 'src/eagle.txt'],
         tasks: ['jade', 'copy:jade', 'replace:dist']
       },
       sass: {
