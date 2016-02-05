@@ -71,7 +71,7 @@ module.exports = function(grunt) {
           patterns: [
             {
               match: 'the-eagle-has-landed',
-              replacement: "<%= grunt.file.read('src/eagle.txt') %>"
+              replacement: "<%= grunt.file.read('src/modules/eagle.txt') %>"
             }
           ]
         },
