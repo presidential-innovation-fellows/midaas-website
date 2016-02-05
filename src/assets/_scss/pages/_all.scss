@@ -1,15 +1,31 @@
+@import "home";
+
 body {
   background-color: lighten($color-gray-cool-light, 3);
   -webkit-font-smoothing: antialiased;
+
+  li {
+    &::after {
+      margin-bottom: 0;
+    }
+
+    &::before {
+      content: "";
+      padding-right: 0;
+    }
+  }
+
+  ul {
+    list-style-type: none;
+  }
+}
+
+.ct-label {
+  font-size: 0.6em;
 }
 
 .main-content {
   padding-top: 2em;
-
-  .chart-widget {
-    @include span-columns(8);
-    position: relative;
-  }
 
   .ct-series-a {
 
@@ -22,14 +38,6 @@ body {
     .ct-bar {
       stroke: $color-primary;
     }
-  }
-
-  .ct-label {
-    font-size: 0.6em;
-  }
-
-  .row {
-    @include clearfix;
   }
 }
 
@@ -47,15 +55,6 @@ body {
     font-size: 0.65em;
     font-weight: bold;
     padding: 0.85em 1em;
-
-    &::after {
-      margin-bottom: 0;
-    }
-
-    &::before {
-      content: "";
-      padding-right: 0;
-    }
 
     &:first-child {
       border-bottom: $toggle-thickness solid $toggle-border-color;
@@ -94,7 +93,6 @@ body {
 
   ul {
     float: right;
-    list-style-type: none;
     margin: 0 auto;
 
     li {
