@@ -4425,14 +4425,6 @@ input[type="range"] {
   font-size: 1.75em;
   margin: 0; }
 
-.pages-home .chart-widget {
-  float: left;
-  display: block;
-  margin-right: 2.3576515979%;
-  width: 65.8807828007%; }
-  .pages-home .chart-widget:last-child {
-    margin-right: 0; }
-
 .pages-home .row:after {
   content: ".";
   display: block;

@@ -1,8 +1,8 @@
 .pages-home {
 
-  .chart-widget {
-    @include span-columns(8);
-  }
+  // .chart-widget {
+  //   @include span-columns(8);
+  // }
 
   .row {
     @include clearfix;
