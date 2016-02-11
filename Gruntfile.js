@@ -89,6 +89,30 @@ module.exports = function(grunt) {
         ],
         tasks: ['newer:copy']
       }
+    },
+
+    aws_s3: {
+      options: {
+        awsProfile: '~/.aws/credentials',
+        region: 'us-west-2'
+      },
+      production: {
+        options: {
+          bucket: 'midaas.pif.ninja',
+          files: [
+            {
+              dest: 'assets/',
+              'action': 'delete'
+            },
+            {
+              expand: true,
+              cwd: 'dist/',
+              src: ['**'],
+              dest: '/'
+            }
+          ]
+        }
+      }
     }
 
   });
@@ -100,6 +124,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-newer');
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-aws-s3');
 
   grunt.registerTask('default', [
     'clean',
@@ -109,5 +134,13 @@ module.exports = function(grunt) {
     'connect:server',
     'watch'
   ]);
+
+  grunt.registerTask('deploy', [
+    'clean',
+    'jade',
+    'sass',
+    'copy',
+    'aws_s3'
+  ])
 
 };
