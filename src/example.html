@@ -1,0 +1,70 @@
+<html>
+	<head>
+		<title>example</title>
+		<!-- Load jquery -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.min.js"></script>
+
+		<!-- Load c3.css -->
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.css" rel="stylesheet" type="text/css">
+
+		<!-- Load d3.js and c3.js -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.14/d3.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.js" charset="utf-8"></script>
+		<script>
+		$(function() {
+			// fetch data remotely for (white, black, asian, hispanic)
+    $.getJSON( "https://x0suepap69.execute-api.us-east-1.amazonaws.com/development/income/quantiles?race=white", function( data ) {
+      dataArr = ["White"];
+			$.getJSON( "https://x0suepap69.execute-api.us-east-1.amazonaws.com/development/income/quantiles?race=african american", function( data2 ) {
+				dataArr2 = ["Black"];
+				$.getJSON( "https://x0suepap69.execute-api.us-east-1.amazonaws.com/development/income/quantiles?race=asian", function( data3 ) {
+					dataArr3 = ["Asian"];
+					$.getJSON( "https://x0suepap69.execute-api.us-east-1.amazonaws.com/development/income/quantiles?race=hispanic", function( data4 ) {
+						dataArr4 = ["Hispanic"];
+						for (var d in data) {
+			        dataArr.push(data[d]);
+			      }
+						for (var d in data2) {
+			        dataArr2.push(data2[d]);
+			      }
+						for (var d in data3) {
+			        dataArr3.push(data3[d]);
+			      }
+						for (var d in data4) {
+			        dataArr4.push(data4[d]);
+			      }
+			console.log(dataArr,dataArr2,dataArr3,dataArr4);
+			var chart = c3.generate({
+			    data: {
+			        x: 'x',
+			        columns: [
+			            ['x', '5%', '10%', '20%', '30%', '40%', '50%', '60%', '70%', '80%', '90%', '95%', '99%'],
+			            // ['White', 130, 100, 140, 200, 150, 50, 130, 100, 140, 200, 150, 50],
+									dataArr, dataArr2, dataArr3, dataArr4
+			        ],
+			        type: 'bar'
+			    },
+			    bar: {
+			        width: {
+			            ratio: 0.7 // this makes bar width 50% of length between ticks
+			        }
+			        // or
+			        //width: 100 // this makes bar width 100px
+			    },
+			    axis : {
+			        x : {
+			            type : 'category'
+			        }
+			    }
+			});
+		});
+		});
+				});
+						});
+								});
+	</script>
+	</head>
+	<body>
+		<div id="chart"></div>
+	</body>
+</html>
