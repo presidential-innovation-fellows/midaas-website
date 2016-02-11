@@ -8,36 +8,67 @@ midaas.indexPage = {
     });
   },
 
-  loadChart: function() {
-    // var labels = [
-    //   "5%", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "95%", "99%"
-    // ];
-    // var data = [[
-    //   9000, 10000, 20000, 30000, 50000, 60000, 70000, 125000, 150000, 175000,
-    //   200000, 300000
-    // ]];
+  apiUrl: "https://brbimhg0w9.execute-api.us-west-2.amazonaws.com/dev/income/quantiles",
 
-    // fetch data remotely...
-    var labelArr = [],
-        dataArr = [],
-        url =  "https://brbimhg0w9.execute-api.us-west-2.amazonaws.com/dev/income/quantiles";
+  fetchData: function(toggleLabel, callback) {
+    var url = midaas.indexPage.apiUrl;
+
+    switch(toggleLabel) {
+      case "Race":
+        url += "?compare=race";
+        break;
+      case "Gender":
+        url += "?compare=sex";
+        break;
+      case "Age":
+        url += "?compare=agegroup";
+        break;
+      case "Overall":
+      default:
+        break;
+    }
 
     $.ajax({
         dataType: "json",
         url: url,
         timeout: 10000
     }).done(function(data){
-      for (var key in data) {
-        labelArr.push(key + "%");
-        dataArr.push(data[key]);
+      var seriesArr = [];
+      for (var group in data) {
+        var labelArr = [];
+        var dataArr = [];
+        for(var percentile in data[group]) {
+          labelArr.push(percentile);
+          dataArr.push(data[group][percentile]);
+        }
+        seriesArr.push(dataArr);
       }
-      midaas.chart.createChart(labelArr, [dataArr])
-    }).fail(function(error){
-      midaas.chart.returnError(error)
+      return callback(null, {labels: labelArr, series: seriesArr});
+    }).fail(function(err){
+      return callback(err)
     });
   },
 
+  loadChart: function() {
+    midaas.indexPage.fetchData("Overall", function(err, data) {
+      if(err) { return midaas.chart.returnError(err); }
+
+      midaas.chart.createChart(data.labels, data.series);
+    });
+  },
+
+  updateChart: function(toggleLabel) {
+    midaas.indexPage.fetchData(toggleLabel, function(err, data) {
+      if(err) { return midaas.chart.returnError(err); }
+
+      midaas.chart.updateChart(data.labels, data.series);
+    });
+
+  },
+
   togglePerspective: function(event) {
+    var toggleLabel = event.currentTarget.innerText
+    midaas.indexPage.updateChart(toggleLabel);
     $(".toggles li").removeClass("active");
     $(event.target).addClass("active");
   }

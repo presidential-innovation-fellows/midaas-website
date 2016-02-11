@@ -2,6 +2,8 @@ var midaas = midaas || {};
 
 midaas.chart = {
 
+  _chart: null,
+
   addGrayBars: function(chart) {
     $(".ct-series .ct-bar").each(function() {
       var x = $(this).attr("x1"),
@@ -25,10 +27,10 @@ midaas.chart = {
     }
   },
 
-  createChart: function(labels, data) {
-    var chart = new Chartist.Bar("#chart", {
+  createChart: function(labels, series) {
+    _chart = new Chartist.Bar("#chart", {
       labels: labels,
-      series: data
+      series: series
       }, {
         axisX: { showLabel: true, showGrid: false },
         axisY: {
@@ -44,16 +46,22 @@ midaas.chart = {
         low: 0,
     });
 
-    chart.on("draw", function(context) {
+    _chart.on("draw", function(context) {
       midaas.chart.addStrokeWidth(context);
     });
 
-    chart.on("created", function(createdChart) {
+    _chart.on("created", function(createdChart) {
       midaas.chart.addGrayBars(createdChart);
       midaas.chart.removeLoadingIcon();
     });
 
     return chart;
+  },
+
+  updateChart: function(labels, series) {
+    _chart.data.labels = labels;
+    _chart.data.series = series;
+    _chart.update();
   },
 
   removeLoadingIcon: function() {
