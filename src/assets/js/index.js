@@ -35,15 +35,15 @@ midaas.indexPage = {
     }).done(function(data){
       var seriesArr = [];
       for (var group in data) {
-        var labelArr = [];
-        var dataArr = [];
+        var labelArr = ['x'];
+        var dataArr = [group];
         for(var percentile in data[group]) {
           labelArr.push(percentile);
           dataArr.push(data[group][percentile]);
         }
         seriesArr.push(dataArr);
       }
-      return callback(null, {labels: labelArr, series: seriesArr});
+      return callback(null, [labelArr].concat(seriesArr));
     }).fail(function(err){
       return callback(err)
     });
@@ -53,15 +53,44 @@ midaas.indexPage = {
     midaas.indexPage.fetchData("Overall", function(err, data) {
       if(err) { return midaas.chart.returnError(err); }
 
-      midaas.chart.createChart(data.labels, data.series);
+      midaas.indexPage.chart = c3.generate({
+        bindto: "#chart",
+        data: {
+            x: 'x',
+            columns: data,
+            type: 'bar'
+        },
+        bar: {
+            width: {
+                ratio: 0.7 // this makes bar width 50% of length between ticks
+            }
+            // or
+            //width: 100 // this makes bar width 100px
+        },
+        axis : {
+            x : {
+                type : 'category'
+            }
+        }
+      });
+
+      midaas.indexPage.hideLoadingIcon();
+
     });
   },
 
   updateChart: function(toggleLabel) {
+    midaas.indexPage.showLoadingIcon();
+
     midaas.indexPage.fetchData(toggleLabel, function(err, data) {
       if(err) { return midaas.chart.returnError(err); }
 
-      midaas.chart.updateChart(data.labels, data.series);
+      midaas.indexPage.chart.load({
+        columns: data,
+        unload: midaas.indexPage.chart.columns
+      });
+
+      midaas.indexPage.hideLoadingIcon();
     });
 
   },
@@ -71,6 +100,14 @@ midaas.indexPage = {
     midaas.indexPage.updateChart(toggleLabel);
     $(".toggles li").removeClass("active");
     $(event.target).addClass("active");
+  },
+
+  showLoadingIcon: function() {
+    $("#loading-icon").fadeIn("fast");
+  },
+
+  hideLoadingIcon: function() {
+    $("#loading-icon").fadeOut("fast");
   }
 };
 
