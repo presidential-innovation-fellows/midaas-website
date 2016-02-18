@@ -80,7 +80,7 @@ female<-wtd.quantile(scw$PERNP[scw$SEX ==2], weights=scw$PWGTP[scw$SEX ==2], pro
 all<-data.frame(all,male,female,white,black,hispanic,asian,a,b,c,d,e,f)
 write.csv(all,"USA_all.csv")
 
-
+##creating a new dataset to reuse above code and getting the unique list of states
 scwa<-scw
 state<-unique(sc$ST)
 
