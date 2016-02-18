@@ -81,24 +81,9 @@ all<-data.frame(all,male,female,white,black,hispanic,asian,a,b,c,d,e,f)
 write.csv(all,"USA_all.csv")
 
 
-et<-Sys.time()
-runtime<-et-st
-runtime
-
 scwa<-scw
 state<-unique(sc$ST)
 
-#testing recursion and data
-#z=length(state)
-#results=NULL
-#for (i in 1:z){
-#scws<-sc[sc$ST==state[i],]
-#a=length(scws$ST)
-#b=state[i]
-#out<-data.frame(a,b)
-#results=rbind(results,out)
-#}
-#results
 
 #loop to process the data for every state (seems PR is not included)
 scwa<-scw
