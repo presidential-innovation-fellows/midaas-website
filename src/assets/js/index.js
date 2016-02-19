@@ -2,30 +2,54 @@ var midaas = midaas || {};
 
 midaas.indexPage = {
 
+  query: {
+    toggleLabel: "Overall",
+    selectState: "US"
+  },
+
   bindToggles: function() {
     $(".toggle").on("click", function(event){
-      midaas.indexPage.togglePerspective(event);
+      var toggleLabel = event.currentTarget.innerText
+      midaas.indexPage.query.toggleLabel = toggleLabel;
+      midaas.indexPage.updateChart();
+      $(".toggles li").removeClass("active");
+      $(event.target).addClass("active");
+    });
+    $("#state-selector").change(function(event){
+      var selectState = event.target.value;
+      midaas.indexPage.query.selectState = selectState;
+      midaas.indexPage.updateChart();
     });
   },
 
   apiUrl: "https://brbimhg0w9.execute-api.us-west-2.amazonaws.com/dev/income/quantiles",
 
-  fetchData: function(toggleLabel, callback) {
+  fetchData: function(callback) {
     var url = midaas.indexPage.apiUrl;
+    var params = [];
+    var query = midaas.indexPage.query;
 
-    switch(toggleLabel) {
+    switch(query.toggleLabel) {
       case "Race":
-        url += "?compare=race";
+        params.push("compare=race");
         break;
       case "Gender":
-        url += "?compare=sex";
+        params.push("compare=sex");
         break;
       case "Age":
-        url += "?compare=agegroup";
+        params.push("compare=agegroup");
         break;
       case "Overall":
       default:
         break;
+    }
+
+    if(query.selectState && query.selectState !== "US") {
+      params.push("state=" + query.selectState);
+    }
+
+    if(params.length) {
+      url += "?" + params.join("&");
     }
 
     $.ajax({
@@ -50,7 +74,7 @@ midaas.indexPage = {
   },
 
   loadChart: function() {
-    midaas.indexPage.fetchData("Overall", function(err, data) {
+    midaas.indexPage.fetchData(function(err, data) {
       if(err) { return midaas.chart.returnError(err); }
 
       midaas.indexPage.chart = c3.generate({
@@ -79,10 +103,10 @@ midaas.indexPage = {
     });
   },
 
-  updateChart: function(toggleLabel) {
+  updateChart: function() {
     midaas.indexPage.showLoadingIcon();
 
-    midaas.indexPage.fetchData(toggleLabel, function(err, data) {
+    midaas.indexPage.fetchData(function(err, data) {
       if(err) { return midaas.chart.returnError(err); }
 
       midaas.indexPage.chart.load({
@@ -93,13 +117,6 @@ midaas.indexPage = {
       midaas.indexPage.hideLoadingIcon();
     });
 
-  },
-
-  togglePerspective: function(event) {
-    var toggleLabel = event.currentTarget.innerText
-    midaas.indexPage.updateChart(toggleLabel);
-    $(".toggles li").removeClass("active");
-    $(event.target).addClass("active");
   },
 
   showLoadingIcon: function() {
