@@ -29,6 +29,22 @@ module.exports = (grunt) ->
       }
     }
 
+    coffee: {
+      compile: {
+        files: [{
+          cwd: 'src'
+          src: [
+            '**/*.coffee'
+            '!**/_*.*'
+            '!**/_*/**'
+          ]
+          dest: 'dist'
+          expand: true
+          ext: '.js'
+        }]
+      }
+    }
+
     sass: {
       options: {
         sourceMap: true
@@ -81,6 +97,10 @@ module.exports = (grunt) ->
         files: ['src/**/*.jade']
         tasks: ['jade']
       }
+      coffee: {
+        files: ['src/**/*.coffee']
+        tasks: ['coffee']
+      }
       sass: {
         files: ['src/**/*.scss']
         tasks: ['sass']
@@ -89,6 +109,7 @@ module.exports = (grunt) ->
         files: [
           'src/**/*'
           '!src/**/*.jade'
+          '!src/**/*.coffee'
           '!src/**/*.scss'
         ]
         tasks: ['newer:copy']
@@ -120,6 +141,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks('grunt-contrib-clean')
   grunt.loadNpmTasks('grunt-contrib-copy')
   grunt.loadNpmTasks('grunt-contrib-jade')
+  grunt.loadNpmTasks('grunt-contrib-coffee')
   grunt.loadNpmTasks('grunt-sass')
   grunt.loadNpmTasks('grunt-newer')
   grunt.loadNpmTasks('grunt-contrib-connect')
@@ -133,6 +155,7 @@ module.exports = (grunt) ->
   grunt.registerTask('default', [
     'clean'
     'jade'
+    'coffee'
     'sass'
     'copy'
     'connect:server'
@@ -142,6 +165,7 @@ module.exports = (grunt) ->
   grunt.registerTask('deploy', [
     'clean'
     'jade'
+    'coffee'
     'sass'
     'copy'
     's3'
