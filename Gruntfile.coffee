@@ -31,17 +31,13 @@ module.exports = (grunt) ->
 
     coffee: {
       compile: {
-        files: [{
-          cwd: 'src'
-          src: [
-            '**/*.coffee'
-            '!**/_*.*'
-            '!**/_*/**'
+        files: {
+          'dist/assets/js/midaas.js': [
+            'src/assets/coffee/**/*.coffee'
+            '!src/assets/coffee/**/_*.*'
+            '!src/assets/coffee/**/_*/**'
           ]
-          dest: 'dist'
-          expand: true
-          ext: '.js'
-        }]
+        }
       }
     }
 
@@ -72,6 +68,7 @@ module.exports = (grunt) ->
           '**/*'
           '!**/*.scss'
           '!**/*.jade'
+          '!**/coffee/**'
           '!**/_*.*'
           '!**/_*/**'
         ]
@@ -98,7 +95,7 @@ module.exports = (grunt) ->
         tasks: ['jade']
       }
       coffee: {
-        files: ['src/**/*.coffee']
+        files: ['src/assets/coffee/**/*.coffee']
         tasks: ['coffee']
       }
       sass: {
@@ -109,7 +106,7 @@ module.exports = (grunt) ->
         files: [
           'src/**/*'
           '!src/**/*.jade'
-          '!src/**/*.coffee'
+          '!src/assets/coffee/**/*.coffee'
           '!src/**/*.scss'
         ]
         tasks: ['newer:copy']
