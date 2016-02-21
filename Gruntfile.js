@@ -91,7 +91,7 @@ module.exports = function(grunt) {
       }
     },
 
-    aws: grunt.file.readJSON('../../.aws/credentials.json'),
+    aws: grunt.file.readJSON(process.env['HOME'] + '/.aws/credentials.json'),
     s3: {
       options: {
         accessKeyId: '<%= aws.accessKeyId %>',
