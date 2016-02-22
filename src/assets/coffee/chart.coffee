@@ -1,16 +1,19 @@
 class Chart
 
-  constructor: (@chartId) ->
-    # create the chart holder
-    $("#{@chartId}").append("<div id='#{@chartId}_chart'></div>")
-    # create the loading icon
-    $("#{@chartId}").append("<img id='#{@chartId}_loading' src='/assets/img/loading-ring.svg'/>")
+  # constructor: (@chartId) ->
+  #   # create the chart holder
+  #   $("#{@chartId}").append("<div id='#{@chartId}_chart'></div>")
+  #   # create the loading icon
+  #   $("#{@chartId}").append("<img id='#{@chartId}_loading' src='/assets/img/loading-ring.svg'/>")
+  #   @init()
 
   showLoading: ->
-    $("#{@chartId}_loading").fadeIn("fast")
+    $("#{@chartId} #loading-icon").fadeIn("fast")
 
   hideLoading: ->
-    $("#{@chartId}_loading").fadeOut("fast")
+    $("#{@chartId} #loading-icon").fadeOut("fast")
+
+  apiUrlBase: "https://brbimhg0w9.execute-api.us-west-2.amazonaws.com/dev/"
 
   # implement this when Chart is extended
   fetchData: (callback) ->
@@ -18,11 +21,12 @@ class Chart
     data = null
     return callback(err, data)
 
-  draw: ->
+  init: ->
     @showLoading()
+    bindElement = "#{@chartId} #chart"
     @fetchData((err, data) =>
       @_chart = c3.generate({
-        bindto: @chartId
+        bindto: bindElement
         data: {
           x: "x"
           columns: data
@@ -45,14 +49,11 @@ class Chart
   update: ->
     @showLoading()
     @fetchData((err, data) =>
-      @chart.load({
+      @_chart.load({
         columns: data
-        unload: @chart.columns
+        unload: @_chart.columns
       })
       @hideLoading()
     )
 
-if exports? and exports
-  exports.Chart = Chart
-else
-  window.Chart = Chart
+window.Chart = Chart

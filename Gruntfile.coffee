@@ -33,7 +33,8 @@ module.exports = (grunt) ->
       compile: {
         files: {
           'dist/assets/js/midaas.js': [
-            'src/assets/coffee/**/*.coffee'
+            'src/assets/coffee/chart.coffee'
+            'src/assets/coffee/chart-compare.coffee'
             '!src/assets/coffee/**/_*.*'
             '!src/assets/coffee/**/_*/**'
           ]
