@@ -1,12 +1,5 @@
 class Chart
 
-  # constructor: (@chartId) ->
-  #   # create the chart holder
-  #   $("#{@chartId}").append("<div id='#{@chartId}_chart'></div>")
-  #   # create the loading icon
-  #   $("#{@chartId}").append("<img id='#{@chartId}_loading' src='/assets/img/loading-ring.svg'/>")
-  #   @init()
-
   showLoading: ->
     $("#{@chartId} #loading-icon").fadeIn("fast")
 
