@@ -1,0 +1,28 @@
+include ../modules/_head.jade
+body.pages-topics
+  include ../modules/_nav.jade
+  section.main-content
+    .usa-grid
+      header
+        h1 Topics
+        p Explore topics that will rock your socks.
+      .col-lg
+        ul.topics
+          li.topic
+            a(href="/topics/gender")
+              .container
+                h2
+                  | How does gender effect what I make?
+                p.description
+                  | Explore the pay gap between men and women.
+              .launch
+                i.fa.fa-arrow-right
+        ul.coming-soon-topics
+          h3 Coming Soon
+          each i in new Array(5)
+            li.topic.coming-soon
+              .container
+                h2
+                  | How does gender effect what I make?
+                p.description
+                  | Explore the pay gap between men and women.

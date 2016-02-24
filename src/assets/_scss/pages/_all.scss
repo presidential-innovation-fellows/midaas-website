@@ -1,22 +1,28 @@
 @import "home";
 @import "simulator";
+@import "topics";
 
 body {
-  background-color: lighten($color-gray-cool-light, 3);
+  background-color: $color-gray-extra-light;
   -webkit-font-smoothing: antialiased;
 
   li {
+    display: block;
+
     &::after {
+      display: none;
       margin-bottom: 0;
     }
 
     &::before {
       content: "";
+      display: none;
       padding-right: 0;
     }
   }
 
   ul {
+    display: block;
     list-style-type: none;
   }
 }

@@ -1,0 +1,20 @@
+@font-face {
+    font-family: "Source Sans Pro";
+    font-style: normal;
+    font-weight: 500;
+    src: url("../../fonts/sourcesanspro-light-webfont.eot");
+    src: url("../../fonts/sourcesanspro-light-webfont.eot?#iefix") format("embedded-opentype"),
+         url("../../fonts/sourcesanspro-light-webfont.woff2") format("woff2"),
+         url("../../fonts/sourcesanspro-light-webfont.woff") format("woff"),
+         url("../../fonts/sourcesanspro-light-webfont.ttf") format("truetype");
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: $color-gray-dark;
+  font-family: $font-sans;
+}
