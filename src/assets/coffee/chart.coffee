@@ -15,8 +15,9 @@ class Chart
     return callback(err, data)
 
   init: ->
+    @setTitle()
     @showLoading()
-    bindElement = "#{@chartId} #chart"
+    bindElement = "#{@chartId} .chart"
     @fetchData((err, data) =>
       @_chart = c3.generate({
         bindto: bindElement

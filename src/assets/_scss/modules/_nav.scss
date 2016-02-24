@@ -51,7 +51,11 @@
 .logo {
   float: left;
   position: relative;
-  width: 9.2em;
+  width: 7.75em;
+
+  a {
+    text-decoration: none;
+  }
 }
 
 .logotype {

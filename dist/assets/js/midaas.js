@@ -23,8 +23,9 @@
 
     Chart.prototype.init = function() {
       var bindElement;
+      this.setTitle();
       this.showLoading();
-      bindElement = this.chartId + " #chart";
+      bindElement = this.chartId + " .chart";
       return this.fetchData((function(_this) {
         return function(err, data) {
           _this._chart = c3.generate({
@@ -80,9 +81,9 @@
   ChartCompare = (function(superClass) {
     extend(ChartCompare, superClass);
 
-    function ChartCompare(chartId) {
+    function ChartCompare(chartId1) {
       var chartEl, chartTemplate, ref, ref1;
-      this.chartId = chartId;
+      this.chartId = chartId1;
       this.fetchData = bind(this.fetchData, this);
       this.getApiUrl = bind(this.getApiUrl, this);
       chartEl = $(this.chartId);
@@ -93,6 +94,7 @@
       chartTemplate = "/assets/templates/chart-compare.html";
       $("" + this.chartId).load(chartTemplate, null, (function(_this) {
         return function() {
+          _this.setTitle(_this.chartId);
           _this._bindToggles();
           return _this.init();
         };
@@ -148,6 +150,13 @@
           return callback(err);
         };
       })(this));
+    };
+
+    ChartCompare.prototype.setTitle = function(chartId) {
+      var chartEl, title;
+      chartEl = $(this.chartId);
+      title = chartEl.attr("title");
+      return chartEl.find(".chart-title").text(title);
     };
 
     ChartCompare.prototype._bindToggles = function() {

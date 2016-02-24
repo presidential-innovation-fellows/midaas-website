@@ -1,10 +1,10 @@
 .pages-home {
 
-  // .chart-widget {
-  //   @include span-columns(8);
-  // }
-
   .row {
     @include clearfix;
+  }
+
+  .usa-hero {
+    text-align: center;
   }
 }

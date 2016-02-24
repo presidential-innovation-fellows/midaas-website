@@ -1,14 +1,14 @@
 .chart-widget.widget.primary-widget
   .widget-header
-    h2.chart-title
-    p United States of America
+    h2 National Income Data
+    p United States of America - 2012
   .perspectives
     ul.toggles
       li.active.toggle Overall
       li.middle-child.toggle Race
       li.middle-child.toggle Gender
       li.toggle Age
-  .chart
+  #chart.chart
   #loading-icon.loading-icon.active
     img(src="/assets/img/loading-ring.svg")
   #chart-error.chart-error

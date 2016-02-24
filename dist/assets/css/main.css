@@ -4302,13 +4302,6 @@ fieldset {
   .usa-accordion-content > *:last-child {
     margin-bottom: 0; }
 
-@font-face {
-  font-family: "Source Sans Pro";
-  font-style: normal;
-  font-weight: 500;
-  src: url("../../fonts/sourcesanspro-light-webfont.eot");
-  src: url("../../fonts/sourcesanspro-light-webfont.eot?#iefix") format("embedded-opentype"), url("../../fonts/sourcesanspro-light-webfont.woff2") format("woff2"), url("../../fonts/sourcesanspro-light-webfont.woff") format("woff"), url("../../fonts/sourcesanspro-light-webfont.ttf") format("truetype"); }
-
 h1,
 h2,
 h3,
@@ -4434,12 +4427,80 @@ input[type="range"] {
 .logo {
   float: left;
   position: relative;
-  width: 9.2em; }
+  width: 7.75em; }
+  .logo a {
+    text-decoration: none; }
 
 .logotype {
   color: #f1f1f1;
   font-size: 1.75em;
   margin: 0; }
+
+.topics-gender ol {
+  display: block;
+  list-style-type: decimal;
+  padding-left: 1em; }
+  .topics-gender ol li {
+    display: list-item; }
+
+.topics-gender section {
+  margin-bottom: 2em; }
+
+.topics-gender .bottom-states .dollar {
+  color: #cd2026; }
+
+.topics-gender .compare-national #region-selector {
+  display: none; }
+
+.topics-gender .navigation-tree {
+  color: #5b616b;
+  font-size: 0.95em;
+  font-weight: bold; }
+  .topics-gender .navigation-tree a {
+    color: #0071bc;
+    text-decoration: none; }
+    .topics-gender .navigation-tree a:hover {
+      color: #205493; }
+
+.topics-gender .page-header h1 {
+  margin: 0 0 0.25em; }
+
+.topics-gender .perspectives {
+  display: none; }
+
+.topics-gender .state-data-list .col {
+  float: left;
+  display: block;
+  margin-right: 2.3576515979%;
+  width: 48.821174201%; }
+  .topics-gender .state-data-list .col:last-child {
+    margin-right: 0; }
+
+.topics-gender .state-data-list .dollar {
+  font-weight: bold;
+  position: absolute;
+  right: 0;
+  top: 0; }
+
+.topics-gender .state-data-list .widget:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden; }
+
+.topics-gender .state-list-item {
+  color: #323a45;
+  font-size: 1.1em;
+  margin: 0;
+  position: relative; }
+
+.topics-gender .top-states .dollar {
+  color: #0071bc; }
+
+.topics-gender .widget h3 {
+  color: #475363;
+  margin-top: 0; }
 
 .pages-home .row:after {
   content: ".";
@@ -4447,6 +4508,9 @@ input[type="range"] {
   height: 0;
   clear: both;
   visibility: hidden; }
+
+.pages-home .usa-hero {
+  text-align: center; }
 
 .gini-input {
   margin-bottom: 1em;
@@ -4461,6 +4525,9 @@ input[type="range"] {
     left: 0; }
   .gini-input .label-right {
     right: 0; }
+
+.pages-topic section h1 {
+  margin-top: 0; }
 
 .pages-topics header h1 {
   margin: 0 0 0.25em; }

@@ -8,6 +8,7 @@ class ChartCompare extends Chart
     }
     chartTemplate = "/assets/templates/chart-compare.html"
     $("#{@chartId}").load(chartTemplate, null, =>
+      @setTitle(@chartId)
       @_bindToggles()
       @init()
     )
@@ -50,6 +51,11 @@ class ChartCompare extends Chart
     ).fail((err) =>
       return callback(err)
     )
+
+  setTitle: (chartId) ->
+    chartEl = $(@chartId)
+    title = chartEl.attr("title")
+    chartEl.find(".chart-title").text(title)
 
   _bindToggles: ->
     $("#{@chartId} .toggle").on("click", (event) =>
