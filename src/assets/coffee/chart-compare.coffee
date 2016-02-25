@@ -1,16 +1,16 @@
 class ChartCompare extends Chart
 
   constructor: (@chartId) ->
+    chartEl = $(@chartId)
+    @query = {
+      compare: chartEl.attr('compare') ? "Overall"
+      compareRegion: chartEl.attr('compare-region') ? "US"
+    }
     chartTemplate = "/assets/templates/chart-compare.html"
     $("#{@chartId}").load(chartTemplate, null, =>
       @_bindToggles()
       @init()
     )
-
-  query: {
-    compare: "Overall"
-    compareRegion: "US"
-  }
 
   getApiUrl: =>
     return "#{@apiUrlBase}income/quantiles"
@@ -19,12 +19,12 @@ class ChartCompare extends Chart
     params = []
     url = @getApiUrl()
 
-    switch @query.compare
-      when "Race"
+    switch @query.compare.toLowerCase()
+      when "race"
         params.push("compare=race")
-      when "Gender"
+      when "gender", "sex"
         params.push("compare=sex")
-      when "Age"
+      when "age"
         params.push("compare=agegroup")
 
     if @query.compare and @query.compare is not "US"

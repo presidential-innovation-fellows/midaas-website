@@ -81,10 +81,15 @@
     extend(ChartCompare, superClass);
 
     function ChartCompare(chartId) {
-      var chartTemplate;
+      var chartEl, chartTemplate, ref, ref1;
       this.chartId = chartId;
       this.fetchData = bind(this.fetchData, this);
       this.getApiUrl = bind(this.getApiUrl, this);
+      chartEl = $(this.chartId);
+      this.query = {
+        compare: (ref = chartEl.attr('compare')) != null ? ref : "Overall",
+        compareRegion: (ref1 = chartEl.attr('compare-region')) != null ? ref1 : "US"
+      };
       chartTemplate = "/assets/templates/chart-compare.html";
       $("" + this.chartId).load(chartTemplate, null, (function(_this) {
         return function() {
@@ -94,11 +99,6 @@
       })(this));
     }
 
-    ChartCompare.prototype.query = {
-      compare: "Overall",
-      compareRegion: "US"
-    };
-
     ChartCompare.prototype.getApiUrl = function() {
       return this.apiUrlBase + "income/quantiles";
     };
@@ -107,14 +107,15 @@
       var params, url;
       params = [];
       url = this.getApiUrl();
-      switch (this.query.compare) {
-        case "Race":
+      switch (this.query.compare.toLowerCase()) {
+        case "race":
           params.push("compare=race");
           break;
-        case "Gender":
+        case "gender":
+        case "sex":
           params.push("compare=sex");
           break;
-        case "Age":
+        case "age":
           params.push("compare=agegroup");
       }
       if (this.query.compare && this.query.compare === !"US") {
