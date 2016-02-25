@@ -15,7 +15,6 @@ class Chart
     return callback(err, data)
 
   init: ->
-    @setTitle()
     @showLoading()
     bindElement = "#{@chartId} .chart"
     @fetchData((err, data) =>
