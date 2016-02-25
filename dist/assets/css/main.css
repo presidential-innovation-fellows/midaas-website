@@ -4490,6 +4490,9 @@ input[type="range"] {
   right: 0;
   top: 0; }
 
+.topics-gender .state-data-list .percentile-selector {
+  margin-bottom: 1.5em; }
+
 .topics-gender .state-data-list .widget:after {
   content: ".";
   display: block;
