@@ -28,11 +28,11 @@ class ChartCompare extends Chart
       when "age"
         params.push("compare=agegroup")
 
-    if @query.compare and @query.compare is not "US"
-      params.push("state=" + query.compareRegion);
+    if @query.compareRegion? and @query.compareRegion isnt "US"
+      params.push("state=" + @query.compareRegion);
 
     if params.length
-      url += "?#{params.join('&')}"
+      url += "?" + params.join('&')
 
     $.ajax({
       dataType: "json"
@@ -65,7 +65,7 @@ class ChartCompare extends Chart
       $(event.target).addClass("active")
     )
     $("#{@chartId} #region-selector").change((event) =>
-      @query.region = event.target.value
+      @query.compareRegion = event.target.value
       @update()
     )
 

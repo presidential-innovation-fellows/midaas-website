@@ -120,11 +120,11 @@
         case "age":
           params.push("compare=agegroup");
       }
-      if (this.query.compare && this.query.compare === !"US") {
-        params.push("state=" + query.compareRegion);
+      if ((this.query.compareRegion != null) && this.query.compareRegion !== "US") {
+        params.push("state=" + this.query.compareRegion);
       }
       if (params.length) {
-        url += "?" + (params.join('&'));
+        url += "?" + params.join('&');
       }
       return $.ajax({
         dataType: "json",
@@ -170,7 +170,7 @@
       })(this));
       return $(this.chartId + " #region-selector").change((function(_this) {
         return function(event) {
-          _this.query.region = event.target.value;
+          _this.query.compareRegion = event.target.value;
           return _this.update();
         };
       })(this));
