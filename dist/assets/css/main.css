@@ -4556,7 +4556,8 @@ input[type="range"] {
   .pages-topics .topic.coming-soon:hover {
     box-shadow: 0 -1px 0 #f1f1f2, 0 0 2px rgba(0, 0, 0, 0.05), 0 2px 4px rgba(0, 0, 0, 0.09); }
   .pages-topics .topic.coming-soon h2 {
-    color: #727a87; }
+    color: #727a87;
+    font-size: 1.5em; }
   .pages-topics .topic.coming-soon p {
     color: #c9cacd; }
   .pages-topics .topic a {
