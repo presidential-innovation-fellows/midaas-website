@@ -4311,7 +4311,7 @@ h6 {
   color: #323a45;
   font-family: "Source Sans Pro", "Helvetica", "Arial", sans-serif; }
 
-.pages-topics .topic, .widget {
+.pages-topics .topic, .pages-tools .tool, .widget {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -4405,11 +4405,19 @@ input[type="range"] {
 
 .app-links {
   float: right;
-  font-size: 0.8em; }
+  font-size: 0.87em;
+  font-weight: bold; }
   .app-links a {
-    color: #e3e4e6; }
+    color: #e3e4e6;
+    padding: 0.8em; }
+    .app-links a:focus {
+      box-shadow: none; }
     .app-links a.inactive {
       color: #aeb0b5; }
+    .app-links a:hover {
+      background-color: #272e36;
+      color: #ffffff;
+      text-decoration: none; }
   .app-links li {
     display: inline-block;
     margin-right: 1.25em; }
@@ -4592,6 +4600,81 @@ input[type="range"] {
     right: 0;
     top: 0;
     width: 6%; }
+
+.pages-tools header h1 {
+  margin: 0 0 0.25em; }
+
+.pages-tools header p {
+  color: #5b616b;
+  margin: 0; }
+
+.pages-tools .tool {
+  float: left;
+  display: block;
+  margin-right: 2.3576515979%;
+  width: 23.2317613015%;
+  margin-top: 0;
+  padding: 0; }
+  .pages-tools .tool:last-child {
+    margin-right: 0; }
+  .pages-tools .tool:hover {
+    box-shadow: 0 0 5px rgba(0, 113, 188, 0.75); }
+  .pages-tools .tool a {
+    text-decoration: none; }
+  .pages-tools .tool h2 {
+    color: #ffffff;
+    font-size: 1em;
+    font-weight: 500;
+    margin: 0; }
+  .pages-tools .tool .container {
+    padding: 1em 0.75em; }
+
+.pages-tools .tool-actions {
+  background-color: #e3e4e6;
+  padding: 0.5em 0.75em; }
+  .pages-tools .tool-actions:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden; }
+  .pages-tools .tool-actions a {
+    padding: 0.4em 0.75em; }
+    .pages-tools .tool-actions a:hover i {
+      color: #323a45; }
+  .pages-tools .tool-actions i {
+    color: #a9abb0;
+    font-size: 0.85em; }
+  .pages-tools .tool-actions li {
+    float: left;
+    display: block;
+    margin-right: 2.3576515979%;
+    width: 31.7615656014%;
+    text-align: center; }
+    .pages-tools .tool-actions li:last-child {
+      margin-right: 0; }
+
+.pages-tools .tool-header {
+  background-color: #00a6d2;
+  padding: 0.5em 0.75em; }
+  .pages-tools .tool-header p {
+    color: #b9f0ff;
+    font-size: 0.75em;
+    line-height: 1em;
+    margin: 0.2em 0 0; }
+
+.pages-tools .tools:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden; }
+
+.pages-tools .tools li {
+  margin: 0; }
+
+.pages-tools .tools ul {
+  margin: 0; }
 
 body {
   background-color: #f9f9f9;
