@@ -4601,6 +4601,33 @@ input[type="range"] {
     top: 0;
     width: 6%; }
 
+.tools-tool {
+  padding-bottom: 6em; }
+  .tools-tool header {
+    margin-bottom: 1em; }
+    .tools-tool header h1 {
+      font-size: 2em;
+      line-height: 1.25em;
+      margin: 0 0 0.1em; }
+    .tools-tool header p {
+      color: #5b616b;
+      margin: 0; }
+  .tools-tool .col-lg {
+    float: left;
+    display: block;
+    margin-right: 2.3576515979%;
+    width: 65.8807828007%; }
+    .tools-tool .col-lg:last-child {
+      margin-right: 0; }
+
+.tool-description h2 {
+  font-size: 1.5em;
+  margin: 1em 0 0.2em; }
+
+.tool-description p {
+  color: #323a45;
+  margin-top: 0; }
+
 .pages-tools header h1 {
   margin: 0 0 0.25em; }
 
