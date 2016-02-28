@@ -1,56 +1,58 @@
-include ../../modules/_head.jade
-body.topics-gender
-  include ../../modules/_nav.jade
-  section.main-content
-    .usa-grid
-      header.page-header
-        .navigation-tree
-          a.back(href="/topics")
-            | Topics
-          | / Gender
-        h1 Income-distribution by Gender
-  section.national-data
-    .usa-grid
-      #chart1.chart-compare.compare-national(compare="Gender" title="National Income Data")
-  section.state-data-list
-    .usa-grid
-      .widget.primary-widget
-        header.widget-header
-          h2 Income Distribution by State
-        .percentile-selector
-          label(for="percentile-select") Select an Income Percentile
-          select#percentile-select
-            option 5%
-            option 10%
-            option 20%
-            option 30%
-            option 40%
-            option 50%
-            option 60%
-            option 70%
-            option 80%
-            option 90%
-            option 95%
-            option 99%
-        .col
-          h3 Most Even Income
-          ol.top-states
-            each i in new Array(5)
-              li.state-list-item
-                span.state-name
-                  | State Name
-                .dollar
-                  | $0.85
-        .col
-          h3 Least Even Income
-          ol.bottom-states
-            each i in new Array(5)
-              li.state-list-item
-                span.state-name
-                  | State Name
-                .dollar
-                  | $0.41
+doctype html
+html.no-js(lang='en')
+  include ../../modules/_head.jade
+  body.topics-gender
+    include ../../modules/_nav.jade
+    section.main-content
+      .usa-grid
+        header.page-header
+          .navigation-tree
+            a.back(href="/topics")
+              | Topics
+            | / Gender
+          h1 Income-distribution by Gender
+    section.national-data
+      .usa-grid
+        #chart1.chart-compare.compare-national(compare="Gender" title="National Income Data")
+    section.state-data-list
+      .usa-grid
+        .widget.primary-widget
+          header.widget-header
+            h2 Income Distribution by State
+          .percentile-selector
+            label(for="percentile-select") Select an Income Percentile
+            select#percentile-select
+              option 5%
+              option 10%
+              option 20%
+              option 30%
+              option 40%
+              option 50%
+              option 60%
+              option 70%
+              option 80%
+              option 90%
+              option 95%
+              option 99%
+          .col
+            h3 Most Even Income
+            ol.top-states
+              each i in new Array(5)
+                li.state-list-item
+                  span.state-name
+                    | State Name
+                  .dollar
+                    | $0.85
+          .col
+            h3 Least Even Income
+            ol.bottom-states
+              each i in new Array(5)
+                li.state-list-item
+                  span.state-name
+                    | State Name
+                  .dollar
+                    | $0.41
 
-  section.state-data
-    .usa-grid
-      #chart2.chart-compare(compare="Gender" title="State Income Data")
+    section.state-data
+      .usa-grid
+        #chart2.chart-compare(compare="Gender" title="State Income Data")

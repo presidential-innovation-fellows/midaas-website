@@ -1,20 +1,19 @@
-doctype html
-html.no-js(lang='en')
-  | <!--
-  include eagle.txt
-  | -->
-  head
-    title MIDAAS | PIF.gov
-    meta(charset='utf-8')
-    meta(name='viewport', content='width=device-width, initial-scale=1')
-    link(rel='stylesheet', href='/assets/css/main.css')
-    link(rel='stylesheet', href='/assets/css/vendor/c3-0.4.10.min.css')
-    link(rel='shortcut icon', type='image/ico', href='/assets/img/favicons/favicon.ico')
-    link(rel='icon', type='image/png', href='/assets/img/favicons/favicon.png')
-    script(src='/assets/js/midaas.js')
-    // Scripts
-    //if lte IE 8
-      script(src='/assets/js/vendor/respond.min.js')
-      link(rel='stylesheet', href='/assets/stylesheets/output/main/ie.css')
-    //if lte IE 9
-      script(src='/assets/js/vendor/html5shiv.js')
+| <!--
+include eagle.txt
+| -->
+head
+  title MIDAAS | PIF.gov
+  meta(charset='utf-8')
+  meta(name='viewport', content='width=device-width, initial-scale=1')
+  link(rel='stylesheet', href='/assets/css/main.css')
+  link(rel='stylesheet', href='/assets/css/vendor/c3-0.4.10.min.css')
+  link(rel='shortcut icon', type='image/ico', href='/assets/img/favicons/favicon.ico')
+  link(rel='icon', type='image/png', href='/assets/img/favicons/favicon.png')
+  script(src='/assets/js/midaas.js')
+
+  // Polyfills
+  | <!--[if lt IE 9]>
+  |   <script src="/assets/js/vendor/html5shiv.js"></script>
+  |   <script src="/assets/js/vendor/respond.min.js"></script>
+  |   <link rel="stylesheet" href="/assets/stylesheets/output/main/ie.css">
+  | <![endif]-->
