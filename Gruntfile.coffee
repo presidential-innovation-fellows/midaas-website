@@ -43,25 +43,6 @@ module.exports = (grunt) ->
       }
     }
 
-    concat: {
-      dependencies: {
-        src: [
-          'src/assets/js/vendor/jquery-3.0.0-beta1.min.js'
-          'src/assets/js/vendor/d3-3.5.14.min.js'
-          'src/assets/js/vendor/c3-0.4.10.min.js'
-          'src/assets/js/vendor/observe.js'
-        ]
-        dest: 'dist/assets/js/midaas-dependencies.js'
-      }
-      midaas: {
-        src: [
-          'dist/assets/js/midaas-dependencies.js'
-          'dist/assets/js/midaas-chart.js'
-        ]
-        dest: 'dist/assets/js/midaas.js'
-      }
-    }
-
     sass: {
       options: {
         sourceMap: true
@@ -78,6 +59,38 @@ module.exports = (grunt) ->
           expand: true
           ext: '.css'
         } ]
+      }
+    }
+
+    concat: {
+      js_dependencies: {
+        src: [
+          'src/assets/js/vendor/jquery-3.0.0-beta1.min.js'
+          'src/assets/js/vendor/d3-3.5.14.min.js'
+          'src/assets/js/vendor/c3-0.4.10.min.js'
+          'src/assets/js/vendor/observe.js'
+        ]
+        dest: 'dist/assets/js/midaas-dependencies.js'
+      }
+      js_midaas: {
+        src: [
+          'dist/assets/js/midaas-dependencies.js'
+          'dist/assets/js/midaas-chart.js'
+        ]
+        dest: 'dist/assets/js/midaas.js'
+      }
+      css_dependencies: {
+        src: [
+          'src/assets/css/vendor/c3-0.4.10.min.css'
+        ]
+        dest: 'dist/assets/css/midaas-dependencies.css'
+      }
+      css_midaas: {
+        src: [
+          'dist/assets/css/midaas-dependencies.css'
+          'dist/assets/css/main.css'
+        ]
+        dest: 'dist/assets/css/midaas.css'
       }
     }
 
@@ -116,17 +129,21 @@ module.exports = (grunt) ->
         files: ['src/**/*.jade']
         tasks: ['jade']
       }
-      dependencies: {
+      js_dependencies: {
         files: ['src/assets/js/vendor/**/*.js']
-        tasks: ['concat:dependencies', 'concat:midaas']
+        tasks: ['concat:js_dependencies', 'concat:js_midaas']
       }
       coffee: {
         files: ['src/assets/coffee/**/*.coffee']
-        tasks: ['coffee', 'concat:midaas']
+        tasks: ['coffee', 'concat:js_midaas']
+      }
+      css_dependencies: {
+        files: ['src/assets/css/vendor/**/*.css']
+        tasks: ['concat:css_dependencies', 'concat:css_midaas']
       }
       sass: {
         files: ['src/**/*.scss']
-        tasks: ['sass']
+        tasks: ['sass', 'concat:css_midaas']
       }
       other: {
         files: [
@@ -140,9 +157,23 @@ module.exports = (grunt) ->
     }
 
     uglify: {
+      options: {
+        sourceMap: true
+      }
       midaas: {
         files: {
           'dist/assets/js/midaas.min.js': ['dist/assets/js/midaas.js']
+        }
+      }
+    }
+
+    cssmin: {
+      options: {
+        sourceMap: true
+      }
+      target: {
+        files: {
+          'dist/assets/css/midaas.min.css': ['dist/assets/css/midaas.css']
         }
       }
     }
@@ -154,6 +185,9 @@ module.exports = (grunt) ->
         replacements: [{
           from: 'assets/js/midaas.js'
           to: 'assets/js/midaas.min.js'
+        }, {
+          from: 'assets/css/midaas.css'
+          to: 'assets/css/midaas.min.css'
         }]
       }
     }
@@ -186,6 +220,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks('grunt-contrib-concat')
   grunt.loadNpmTasks('grunt-contrib-connect')
   grunt.loadNpmTasks('grunt-contrib-copy')
+  grunt.loadNpmTasks('grunt-contrib-cssmin')
   grunt.loadNpmTasks('grunt-contrib-jade')
   grunt.loadNpmTasks('grunt-contrib-uglify')
   grunt.loadNpmTasks('grunt-contrib-watch')
@@ -200,10 +235,12 @@ module.exports = (grunt) ->
   grunt.registerTask('default', [
     'clean'
     'jade'
-    'concat:dependencies'
+    'concat:js_dependencies'
     'coffee'
-    'concat:midaas'
+    'concat:js_midaas'
+    'concat:css_dependencies'
     'sass'
+    'concat:css_midaas'
     'copy'
     'connect:server'
     'watch'
@@ -212,11 +249,14 @@ module.exports = (grunt) ->
   grunt.registerTask('production', [
     'clean'
     'jade'
-    'concat:dependencies'
+    'concat:js_dependencies'
     'coffee'
-    'concat:midaas'
-    'uglify:midaas'
+    'concat:js_midaas'
+    'uglify'
+    'concat:css_dependencies'
     'sass'
+    'concat:css_midaas'
+    'cssmin'
     'copy'
     'replace:midaas'
   ])
