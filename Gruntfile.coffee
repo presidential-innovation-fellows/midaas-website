@@ -209,7 +209,7 @@ module.exports = (grunt) ->
     'watch'
   ])
 
-  grunt.registerTask('deploy', [
+  grunt.registerTask('production', [
     'clean'
     'jade'
     'concat:dependencies'
@@ -219,5 +219,9 @@ module.exports = (grunt) ->
     'sass'
     'copy'
     'replace:midaas'
+  ])
+
+  grunt.registerTask('deploy', [
+    'production'
     's3'
   ])
