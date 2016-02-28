@@ -138,6 +138,25 @@ module.exports = (grunt) ->
       }
     }
 
+    uglify: {
+      midaas: {
+        files: {
+          'dist/assets/js/midaas.min.js': ['dist/assets/js/midaas.js']
+        }
+      }
+    }
+
+    replace: {
+      midaas: {
+        src: ['dist/**/*.html']
+        overwrite: true
+        replacements: [{
+          from: 'assets/js/midaas.js'
+          to: 'assets/js/midaas.min.js'
+        }]
+      }
+    }
+
     aws: grunt.file.readJSON(process.env['HOME'] + '/.aws/credentials.json')
     s3: {
       options: {
@@ -163,14 +182,15 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks('grunt-aws')
   grunt.loadNpmTasks('grunt-contrib-clean')
   grunt.loadNpmTasks('grunt-contrib-coffee')
-  grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-concat')
   grunt.loadNpmTasks('grunt-contrib-connect')
   grunt.loadNpmTasks('grunt-contrib-copy')
   grunt.loadNpmTasks('grunt-contrib-jade')
-  grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-uglify')
   grunt.loadNpmTasks('grunt-contrib-watch')
   grunt.loadNpmTasks('grunt-newer')
   grunt.loadNpmTasks('grunt-sass')
+  grunt.loadNpmTasks('grunt-text-replace')
 
   #
   # TASKS
@@ -194,7 +214,9 @@ module.exports = (grunt) ->
     'concat:dependencies'
     'coffee'
     'concat:midaas'
+    'uglify:midaas'
     'sass'
     'copy'
+    'replace:midaas'
     's3'
   ])
