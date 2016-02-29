@@ -10,7 +10,7 @@ class ChartMap extends Ag.Chart.Abstract
         .geofile('/assets/topojson/USA.json')
         .projection(d3.geo.albersUsa)
         .colors(colorbrewer.Greens[9])
-        .column('Ratio')
+        .column('Data')
         .unitId('Fips')
         .scale(1000)
         .legend(true)
@@ -25,12 +25,10 @@ class ChartMap extends Ag.Chart.Abstract
   update: ->
     @showLoading()
     bindElement = "##{@id} .chart"
-    $(bindElement).html("");
     @interact.fetchData((err, data) =>
       data = @translateData(data)
-      d3.select(bindElement)
-        .datum(data)
-        .call(@_chart.draw, @_chart)
+      @_chart.data = data
+      @_chart.update()
       @hideLoading()
     )
 
@@ -59,11 +57,11 @@ class ChartMap extends Ag.Chart.Abstract
   translateData: (data) ->
     dataArr = []
     for group of data
-      for subgroup of data[group]
-        fips = @lookupFips(subgroup)
+      for state of data[group]
+        fips = @lookupFips(state)
         dataArr.push({
-          "State": subgroup
-          "Ratio": data[group][subgroup]
+          "State": state
+          "Data": data[group][state]
           "Fips": "US" + fips
         })
     return dataArr

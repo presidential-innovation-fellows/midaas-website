@@ -3489,7 +3489,7 @@ return d.pie(d.filterTargetsToShow(d.data.targets)).forEach(function(b){f||b.dat
       this.interact.fetchData((function(_this) {
         return function(err, data) {
           data = _this.translateData(data);
-          _this._chart = d3.geomap.choropleth().geofile('/assets/topojson/USA.json').projection(d3.geo.albersUsa).colors(colorbrewer.Greens[9]).column('Ratio').unitId('Fips').scale(1000).legend(true);
+          _this._chart = d3.geomap.choropleth().geofile('/assets/topojson/USA.json').projection(d3.geo.albersUsa).colors(colorbrewer.Greens[9]).column('Data').unitId('Fips').scale(1000).legend(true);
           d3.select(bindElement).datum(data).call(_this._chart.draw, _this._chart);
           return _this.hideLoading();
         };
@@ -3500,11 +3500,11 @@ return d.pie(d.filterTargetsToShow(d.data.targets)).forEach(function(b){f||b.dat
       var bindElement;
       this.showLoading();
       bindElement = "#" + this.id + " .chart";
-      $(bindElement).html("");
       return this.interact.fetchData((function(_this) {
         return function(err, data) {
           data = _this.translateData(data);
-          d3.select(bindElement).datum(data).call(_this._chart.draw, _this._chart);
+          _this._chart.data = data;
+          _this._chart.update();
           return _this.hideLoading();
         };
       })(this));
@@ -3568,14 +3568,14 @@ return d.pie(d.filterTargetsToShow(d.data.targets)).forEach(function(b){f||b.dat
     };
 
     ChartMap.prototype.translateData = function(data) {
-      var dataArr, fips, group, subgroup;
+      var dataArr, fips, group, state;
       dataArr = [];
       for (group in data) {
-        for (subgroup in data[group]) {
-          fips = this.lookupFips(subgroup);
+        for (state in data[group]) {
+          fips = this.lookupFips(state);
           dataArr.push({
-            "State": subgroup,
-            "Ratio": data[group][subgroup],
+            "State": state,
+            "Data": data[group][state],
             "Fips": "US" + fips
           });
         }
