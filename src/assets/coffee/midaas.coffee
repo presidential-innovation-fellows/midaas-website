@@ -22,6 +22,8 @@ class Midaas
     switch config?.type
       when "bar"
         return new Ag.Chart.Bar(id, config)
+      when "map"
+        return new Ag.Chart.Map(id, config)
 
   createCharts: ->
     @charts = []

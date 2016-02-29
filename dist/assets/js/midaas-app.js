@@ -81,6 +81,7 @@
     }
 
     InteractIncomeQuantilesCompare.prototype.initUi = function() {
+      var ref, ref1;
       InteractIncomeQuantilesCompare.__super__.initUi.call(this);
       $("#" + this.chart.id + " #compare .toggle").on("click", (function(_this) {
         return function(event) {
@@ -94,6 +95,7 @@
           return $(event.target).addClass("active");
         };
       })(this));
+      $("#" + this.chart.id + " #compareRegion").val((ref = (ref1 = this.config.query) != null ? ref1.compareRegion : void 0) != null ? ref : "US");
       return $("#" + this.chart.id + " #compareRegion").change((function(_this) {
         return function(event) {
           var base;
@@ -189,7 +191,9 @@
     }
 
     InteractIncomeQuantileGenderRatio.prototype.initUi = function() {
+      var ref, ref1;
       InteractIncomeQuantileGenderRatio.__super__.initUi.call(this);
+      $("#" + this.chart.id + " #compareQuantile").val((ref = (ref1 = this.config.query) != null ? ref1.compareQuantile : void 0) != null ? ref : "50");
       return $("#" + this.chart.id + " #compareQuantile").change((function(_this) {
         return function(event) {
           var base;
@@ -397,6 +401,135 @@
 }).call(this);
 
 (function() {
+  var ChartMap, base,
+    extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+    hasProp = {}.hasOwnProperty;
+
+  ChartMap = (function(superClass) {
+    extend(ChartMap, superClass);
+
+    function ChartMap(id, config) {
+      var bindElement;
+      this.id = id;
+      this.config = config;
+      ChartMap.__super__.constructor.call(this, this.id, this.config);
+      this.showLoading();
+      bindElement = "#" + this.id + " .chart";
+      this.interact.fetchData((function(_this) {
+        return function(err, data) {
+          data = _this.translateData(data);
+          _this._chart = d3.geomap.choropleth().geofile('/assets/topojson/USA.json').projection(d3.geo.albersUsa).colors(colorbrewer.Greens[9]).column('Ratio').unitId('Fips').scale(1000).legend(true);
+          d3.select(bindElement).datum(data).call(_this._chart.draw, _this._chart);
+          return _this.hideLoading();
+        };
+      })(this));
+    }
+
+    ChartMap.prototype.update = function() {
+      var bindElement;
+      this.showLoading();
+      bindElement = "#" + this.id + " .chart";
+      $(bindElement).html("");
+      return this.interact.fetchData((function(_this) {
+        return function(err, data) {
+          data = _this.translateData(data);
+          d3.select(bindElement).datum(data).call(_this._chart.draw, _this._chart);
+          return _this.hideLoading();
+        };
+      })(this));
+    };
+
+    ChartMap.prototype.lookupFips = function(state) {
+      return {
+        "AL": "01",
+        "AK": "02",
+        "AZ": "04",
+        "AR": "05",
+        "CA": "06",
+        "CO": "08",
+        "CT": "09",
+        "DE": "10",
+        "DC": "11",
+        "FL": "12",
+        "GA": "13",
+        "HI": "15",
+        "ID": "16",
+        "IL": "17",
+        "IN": "18",
+        "IA": "19",
+        "KS": "20",
+        "KY": "21",
+        "LA": "22",
+        "ME": "23",
+        "MD": "24",
+        "MA": "25",
+        "MI": "26",
+        "MN": "27",
+        "MS": "28",
+        "MO": "29",
+        "MT": "30",
+        "NE": "31",
+        "NV": "32",
+        "NH": "33",
+        "NJ": "34",
+        "NM": "35",
+        "NY": "36",
+        "NC": "37",
+        "ND": "38",
+        "OH": "39",
+        "OK": "40",
+        "OR": "41",
+        "PA": "42",
+        "RI": "44",
+        "SC": "45",
+        "SD": "46",
+        "TN": "47",
+        "TX": "48",
+        "UT": "49",
+        "VT": "50",
+        "VA": "51",
+        "WA": "53",
+        "WV": "54",
+        "WI": "55",
+        "WY": "56",
+        "PR": "72"
+      }[state];
+    };
+
+    ChartMap.prototype.translateData = function(data) {
+      var dataArr, fips, group, subgroup;
+      dataArr = [];
+      for (group in data) {
+        for (subgroup in data[group]) {
+          fips = this.lookupFips(subgroup);
+          dataArr.push({
+            "State": subgroup,
+            "Ratio": data[group][subgroup],
+            "Fips": "US" + fips
+          });
+          console.log(data[group][subgroup]);
+        }
+      }
+      return dataArr;
+    };
+
+    return ChartMap;
+
+  })(Ag.Chart.Abstract);
+
+  if (window.Ag == null) {
+    window.Ag = {};
+  }
+
+  if ((base = window.Ag).Chart == null) {
+    base.Chart = {};
+  }
+
+  window.Ag.Chart.Map = ChartMap;
+
+}).call(this);
+
+(function() {
   var Midaas;
 
   if (window.Ag == null) {
@@ -427,6 +560,8 @@
       switch (config != null ? config.type : void 0) {
         case "bar":
           return new Ag.Chart.Bar(id, config);
+        case "map":
+          return new Ag.Chart.Map(id, config);
       }
     };
 

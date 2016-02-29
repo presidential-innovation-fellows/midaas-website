@@ -39,6 +39,7 @@ module.exports = (grunt) ->
             'src/assets/coffee/interact-income-quantile-gender-ratio.coffee'
             'src/assets/coffee/chart-abstract.coffee'
             'src/assets/coffee/chart-bar.coffee'
+            'src/assets/coffee/chart-map.coffee'
             'src/assets/coffee/midaas.coffee'
             '!src/assets/coffee/**/_*.*'
             '!src/assets/coffee/**/_*/**'
@@ -72,6 +73,8 @@ module.exports = (grunt) ->
           'src/assets/js/vendor/jquery-3.0.0-beta1.min.js'
           'src/assets/js/vendor/jquery-url.js'
           'src/assets/js/vendor/d3-3.5.14.min.js'
+          'src/assets/js/vendor/d3-topojson.js'
+          'src/assets/js/vendor/d3-geomap.js'
           'src/assets/js/vendor/c3-0.4.10.min.js'
           'src/assets/js/vendor/observe.js'
         ]
@@ -87,6 +90,7 @@ module.exports = (grunt) ->
       css_dependencies: {
         src: [
           'src/assets/css/vendor/c3-0.4.10.min.css'
+          'src/assets/css/vendor/d3-geomap.css'
         ]
         dest: 'dist/assets/css/midaas-dependencies.css'
       }
@@ -173,9 +177,6 @@ module.exports = (grunt) ->
     }
 
     cssmin: {
-      options: {
-        sourceMap: true
-      }
       target: {
         files: {
           'dist/assets/css/midaas.min.css': ['dist/assets/css/midaas.css']

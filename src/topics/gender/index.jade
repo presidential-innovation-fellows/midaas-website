@@ -24,7 +24,7 @@ html.no-js(lang='en')
       },
       chart2: {
         title: "Gender Income Data",
-        type: "bar",
+        type: "map",
         interact: {
           type: "IncomeQuantileGenderRatio",
           query: {
@@ -42,7 +42,7 @@ html.no-js(lang='en')
           type: "IncomeQuantilesCompare",
           query: {
             compare: "Sex",
-            compareRegion: "US"
+            compareRegion: "CA"
           },
           ui: {
             compare: false,
@@ -59,7 +59,7 @@ html.no-js(lang='en')
           .navigation-tree
             a.back(href="/topics")
               | Topics
-            | / Gender
+            | &nbsp;/&nbsp;Gender
           h1 Income-distribution by Gender
     section
       .usa-grid

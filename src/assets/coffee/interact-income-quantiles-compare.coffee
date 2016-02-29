@@ -17,6 +17,7 @@ class InteractIncomeQuantilesCompare extends Ag.Interact.Abstract
       $("##{@chart.id} #compare .toggles li").removeClass("active")
       $(event.target).addClass("active")
     )
+    $("##{@chart.id} #compareRegion").val(@config.query?.compareRegion ? "US")
     $("##{@chart.id} #compareRegion").change((event) =>
       @config.query ?= {}
       @config.query.compareRegion = event.target.value

@@ -10,6 +10,7 @@ class InteractIncomeQuantileGenderRatio extends Ag.Interact.Abstract
 
   initUi: ->
     super()
+    $("##{@chart.id} #compareQuantile").val(@config.query?.compareQuantile ? "50")
     $("##{@chart.id} #compareQuantile").change((event) =>
       @config.query ?= {}
       @config.query.compareQuantile = event.target.value
