@@ -66,7 +66,6 @@ class ChartMap extends Ag.Chart.Abstract
           "Ratio": data[group][subgroup]
           "Fips": "US" + fips
         })
-        console.log data[group][subgroup]
     return dataArr
 
 window.Ag ?= {}

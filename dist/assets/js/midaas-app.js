@@ -507,7 +507,6 @@
             "Ratio": data[group][subgroup],
             "Fips": "US" + fips
           });
-          console.log(data[group][subgroup]);
         }
       }
       return dataArr;
@@ -543,16 +542,12 @@
     }
 
     Midaas.prototype.getConfig = function() {
-      var configParam;
-      if (window.Ag.config == null) {
-        configParam = $.url("?midaasConfig");
-        if (configParam) {
-          return this.config = JSON.parse(decodeURIComponent(configParam));
-        } else {
-          return this.config = {};
-        }
+      var configParam, ref;
+      configParam = $.url("?midaasConfig");
+      if (configParam) {
+        return this.config = JSON.parse(decodeURIComponent(configParam));
       } else {
-        return this.config = window.Ag.config;
+        return this.config = (ref = Ag.config) != null ? ref : {};
       }
     };
 

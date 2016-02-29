@@ -9,14 +9,11 @@ class Midaas
   getConfig: ->
     # attempt to get the midaas configuration from either the url
     # param or from its definition as a script on the page
-    unless window.Ag.config?
-      configParam = $.url("?midaasConfig")
-      if configParam
-        @config = JSON.parse(decodeURIComponent(configParam))
-      else
-        @config = {}
+    configParam = $.url("?midaasConfig")
+    if configParam
+      @config = JSON.parse(decodeURIComponent(configParam))
     else
-      @config = window.Ag.config
+      @config = Ag.config ? {}
 
   createChart: (id, config) ->
     switch config?.type
