@@ -3105,9 +3105,9 @@ return d.pie(d.filterTargetsToShow(d.data.targets)).forEach(function(b){f||b.dat
     };
 
     InteractAbstract.prototype.setTitle = function() {
-      var el, title;
+      var el, ref, title;
       el = $("#" + this.chart.id);
-      title = el.attr("title");
+      title = (ref = this.chart.config) != null ? ref.title : void 0;
       return el.find(".chart-title").text(title);
     };
 

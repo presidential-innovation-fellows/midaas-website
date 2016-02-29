@@ -20,7 +20,7 @@ class InteractAbstract
 
   setTitle: ->
     el = $("##{@chart.id}")
-    title = el.attr("title")
+    title = @chart.config?.title
     el.find(".chart-title").text(title)
 
 window.Ag ?= {}
