@@ -1,6 +1,43 @@
 doctype html
 html.no-js(lang='en')
   include ../../modules/_head.jade
+  script.
+    if (window.Ag == null) {
+      window.Ag = {};
+    }
+
+    window.Ag.config = {
+      chart1: {
+        title: "National Income Data",
+        type: "bar",
+        interact: {
+          api: "income/quantiles?compare",
+          query: {
+            compare: "Sex",
+            compareRegion: "US"
+          },
+          ui: {
+            compare: false,
+            compareRegion: false
+          }
+        }
+      },
+      chart3: {
+        title: "State Income Data",
+        type: "bar",
+        interact: {
+          api: "income/quantiles?compare",
+          query: {
+            compare: "Sex",
+            compareRegion: "US"
+          },
+          ui: {
+            compare: false,
+            compareRegion: true
+          }
+        }
+      }
+    };
   body.topics-gender
     include ../../modules/_nav.jade
     section.main-content
@@ -11,9 +48,9 @@ html.no-js(lang='en')
               | Topics
             | / Gender
           h1 Income-distribution by Gender
-    section.national-data
+    section
       .usa-grid
-        #chart1.chart-compare.compare-national(compare="Gender" title="National Income Data")
+        #chart1
     section.state-data-list
       .usa-grid
         .widget.primary-widget
@@ -55,4 +92,4 @@ html.no-js(lang='en')
 
     section.state-data
       .usa-grid
-        #chart2.chart-compare(compare="Gender" title="State Income Data")
+        #chart3

@@ -1,8 +1,15 @@
 .chart-widget.widget.primary-widget
   .widget-header
-    h2 National Income Data
-    p United States of America - 2012
-  #chart.chart
+    h2.chart-title
+    p United States of America
+  #compare
+    .perspectives
+      ul.toggles
+        li.active.toggle Overall
+        li.middle-child.toggle Race
+        li.middle-child.toggle Gender
+        li.toggle Age
+  .chart
   #loading-icon.loading-icon.active
     img(src="/assets/img/loading-ring.svg")
   #chart-error.chart-error
@@ -11,7 +18,7 @@
     .error-message
       p#error-message
         | Something went wrong... Try again in a few seconds.
-  select#region-selector
+  select#compareRegion
     option(value="US") United States
     option(value="AK") Alaska
     option(value="AL") Alabama

@@ -33,9 +33,12 @@ module.exports = (grunt) ->
     coffee: {
       compile: {
         files: {
-          'dist/assets/js/midaas-chart.js': [
-            'src/assets/coffee/chart.coffee'
-            'src/assets/coffee/chart-compare.coffee'
+          'dist/assets/js/midaas-app.js': [
+            'src/assets/coffee/interact-abstract.coffee'
+            'src/assets/coffee/interact-income-quantiles-compare.coffee'
+            'src/assets/coffee/chart-abstract.coffee'
+            'src/assets/coffee/chart-bar.coffee'
+            'src/assets/coffee/midaas.coffee'
             '!src/assets/coffee/**/_*.*'
             '!src/assets/coffee/**/_*/**'
           ]
@@ -66,6 +69,7 @@ module.exports = (grunt) ->
       js_dependencies: {
         src: [
           'src/assets/js/vendor/jquery-3.0.0-beta1.min.js'
+          'src/assets/js/vendor/jquery-url.js'
           'src/assets/js/vendor/d3-3.5.14.min.js'
           'src/assets/js/vendor/c3-0.4.10.min.js'
           'src/assets/js/vendor/observe.js'
@@ -75,7 +79,7 @@ module.exports = (grunt) ->
       js_midaas: {
         src: [
           'dist/assets/js/midaas-dependencies.js'
-          'dist/assets/js/midaas-chart.js'
+          'dist/assets/js/midaas-app.js'
         ]
         dest: 'dist/assets/js/midaas.js'
       }

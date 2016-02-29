@@ -1,23 +1,10 @@
-class Chart
+class ChartBar extends Ag.Chart.Abstract
 
-  showLoading: ->
-    $("#{@chartId} #loading-icon").fadeIn("fast")
-
-  hideLoading: ->
-    $("#{@chartId} #loading-icon").fadeOut("fast")
-
-  apiUrlBase: "https://brbimhg0w9.execute-api.us-west-2.amazonaws.com/dev/"
-
-  # implement this when Chart is extended
-  fetchData: (callback) ->
-    err = null
-    data = null
-    return callback(err, data)
-
-  init: ->
+  constructor: (@id, @config) ->
+    super(@id, @config)
     @showLoading()
-    bindElement = "#{@chartId} .chart"
-    @fetchData((err, data) =>
+    bindElement = "##{@id} .chart"
+    @interact.fetchData((err, data) =>
       @_chart = c3.generate({
         bindto: bindElement
         data: {
@@ -41,7 +28,7 @@ class Chart
 
   update: ->
     @showLoading()
-    @fetchData((err, data) =>
+    @interact.fetchData((err, data) =>
       @_chart.load({
         columns: data
         unload: @_chart.columns
@@ -49,4 +36,6 @@ class Chart
       @hideLoading()
     )
 
-window.Chart = Chart
+window.Ag ?= {}
+window.Ag.Chart ?= {}
+window.Ag.Chart.Bar = ChartBar

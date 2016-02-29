@@ -4,13 +4,15 @@
     <h2 class="chart-title"></h2>
     <p>United States of America</p>
   </div>
-  <div class="perspectives">
-    <ul class="toggles">
-      <li class="active toggle">Overall</li>
-      <li class="middle-child toggle">Race</li>
-      <li class="middle-child toggle">Gender</li>
-      <li class="toggle">Age</li>
-    </ul>
+  <div id="compare">
+    <div class="perspectives">
+      <ul class="toggles">
+        <li class="active toggle">Overall</li>
+        <li class="middle-child toggle">Race</li>
+        <li class="middle-child toggle">Gender</li>
+        <li class="toggle">Age</li>
+      </ul>
+    </div>
   </div>
   <div class="chart"></div>
   <div id="loading-icon" class="loading-icon active"><img src="/assets/img/loading-ring.svg"/></div>
@@ -20,7 +22,7 @@
       <p id="error-message">Something went wrong... Try again in a few seconds.</p>
     </div>
   </div>
-  <select id="region-selector">
+  <select id="compareRegion">
     <option value="US">United States</option>
     <option value="AK">Alaska</option>
     <option value="AL">Alabama</option>
