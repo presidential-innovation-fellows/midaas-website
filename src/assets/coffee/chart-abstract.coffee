@@ -5,12 +5,14 @@ class ChartAbstract
 
   initInteract: ->
     interact = @config?.interact
-    api = interact?.api?.toLowerCase()
-    unless api?
-      return console.error(new Error("Missing interact.api in Ag config."))
-    switch api
-      when "income/quantiles?compare"
+    type = interact?.type
+    unless type?
+      return console.error(new Error("Missing interact.type in Ag config."))
+    switch type
+      when "IncomeQuantilesCompare"
         @interact = new Ag.Interact.IncomeQuantilesCompare(@)
+      when "IncomeQuantileGenderRatio"
+        @interact = new Ag.Interact.IncomeQuantileGenderRatio(@)
 
   showLoading: ->
     $("##{@id} #loading-icon").fadeIn("fast")

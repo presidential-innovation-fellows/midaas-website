@@ -41,7 +41,7 @@ class InteractIncomeQuantilesCompare extends Ag.Interact.Abstract
         params.push("compare=agegroup")
 
     if compareRegion and compareRegion isnt "US"
-      params.push("state=" + compareRegion);
+      params.push("state=" + compareRegion)
 
     if params.length
       url += "?" + params.join('&')
@@ -51,15 +51,7 @@ class InteractIncomeQuantilesCompare extends Ag.Interact.Abstract
       url: url
       timeout: 10000
     }).done((data) =>
-      seriesArr = []
-      for group of data
-        labelArr = ["x"]
-        dataArr = [group]
-        for percentile of data[group]
-          labelArr.push(percentile)
-          dataArr.push(data[group][percentile])
-        seriesArr.push(dataArr)
-      return callback(null, [labelArr].concat(seriesArr))
+      return callback(null, data)
     ).fail((err) =>
       return callback(err)
     )

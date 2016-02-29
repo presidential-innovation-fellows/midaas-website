@@ -5,6 +5,7 @@ class ChartBar extends Ag.Chart.Abstract
     @showLoading()
     bindElement = "##{@id} .chart"
     @interact.fetchData((err, data) =>
+      data = @translateData(data)
       @_chart = c3.generate({
         bindto: bindElement
         data: {
@@ -29,12 +30,24 @@ class ChartBar extends Ag.Chart.Abstract
   update: ->
     @showLoading()
     @interact.fetchData((err, data) =>
+      data = @translateData(data)
       @_chart.load({
         columns: data
         unload: @_chart.columns
       })
       @hideLoading()
     )
+
+  translateData: (data) ->
+    seriesArr = []
+    for group of data
+      labelArr = ["x"]
+      dataArr = [group]
+      for xLabel of data[group]
+        labelArr.push(xLabel)
+        dataArr.push(data[group][xLabel])
+      seriesArr.push(dataArr)
+    return [labelArr].concat(seriesArr)
 
 window.Ag ?= {}
 window.Ag.Chart ?= {}

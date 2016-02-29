@@ -45,10 +45,10 @@
     <title>MIDAAS | PIF.gov</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/assets/css/midaas.min.css">
+    <link rel="stylesheet" href="/assets/css/midaas.css">
     <link rel="shortcut icon" type="image/ico" href="/assets/img/favicons/favicon.ico">
     <link rel="icon" type="image/png" href="/assets/img/favicons/favicon.png">
-    <script src="/assets/js/midaas.min.js"></script>
+    <script src="/assets/js/midaas.js"></script>
     <!-- Polyfills--><!--[if lt IE 9]>
       <script src="/assets/js/vendor/html5shiv.js"></script>
       <script src="/assets/js/vendor/respond.min.js"></script>
@@ -65,7 +65,7 @@
         title: "National Income Data",
         type: "bar",
         interact: {
-          api: "income/quantiles?compare",
+          type: "IncomeQuantilesCompare",
           query: {
             compare: "Sex",
             compareRegion: "US"
@@ -76,11 +76,24 @@
           }
         }
       },
+      chart2: {
+        title: "Gender Income Data",
+        type: "bar",
+        interact: {
+          type: "IncomeQuantileGenderRatio",
+          query: {
+            compareQuantile: 50
+          },
+          ui: {
+            compareQuantile: true
+          }
+        }
+      },
       chart3: {
         title: "State Income Data",
         type: "bar",
         interact: {
-          api: "income/quantiles?compare",
+          type: "IncomeQuantilesCompare",
           query: {
             compare: "Sex",
             compareRegion: "US"
@@ -120,70 +133,9 @@
         <div id="chart1"></div>
       </div>
     </section>
-    <section class="state-data-list">
+    <section>
       <div class="usa-grid">
-        <div class="widget primary-widget">
-          <header class="widget-header">
-            <h2>Income Distribution by State</h2>
-          </header>
-          <div class="percentile-selector">
-            <label for="percentile-select">Select an Income Percentile</label>
-            <select id="percentile-select">
-              <option>5%</option>
-              <option>10%</option>
-              <option>20%</option>
-              <option>30%</option>
-              <option>40%</option>
-              <option>50%</option>
-              <option>60%</option>
-              <option>70%</option>
-              <option>80%</option>
-              <option>90%</option>
-              <option>95%</option>
-              <option>99%</option>
-            </select>
-          </div>
-          <div class="col">
-            <h3>Most Even Income</h3>
-            <ol class="top-states">
-              <li class="state-list-item"><span class="state-name">State Name</span>
-                <div class="dollar">$0.85</div>
-              </li>
-              <li class="state-list-item"><span class="state-name">State Name</span>
-                <div class="dollar">$0.85</div>
-              </li>
-              <li class="state-list-item"><span class="state-name">State Name</span>
-                <div class="dollar">$0.85</div>
-              </li>
-              <li class="state-list-item"><span class="state-name">State Name</span>
-                <div class="dollar">$0.85</div>
-              </li>
-              <li class="state-list-item"><span class="state-name">State Name</span>
-                <div class="dollar">$0.85</div>
-              </li>
-            </ol>
-          </div>
-          <div class="col">
-            <h3>Least Even Income</h3>
-            <ol class="bottom-states">
-              <li class="state-list-item"><span class="state-name">State Name</span>
-                <div class="dollar">$0.41</div>
-              </li>
-              <li class="state-list-item"><span class="state-name">State Name</span>
-                <div class="dollar">$0.41</div>
-              </li>
-              <li class="state-list-item"><span class="state-name">State Name</span>
-                <div class="dollar">$0.41</div>
-              </li>
-              <li class="state-list-item"><span class="state-name">State Name</span>
-                <div class="dollar">$0.41</div>
-              </li>
-              <li class="state-list-item"><span class="state-name">State Name</span>
-                <div class="dollar">$0.41</div>
-              </li>
-            </ol>
-          </div>
-        </div>
+        <div id="chart2"></div>
       </div>
     </section>
     <section class="state-data">

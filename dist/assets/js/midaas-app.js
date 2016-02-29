@@ -139,18 +139,7 @@
         timeout: 10000
       }).done((function(_this) {
         return function(data) {
-          var dataArr, group, labelArr, percentile, seriesArr;
-          seriesArr = [];
-          for (group in data) {
-            labelArr = ["x"];
-            dataArr = [group];
-            for (percentile in data[group]) {
-              labelArr.push(percentile);
-              dataArr.push(data[group][percentile]);
-            }
-            seriesArr.push(dataArr);
-          }
-          return callback(null, [labelArr].concat(seriesArr));
+          return callback(null, data);
         };
       })(this)).fail((function(_this) {
         return function(err) {
@@ -176,6 +165,103 @@
 }).call(this);
 
 (function() {
+  var InteractIncomeQuantileGenderRatio, base,
+    bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
+    extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+    hasProp = {}.hasOwnProperty;
+
+  InteractIncomeQuantileGenderRatio = (function(superClass) {
+    extend(InteractIncomeQuantileGenderRatio, superClass);
+
+    function InteractIncomeQuantileGenderRatio(chart) {
+      var el, template;
+      this.chart = chart;
+      this.fetchData = bind(this.fetchData, this);
+      this.getApiUrl = bind(this.getApiUrl, this);
+      InteractIncomeQuantileGenderRatio.__super__.constructor.call(this, this.chart);
+      el = $("#" + this.chart.id);
+      template = "/assets/templates/income-quantile-gender-ratio.html";
+      $("#" + this.chart.id).load(template, null, (function(_this) {
+        return function() {
+          return _this.initUi();
+        };
+      })(this));
+    }
+
+    InteractIncomeQuantileGenderRatio.prototype.initUi = function() {
+      InteractIncomeQuantileGenderRatio.__super__.initUi.call(this);
+      return $("#" + this.chart.id + " #compareQuantile").change((function(_this) {
+        return function(event) {
+          var base;
+          if ((base = _this.config).query == null) {
+            base.query = {};
+          }
+          _this.config.query.compareQuantile = event.target.value;
+          return _this.chart.update();
+        };
+      })(this));
+    };
+
+    InteractIncomeQuantileGenderRatio.prototype.getApiUrl = function() {
+      return this.apiUrlBase + "income/quantiles?compare=state";
+    };
+
+    InteractIncomeQuantileGenderRatio.prototype.fetchData = function(callback) {
+      var compareQuantile, params, ref, ref1, url;
+      params = [];
+      url = this.getApiUrl();
+      compareQuantile = (ref = this.config) != null ? (ref1 = ref.query) != null ? ref1.compareQuantile : void 0 : void 0;
+      if (parseInt(compareQuantile) >= 0 && parseInt(compareQuantile) <= 100) {
+        url += "&quantile=" + compareQuantile;
+      }
+      return $.when($.ajax({
+        dataType: "json",
+        url: url + "&sex=male",
+        timeout: 10000
+      }), $.ajax({
+        dataType: "json",
+        url: url + "&sex=female",
+        timeout: 10000
+      })).done((function(_this) {
+        return function(mResponse, fResponse) {
+          var data, fData, mData, quantile, state;
+          mData = mResponse[0];
+          fData = fResponse[0];
+          data = {};
+          for (state in mData) {
+            for (quantile in mData[state]) {
+              if (data[quantile] == null) {
+                data[quantile] = {};
+              }
+              data[quantile][state] = fData[state][quantile] / mData[state][quantile];
+            }
+          }
+          return callback(null, data);
+        };
+      })(this)).fail((function(_this) {
+        return function(err) {
+          return callback(err);
+        };
+      })(this));
+    };
+
+    return InteractIncomeQuantileGenderRatio;
+
+  })(Ag.Interact.Abstract);
+
+  if (window.Ag == null) {
+    window.Ag = {};
+  }
+
+  if ((base = window.Ag).Interact == null) {
+    base.Interact = {};
+  }
+
+  window.Ag.Interact.IncomeQuantileGenderRatio = InteractIncomeQuantileGenderRatio;
+
+}).call(this);
+
+(function() {
   var ChartAbstract, base;
 
   ChartAbstract = (function() {
@@ -186,15 +272,17 @@
     }
 
     ChartAbstract.prototype.initInteract = function() {
-      var api, interact, ref, ref1;
+      var interact, ref, type;
       interact = (ref = this.config) != null ? ref.interact : void 0;
-      api = interact != null ? (ref1 = interact.api) != null ? ref1.toLowerCase() : void 0 : void 0;
-      if (api == null) {
-        return console.error(new Error("Missing interact.api in Ag config."));
+      type = interact != null ? interact.type : void 0;
+      if (type == null) {
+        return console.error(new Error("Missing interact.type in Ag config."));
       }
-      switch (api) {
-        case "income/quantiles?compare":
+      switch (type) {
+        case "IncomeQuantilesCompare":
           return this.interact = new Ag.Interact.IncomeQuantilesCompare(this);
+        case "IncomeQuantileGenderRatio":
+          return this.interact = new Ag.Interact.IncomeQuantileGenderRatio(this);
       }
     };
 
@@ -239,6 +327,7 @@
       bindElement = "#" + this.id + " .chart";
       this.interact.fetchData((function(_this) {
         return function(err, data) {
+          data = _this.translateData(data);
           _this._chart = c3.generate({
             bindto: bindElement,
             data: {
@@ -266,6 +355,7 @@
       this.showLoading();
       return this.interact.fetchData((function(_this) {
         return function(err, data) {
+          data = _this.translateData(data);
           _this._chart.load({
             columns: data,
             unload: _this._chart.columns
@@ -273,6 +363,21 @@
           return _this.hideLoading();
         };
       })(this));
+    };
+
+    ChartBar.prototype.translateData = function(data) {
+      var dataArr, group, labelArr, seriesArr, xLabel;
+      seriesArr = [];
+      for (group in data) {
+        labelArr = ["x"];
+        dataArr = [group];
+        for (xLabel in data[group]) {
+          labelArr.push(xLabel);
+          dataArr.push(data[group][xLabel]);
+        }
+        seriesArr.push(dataArr);
+      }
+      return [labelArr].concat(seriesArr);
     };
 
     return ChartBar;
