@@ -4617,8 +4617,9 @@ input[type="range"] {
   .pages-home .usa-hero {
     background-color: #112e51;
     color: #ffffff;
-    max-height: 550px;
+    height: 550px;
     overflow: hidden;
+    position: relative;
     text-align: center; }
     .pages-home .usa-hero h1 {
       color: #ffffff;
@@ -4634,8 +4635,19 @@ input[type="range"] {
       line-height: 1.1em;
       text-transform: uppercase; }
     .pages-home .usa-hero video {
-      margin-top: -8em;
-      opacity: 0.15; }
+      -webkit-transform: translateX(-50%) translateY(-50%);
+      -moz-transform: translateX(-50%) translateY(-50%);
+      -ms-transform: translateX(-50%) translateY(-50%);
+      -o-transform: translateX(-50%) translateY(-50%);
+      transform: translateX(-50%) translateY(-50%);
+      height: auto;
+      left: 50%;
+      min-height: 100%;
+      min-width: 100%;
+      opacity: 0.2;
+      position: absolute;
+      top: 50%;
+      width: auto; }
     .pages-home .usa-hero .content-container {
       left: 0;
       position: absolute;
