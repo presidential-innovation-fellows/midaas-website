@@ -206,6 +206,7 @@ module.exports = (grunt) ->
         secretAccessKey: '<%= aws.secretAccessKey %>'
         region: 'us-west-2'
         bucket: 'midaas.pif.ninja'
+        gzip: false
       }
       dist: {
         cwd: 'dist/'
