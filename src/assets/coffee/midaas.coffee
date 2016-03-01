@@ -31,6 +31,21 @@ class Midaas
 
     Ag.charts = charts
 
+    # observe changes to chart keys
+    chartsObserver = new ObjectObserver(Ag.config)
+    chartsObserver.open((added, removed, changed, getOldValueFn) =>
+      Object.keys(added).forEach((id) =>
+        config = added[id]
+        chart = @createChart(id, config)
+        Ag.charts[id] = chart
+      )
+      Object.keys(removed).forEach((id) =>
+        config = removed[id]
+        Ag.charts[id].destroy()
+        delete Ag.charts[id]
+      )
+    )
+
 # on load
 $( =>
   new Midaas()
