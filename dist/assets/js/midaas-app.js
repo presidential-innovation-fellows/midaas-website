@@ -343,6 +343,10 @@
       return $("#" + this.id + " #loading-icon").fadeOut("fast");
     };
 
+    ChartAbstract.prototype.destroy = function() {
+      return $("#" + this.id).html("");
+    };
+
     return ChartAbstract;
 
   })();
