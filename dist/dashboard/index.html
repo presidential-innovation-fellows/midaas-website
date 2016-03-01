@@ -55,63 +55,7 @@
       <link rel="stylesheet" href="/assets/stylesheets/output/main/ie.css">
     <![endif]-->
   </head>
-  <script>
-    if (window.Ag == null) {
-      window.Ag = {};
-    }
-    
-    window.Ag.config = {
-      chart1: {
-        title: "National Income Data",
-        type: "bar",
-        interact: {
-          type: "IncomeQuantilesCompare",
-          query: {
-            compare: "sex",
-            compareRegion: "US"
-          },
-          ui: {
-            compare: false,
-            compareRegion: false
-          },
-          connect: "chart2"
-        }
-      },
-      chart2: {
-        title: "National Income Data By State",
-        type: "map",
-        interact: {
-          type: "IncomeQuantileRatio",
-          query: {
-            compare: "state",
-            compareQuantile: 50,
-            ratioType: "sex",
-            ratioNumerator: "female",
-            ratioDenominator: "male"
-          },
-          ui: {
-            compareQuantile: true
-          }
-        }
-      },
-      chart3: {
-        title: "State Income Data",
-        type: "bar",
-        interact: {
-          type: "IncomeQuantilesCompare",
-          query: {
-            compare: "sex",
-            compareRegion: "CA"
-          },
-          ui: {
-            compare: false,
-            compareRegion: true
-          }
-        }
-      }
-    };
-  </script>
-  <body class="topics-gender">
+  <body class="pages-dashboard">
     <nav class="app-nav">
       <div class="usa-grid">
         <div class="logo"><a href="/">
@@ -125,32 +69,55 @@
         </div>
       </div>
     </nav>
+    <div class="dashboard-menu">
+      <div class="logo-container">
+        <div class="logo"><a href="/">
+            <h1 class="logotype">MIDAAS</h1>
+            <div class="beta">Beta</div></a></div>
+      </div>
+      <div class="toolbox">
+        <div class="widgets">
+          <h2>Widgets</h2>
+          <ul id="toolbox-menu">
+            <li data-widget="bar-chart" class="drag-item">Bar Chart
+              <div class="drag-icon"><i class="fa fa-arrows"></i></div>
+            </li>
+            <li data-widget="map" class="drag-item">Map</li>
+          </ul>
+        </div>
+        <div class="data">
+          <h2>Data</h2>
+          <ul id="data-menu">
+            <li id="quantiles-item" data-type="data" data-dataset="quantiles" class="drag-item">Quantiles</li>
+            <li id="ratios-item" data-type="data" data-dataset="ratio" class="drag-item">Ratios</li>
+          </ul>
+        </div>
+        <div class="demographic">
+          <h2>Demographic</h2>
+          <ul id="demographic-menu">
+            <li id="all-item" data-type="demographic" class="drag-item">All</li>
+            <li id="gender-item" data-type="demographic" class="drag-item">Gender</li>
+            <li id="age-item" data-type="demographic" class="drag-item">Age</li>
+            <li id="race-item" data-type="demographic" class="drag-item">Race</li>
+          </ul>
+        </div>
+        <div class="geography">
+          <h2>Geography</h2>
+          <ul id="geographic-menu">
+            <li data-type="geographic" class="drag-item">National</li>
+            <li data-type="geographic" class="drag-item">State</li>
+          </ul>
+        </div>
+      </div>
+    </div>
     <section class="main-content">
       <div class="usa-grid">
-        <header class="page-header">
-          <div class="navigation-tree"><a href="/topics" class="back">Topics</a>&nbsp;/&nbsp;Gender</div>
-          <h1>Income-distribution by Gender</h1>
+        <header>
+          <h1>Dashboard</h1>
         </header>
-      </div>
-    </section>
-    <section>
-      <div class="usa-grid">
-        <div id="chart1"></div>
-      </div>
-    </section>
-    <section>
-      <div class="usa-grid">
-        <div id="chart2"></div>
-      </div>
-    </section>
-    <section>
-      <div class="usa-grid">
-        <div id="chart3"></div>
-      </div>
-    </section>
-    <section>
-      <div class="usa-grid">
-        <div id="chart4"></div>
+        <div id="active-widget-container" class="widget-container">
+          <div class="drop-area"></div>
+        </div>
       </div>
     </section>
   </body>

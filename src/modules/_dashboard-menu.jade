@@ -1,0 +1,43 @@
+.dashboard-menu
+  .logo-container
+    .logo
+      a(href="/")
+        h1.logotype MIDAAS
+        .beta
+          | Beta
+  .toolbox
+    .widgets
+      h2 Widgets
+      ul#toolbox-menu
+        li.drag-item(data-widget="bar-chart")
+          | Bar Chart
+          .drag-icon
+            i.fa.fa-arrows
+        li.drag-item(data-widget="map")
+          | Map
+    .data
+      h2 Data
+      ul#data-menu
+        li#quantiles-item.drag-item(data-type="data" data-dataset="quantiles")
+          | Quantiles
+        li#ratios-item.drag-item(data-type="data" data-dataset="ratio")
+          | Ratios
+    .demographic
+      h2 Demographic
+      ul#demographic-menu
+        li#all-item.drag-item(data-type="demographic")
+          | All
+        li#gender-item.drag-item(data-type="demographic")
+          | Gender
+        li#age-item.drag-item(data-type="demographic")
+          | Age
+        li#race-item.drag-item(data-type="demographic")
+          | Race
+    .geography
+      h2 Geography
+      ul#geographic-menu
+        li.drag-item(data-type="geographic")
+          | National
+        li.drag-item(data-type="geographic")
+          | State
+
