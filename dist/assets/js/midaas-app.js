@@ -776,3 +776,205 @@
   })(this));
 
 }).call(this);
+
+(function() {
+  var WidgetAbstract, base;
+
+  WidgetAbstract = (function() {
+    function WidgetAbstract() {
+      return null;
+    }
+
+    WidgetAbstract.prototype.addDragClassToBody = function() {
+      var body;
+      body = document.body;
+      return body.className = body.className += " open-widget-attributes";
+    };
+
+    WidgetAbstract.prototype.animateCompletionBar = function(draggedElement, widgetId) {
+      var completionBar, dataBar, dataType;
+      completionBar = widgetId + " .completion-bar";
+      dataType = draggedElement.getAttribute("data-type");
+      switch (dataType) {
+        case "data":
+          dataBar = document.querySelector(completionBar + " .data");
+          dataBar.className += " complete";
+          break;
+        case "demographic":
+          dataBar = document.querySelector(completionBar + " .demographic");
+          dataBar.className += " complete";
+          break;
+        case "geographic":
+          dataBar = document.querySelector(completionBar + " .geographic");
+          dataBar.className += " complete";
+      }
+      return this.checkCompleteness(dataType, widgetId);
+    };
+
+    WidgetAbstract.prototype.checkCompleteness = function(dataType, widgetId) {
+      var dragItem;
+      dragItem = widgetId + " .data-drop .drag-item";
+      if ($(dragItem).attr("data-dataset") === "quantiles") {
+        return this.closeDrawer(widgetId);
+      } else if ($(dragItem).attr("data-dataset") === "ratio") {
+        if ($(widgetId + " .demographic-drop .drag-item").length > 0) {
+          return this.closeDrawer(widgetId);
+        } else {
+          return this.openDrawer(widgetId);
+        }
+      }
+    };
+
+    WidgetAbstract.prototype.closeDrawer = function(widgetId) {
+      return $(widgetId).addClass("closed");
+    };
+
+    WidgetAbstract.prototype.enableDragging = function(el, menuId) {
+      var dataDrop, dataMenu, dataType, widgetId;
+      widgetId = "#" + el.id;
+      dataMenu = document.querySelector(menuId);
+      dataType = document.querySelector(menuId + " li").getAttribute("data-type");
+      dataDrop = document.querySelector(widgetId + " ." + dataType + "-drop");
+      return dragula([dataMenu, dataDrop], {
+        copy: true
+      }).on('drag', (function(_this) {
+        return function(el) {
+          _this.addDragClassToBody();
+          return el.className = el.className.replace('ex-moved', '');
+        };
+      })(this)).on('drop', (function(_this) {
+        return function(el) {
+          _this.removeExistingDrop(dataDrop, el, widgetId);
+          _this.animateCompletionBar(el, widgetId);
+          _this.removeDragClassFromBody();
+          return el.className += ' ex-moved';
+        };
+      })(this)).on('over', function(el, container) {
+        return container.className += ' ex-over';
+      }).on('out', function(el, container) {
+        return container.className = container.className.replace("ex-over", "");
+      });
+    };
+
+    WidgetAbstract.prototype.openDrawer = function(widgetId) {
+      return $(widgetId).removeClass("closed");
+    };
+
+    WidgetAbstract.prototype.removeDragClassFromBody = function() {
+      return $("body").removeClass("open-widget-attributes");
+    };
+
+    WidgetAbstract.prototype.removeExistingDrop = function(dataDrop, el, widgetId) {
+      var dataType;
+      dataDrop.className += " full";
+      dataType = el.getAttribute("data-type");
+      return $(widgetId + widgetId + " ." + dataType + "-drop .ex-moved").remove();
+    };
+
+    return WidgetAbstract;
+
+  })();
+
+  if (window.Ag == null) {
+    window.Ag = {};
+  }
+
+  if ((base = window.Ag).Widget == null) {
+    base.Widget = {};
+  }
+
+  window.Ag.Widget.Abstract = WidgetAbstract;
+
+}).call(this);
+
+(function() {
+  var WidgetChartBar, base,
+    extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+    hasProp = {}.hasOwnProperty;
+
+  WidgetChartBar = (function(superClass) {
+    extend(WidgetChartBar, superClass);
+
+    function WidgetChartBar(el) {
+      var template;
+      template = "/assets/templates/widget-chart-bar.html";
+      $(el).load(template, null, (function(_this) {
+        return function() {
+          _this.enableDragging(el, "#data-menu");
+          _this.enableDragging(el, "#demographic-menu");
+          return _this.enableDragging(el, "#geographic-menu");
+        };
+      })(this));
+    }
+
+    return WidgetChartBar;
+
+  })(Ag.Widget.Abstract);
+
+  if (window.Ag == null) {
+    window.Ag = {};
+  }
+
+  if ((base = window.Ag.Widget).ChartBar == null) {
+    base.ChartBar = {};
+  }
+
+  window.Ag.Widget.ChartBar = WidgetChartBar;
+
+}).call(this);
+
+(function() {
+  var Dashboard;
+
+  if (window.Ag == null) {
+    window.Ag = {};
+  }
+
+  Dashboard = (function() {
+    function Dashboard() {
+      this.enableDragging();
+    }
+
+    Dashboard.prototype.enableDragging = function() {
+      var dashContainer, dashContainerWidth, dashMenu, widgetCount;
+      dashMenu = document.querySelector("#toolbox-menu");
+      dashContainer = document.querySelector("#active-widget-container");
+      dashContainerWidth = dashContainer.offsetWidth + "px";
+      widgetCount = 0;
+      return dragula([dashMenu, dashContainer], {
+        copy: true
+      }).on('drag', function(el) {
+        el.className = el.className.replace('ex-moved', '');
+        return $(".gu-mirror").attr("width", dashContainerWidth);
+      }).on('drop', (function(_this) {
+        return function(el) {
+          el.className += ' ex-moved widget';
+          widgetCount += 1;
+          el.id = "widget-" + widgetCount;
+          return _this.initWidget(el);
+        };
+      })(this)).on('over', function(el, container) {
+        return container.className += ' ex-over';
+      }).on('out', function(el, container) {
+        return container.className = container.className.replace('ex-over', '');
+      });
+    };
+
+    Dashboard.prototype.initWidget = function(el) {
+      var widgetType;
+      widgetType = el.getAttribute("data-widget");
+      switch (widgetType) {
+        case "bar-chart":
+          return new Ag.Widget.ChartBar(el);
+      }
+    };
+
+    return Dashboard;
+
+  })();
+
+  $(function() {
+    return new Dashboard();
+  });
+
+}).call(this);

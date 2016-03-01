@@ -1,0 +1,61 @@
+.dashboard-menu {
+  background-color: $color-gray-dark;
+  bottom: 0;
+  position: fixed;
+  top: 0;
+  width: 200px;
+
+  h2 {
+    font-size: 1.2em;
+    margin: 0;
+  }
+
+  li {
+    background-color: $color-gray-dark;
+    border-bottom: 1px solid $color-gray;
+    color: $color-gray-light;
+    cursor: grab;
+    cursor: -webkit-grab;
+    font-size: 0.9em;
+    margin: 0;
+    padding: 0.5em 3rem;
+    position: relative;
+    width: 100%;
+  }
+
+  ul {
+    margin: 0;
+  }
+
+  .logo-container {
+    @include clearfix;
+    background-color: $color-primary;
+    height: 69.5px;
+    padding: 1.45rem 0 3rem 3rem;
+  }
+}
+
+.drag-icon {
+  color: rgba($color-white, 0.5);
+  font-size: 0.85em;
+  position: absolute;
+  right: 2rem;
+  top: 0.75em;
+}
+
+.drag-item {
+  background-color: $color-gray-dark;
+  border-bottom: 1px solid $color-gray;
+  color: $color-gray-light;
+  font-size: 0.9em;
+  margin: 0;
+  padding: 0.5em 3rem;
+  position: relative;
+
+  &.gu-mirror {
+    cursor: grabbing;
+    cursor: -webkit-grabbing;
+    height: 50px;
+    width: 100px;
+  }
+}

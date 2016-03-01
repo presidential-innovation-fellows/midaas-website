@@ -43,6 +43,9 @@ module.exports = (grunt) ->
             'src/assets/coffee/chart-map.coffee'
             'src/assets/coffee/chart.coffee'
             'src/assets/coffee/midaas.coffee'
+            'src/assets/coffee/widget-abstract.coffee'
+            'src/assets/coffee/widget-chart-bar.coffee'
+            'src/assets/coffee/dashboard.coffee'
             '!src/assets/coffee/**/_*.*'
             '!src/assets/coffee/**/_*/**'
           ]
@@ -80,6 +83,7 @@ module.exports = (grunt) ->
           'src/assets/js/vendor/c3-0.4.10.min.js'
           'src/assets/js/vendor/pathseg.js'
           'src/assets/js/vendor/observe.js'
+          'src/assets/js/vendor/dragula.min.js'
         ]
         dest: 'dist/assets/js/midaas-dependencies.js'
       }
@@ -94,6 +98,7 @@ module.exports = (grunt) ->
         src: [
           'src/assets/css/vendor/c3-0.4.10.min.css'
           'src/assets/css/vendor/d3-geomap.css'
+          'src/assets/css/vendor/dragula.min.css'
         ]
         dest: 'dist/assets/css/midaas-dependencies.css'
       }
