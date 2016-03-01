@@ -20,6 +20,9 @@ class ChartAbstract
   hideLoading: ->
     $("##{@id} #loading-icon").fadeOut("fast")
 
+  destroy: ->
+    $("##{@id}").html("")
+
 window.Ag ?= {}
 window.Ag.Chart ?= {}
 window.Ag.Chart.Abstract = ChartAbstract
