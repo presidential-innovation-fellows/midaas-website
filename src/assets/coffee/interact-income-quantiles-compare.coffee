@@ -10,18 +10,12 @@ class InteractIncomeQuantilesCompare extends Ag.Interact.Abstract
 
   initUi: ->
     super()
+    @react(@config.query)
     $("##{@chart.id} #compare .toggle").on("click", (event) =>
-      @config.query ?= {}
-      @config.query.compare = event.currentTarget.innerText
-      @chart.update()
-      $("##{@chart.id} #compare .toggles li").removeClass("active")
-      $(event.target).addClass("active")
+      @react({ compare: event.currentTarget.innerText.toLowerCase() })
     )
-    $("##{@chart.id} #compareRegion").val(@config.query?.compareRegion ? "US")
     $("##{@chart.id} #compareRegion").change((event) =>
-      @config.query ?= {}
-      @config.query.compareRegion = event.target.value
-      @chart.update()
+      @react({ compareRegion: event.target.value.toUpperCase() })
     )
 
   getApiUrl: =>
@@ -32,7 +26,6 @@ class InteractIncomeQuantilesCompare extends Ag.Interact.Abstract
     url = @getApiUrl()
 
     compare = @config?.query?.compare?.toLowerCase()
-    compareRegion = @config?.query?.compareRegion?.toUpperCase()
     switch compare
       when "race"
         params.push("compare=race")
@@ -41,6 +34,7 @@ class InteractIncomeQuantilesCompare extends Ag.Interact.Abstract
       when "age"
         params.push("compare=agegroup")
 
+    compareRegion = @config?.query?.compareRegion?.toUpperCase()
     if compareRegion and compareRegion isnt "US"
       params.push("state=" + compareRegion)
 
@@ -56,6 +50,37 @@ class InteractIncomeQuantilesCompare extends Ag.Interact.Abstract
     ).fail((err) =>
       return callback(err)
     )
+
+  propagate: (d, el) =>
+    return unless @config.connect?
+    queryKey = switch @config.query?.compare?.toLowerCase()
+      when "race" then "compareRace"
+      when "sex", "gender" then "compareSex"
+      when "age" then "compareAge"
+    $("##{@config.connect}").trigger("interact", { queryKey: d.id })
+
+  react: (queryUpdate) ->
+    return unless queryUpdate?
+    @config.query ?= {}
+
+    updateChart = false
+
+    compare = queryUpdate.compare?.toLowerCase()
+    if compare in ["overall", "race", "gender", "sex", "age"]
+      if @config.query.compare.toLowerCase() isnt compare
+        updateChart = true
+      @config.query.compare = compare
+      $("##{@chart.id} #compare .toggles li").removeClass("active")
+      $("##{@chart.id} #compare .toggles li .#{compare}").addClass("active")
+
+    compareRegion = queryUpdate.compareRegion?.toUpperCase()
+    if compareRegion?
+      if @config.query.compareRegion.toUpperCase() isnt compareRegion
+        updateChart = true
+      @config.query.compareRegion = compareRegion
+      $("##{@chart.id} #compareRegion").val(compareRegion)
+
+    @chart.update() if updateChart
 
 window.Ag ?= {}
 window.Ag.Interact ?= {}

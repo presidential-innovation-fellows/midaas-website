@@ -68,6 +68,7 @@
     function InteractIncomeQuantilesCompare(chart) {
       var el, template;
       this.chart = chart;
+      this.propagate = bind(this.propagate, this);
       this.fetchData = bind(this.fetchData, this);
       this.getApiUrl = bind(this.getApiUrl, this);
       InteractIncomeQuantilesCompare.__super__.constructor.call(this, this.chart);
@@ -81,29 +82,20 @@
     }
 
     InteractIncomeQuantilesCompare.prototype.initUi = function() {
-      var ref, ref1;
       InteractIncomeQuantilesCompare.__super__.initUi.call(this);
+      this.react(this.config.query);
       $("#" + this.chart.id + " #compare .toggle").on("click", (function(_this) {
         return function(event) {
-          var base;
-          if ((base = _this.config).query == null) {
-            base.query = {};
-          }
-          _this.config.query.compare = event.currentTarget.innerText;
-          _this.chart.update();
-          $("#" + _this.chart.id + " #compare .toggles li").removeClass("active");
-          return $(event.target).addClass("active");
+          return _this.react({
+            compare: event.currentTarget.innerText.toLowerCase()
+          });
         };
       })(this));
-      $("#" + this.chart.id + " #compareRegion").val((ref = (ref1 = this.config.query) != null ? ref1.compareRegion : void 0) != null ? ref : "US");
       return $("#" + this.chart.id + " #compareRegion").change((function(_this) {
         return function(event) {
-          var base;
-          if ((base = _this.config).query == null) {
-            base.query = {};
-          }
-          _this.config.query.compareRegion = event.target.value;
-          return _this.chart.update();
+          return _this.react({
+            compareRegion: event.target.value.toUpperCase()
+          });
         };
       })(this));
     };
@@ -117,7 +109,6 @@
       params = [];
       url = this.getApiUrl();
       compare = (ref = this.config) != null ? (ref1 = ref.query) != null ? (ref2 = ref1.compare) != null ? ref2.toLowerCase() : void 0 : void 0 : void 0;
-      compareRegion = (ref3 = this.config) != null ? (ref4 = ref3.query) != null ? (ref5 = ref4.compareRegion) != null ? ref5.toUpperCase() : void 0 : void 0 : void 0;
       switch (compare) {
         case "race":
           params.push("compare=race");
@@ -129,6 +120,7 @@
         case "age":
           params.push("compare=agegroup");
       }
+      compareRegion = (ref3 = this.config) != null ? (ref4 = ref3.query) != null ? (ref5 = ref4.compareRegion) != null ? ref5.toUpperCase() : void 0 : void 0 : void 0;
       if (compareRegion && compareRegion !== "US") {
         params.push("state=" + compareRegion);
       }
@@ -148,6 +140,59 @@
           return callback(err);
         };
       })(this));
+    };
+
+    InteractIncomeQuantilesCompare.prototype.propagate = function(d, el) {
+      var queryKey;
+      if (this.config.connect == null) {
+        return;
+      }
+      queryKey = (function() {
+        var ref, ref1;
+        switch ((ref = this.config.query) != null ? (ref1 = ref.compare) != null ? ref1.toLowerCase() : void 0 : void 0) {
+          case "race":
+            return "compareRace";
+          case "sex":
+          case "gender":
+            return "compareSex";
+          case "age":
+            return "compareAge";
+        }
+      }).call(this);
+      return $("#" + this.config.connect).trigger("interact", {
+        queryKey: d.id
+      });
+    };
+
+    InteractIncomeQuantilesCompare.prototype.react = function(queryUpdate) {
+      var base, compare, compareRegion, ref, ref1, updateChart;
+      if (queryUpdate == null) {
+        return;
+      }
+      if ((base = this.config).query == null) {
+        base.query = {};
+      }
+      updateChart = false;
+      compare = (ref = queryUpdate.compare) != null ? ref.toLowerCase() : void 0;
+      if (compare === "overall" || compare === "race" || compare === "gender" || compare === "sex" || compare === "age") {
+        if (this.config.query.compare.toLowerCase() !== compare) {
+          updateChart = true;
+        }
+        this.config.query.compare = compare;
+        $("#" + this.chart.id + " #compare .toggles li").removeClass("active");
+        $("#" + this.chart.id + " #compare .toggles li ." + compare).addClass("active");
+      }
+      compareRegion = (ref1 = queryUpdate.compareRegion) != null ? ref1.toUpperCase() : void 0;
+      if (compareRegion != null) {
+        if (this.config.query.compareRegion.toUpperCase() !== compareRegion) {
+          updateChart = true;
+        }
+        this.config.query.compareRegion = compareRegion;
+        $("#" + this.chart.id + " #compareRegion").val(compareRegion);
+      }
+      if (updateChart) {
+        return this.chart.update();
+      }
     };
 
     return InteractIncomeQuantilesCompare;
@@ -337,7 +382,10 @@
             data: {
               x: "x",
               columns: data,
-              type: "bar"
+              type: "bar",
+              onclick: function(d, el) {
+                return _this.interact.trigger(d, el);
+              }
             },
             bar: {
               width: {
@@ -537,18 +585,19 @@
 
   Midaas = (function() {
     function Midaas() {
-      this.getConfig();
+      this.initConfig();
       this.createCharts();
     }
 
-    Midaas.prototype.getConfig = function() {
-      var configParam, ref;
+    Midaas.prototype.initConfig = function() {
+      var config, configParam, ref;
       configParam = $.url("?midaasConfig");
       if (configParam) {
-        return this.config = JSON.parse(decodeURIComponent(configParam));
+        config = JSON.parse(decodeURIComponent(configParam));
       } else {
-        return this.config = (ref = Ag.config) != null ? ref : {};
+        config = (ref = Ag.config) != null ? ref : {};
       }
+      return Ag.config = config;
     };
 
     Midaas.prototype.createChart = function(id, config) {
@@ -561,15 +610,14 @@
     };
 
     Midaas.prototype.createCharts = function() {
-      var config, id, ref, results;
-      this.charts = [];
-      ref = this.config;
-      results = [];
+      var charts, config, id, ref;
+      charts = {};
+      ref = Ag.config;
       for (id in ref) {
         config = ref[id];
-        results.push(this.charts.push(this.createChart(id, config)));
+        charts[id] = this.createChart(id, config);
       }
-      return results;
+      return Ag.charts = charts;
     };
 
     return Midaas;

@@ -12,6 +12,8 @@ class ChartBar extends Ag.Chart.Abstract
           x: "x"
           columns: data
           type: "bar"
+          onclick: (d, el) =>
+            @interact.trigger(d, el)
         }
         bar: {
           width: {

@@ -76,6 +76,7 @@ module.exports = (grunt) ->
           'src/assets/js/vendor/d3-topojson.js'
           'src/assets/js/vendor/d3-geomap.js'
           'src/assets/js/vendor/c3-0.4.10.min.js'
+          'src/assets/js/vendor/pathseg.js'
           'src/assets/js/vendor/observe.js'
         ]
         dest: 'dist/assets/js/midaas-dependencies.js'

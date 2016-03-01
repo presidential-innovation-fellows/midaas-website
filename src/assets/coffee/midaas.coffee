@@ -3,17 +3,19 @@ window.Ag ?= {}
 class Midaas
 
   constructor: ->
-    @getConfig()
+    @initConfig()
     @createCharts()
 
-  getConfig: ->
+  initConfig: ->
     # attempt to get the midaas configuration from either the url
     # param or from its definition as a script on the page
     configParam = $.url("?midaasConfig")
     if configParam
-      @config = JSON.parse(decodeURIComponent(configParam))
+      config = JSON.parse(decodeURIComponent(configParam))
     else
-      @config = Ag.config ? {}
+      config = Ag.config ? {}
+
+    Ag.config = config
 
   createChart: (id, config) ->
     switch config?.type
@@ -23,9 +25,11 @@ class Midaas
         return new Ag.Chart.Map(id, config)
 
   createCharts: ->
-    @charts = []
-    for id, config of @config
-      @charts.push(@createChart(id, config))
+    charts = {}
+    for id, config of Ag.config
+      charts[id] = @createChart(id, config)
+
+    Ag.charts = charts
 
 # on load
 $( =>
