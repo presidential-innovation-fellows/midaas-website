@@ -4302,6 +4302,83 @@ fieldset {
   .usa-accordion-content > *:last-child {
     margin-bottom: 0; }
 
+@font-face {
+  font-family: 'Caviar Dreams';
+  font-style: normal;
+  font-weight: normal;
+  src: url("../fonts/CaviarDreams-webfont.eot");
+  src: url("../fonts/CaviarDreams-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/CaviarDreams-webfont.woff") format("woff"), url("../fonts/CaviarDreams-webfont.ttf") format("truetype"), url("../fonts/CaviarDreams.svg#caviardreams") format("svg"); }
+
+@font-face {
+  font-family: 'Caviar Dreams';
+  font-style: normal;
+  font-weight: bold;
+  src: url("../fonts/Caviar_Dreams_Bold-webfont.eot");
+  src: url("../fonts/Caviar_Dreams_Bold-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/Caviar_Dreams_Bold-webfont.woff") format("woff"), url("../fonts/Caviar_Dreams_Bold-webfont.ttf") format("truetype"), url("../fonts/Caviar_Dreams_Bold-webfont.svg#caviar_dreamsbold") format("svg"); }
+
+@font-face {
+  font-family: 'Source Sans Pro';
+  font-style: normal;
+  font-weight: 300;
+  src: url("../fonts/sourcesanspro-light-webfont.eot");
+  src: url("../fonts/sourcesanspro-light-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/sourcesanspro-light-webfont.woff2") format("woff2"), url("../fonts/sourcesanspro-light-webfont.woff") format("woff"), url("../fonts/sourcesanspro-light-webfont.ttf") format("truetype"); }
+
+@font-face {
+  font-family: 'Source Sans Pro';
+  font-style: normal;
+  font-weight: 400;
+  src: url("../fonts/sourcesanspro-regular-webfont.eot");
+  src: url("../fonts/sourcesanspro-regular-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/sourcesanspro-regular-webfont.woff2") format("woff2"), url("../fonts/sourcesanspro-regular-webfont.woff") format("woff"), url("../fonts/sourcesanspro-regular-webfont.ttf") format("truetype"); }
+
+@font-face {
+  font-family: 'Source Sans Pro';
+  font-style: italic;
+  font-weight: 400;
+  src: url("../fonts/sourcesanspro-italic-webfont.eot");
+  src: url("../fonts/sourcesanspro-italic-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/sourcesanspro-italic-webfont.woff2") format("woff2"), url("../fonts/sourcesanspro-italic-webfont.woff") format("woff"), url("../fonts/sourcesanspro-italic-webfont.ttf") format("truetype"); }
+
+@font-face {
+  font-family: "Source Sans Pro";
+  font-style: normal;
+  font-weight: 500;
+  src: url("../fonts/sourcesanspro-semibold-webfont.eot");
+  src: url("../fonts/sourcesanspro-semibold-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/sourcesanspro-semibold-webfont.woff2") format("woff2"), url("../fonts/sourcesanspro-semibold-webfont.woff") format("woff"), url("../fonts/sourcesanspro-semibold-webfont.ttf") format("truetype"); }
+
+@font-face {
+  font-family: 'Source Sans Pro';
+  font-style: normal;
+  font-weight: bold;
+  src: url("../fonts/sourcesanspro-bold-webfont.eot");
+  src: url("../fonts/sourcesanspro-bold-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/sourcesanspro-bold-webfont.woff2") format("woff2"), url("../fonts/sourcesanspro-bold-webfont.woff") format("woff"), url("../fonts/sourcesanspro-bold-webfont.ttf") format("truetype"); }
+
+@font-face {
+  font-family: 'Merriweather';
+  font-style: normal;
+  font-weight: 300;
+  src: url("../fonts/merriweather-light-webfont.eot");
+  src: url("../fonts/merriweather-light-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/merriweather-light-webfont.woff2") format("woff2"), url("../fonts/merriweather-light-webfont.woff") format("woff"), url("../fonts/merriweather-light-webfont.ttf") format("truetype"); }
+
+@font-face {
+  font-family: 'Merriweather';
+  font-style: normal;
+  font-weight: 400;
+  src: url("../fonts/merriweather-regular-webfont.eot");
+  src: url("../fonts/merriweather-regular-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/merriweather-regular-webfont.woff2") format("woff2"), url("../fonts/merriweather-regular-webfont.woff") format("woff"), url("../fonts/merriweather-regular-webfont.ttf") format("truetype"); }
+
+@font-face {
+  font-family: 'Merriweather';
+  font-style: italic;
+  font-weight: 400;
+  src: url("../fonts/merriweather-italic-webfont.eot");
+  src: url("../fonts/merriweather-italic-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/merriweather-italic-webfont.woff2") format("woff2"), url("../fonts/merriweather-italic-webfont.woff") format("woff"), url("../fonts/merriweather-italic-webfont.ttf") format("truetype"); }
+
+@font-face {
+  font-family: 'Merriweather';
+  font-style: normal;
+  font-weight: 700;
+  src: url("../fonts/merriweather-bold-webfont.eot");
+  src: url("../fonts/merriweather-bold-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/merriweather-bold-webfont.woff2") format("woff2"), url("../fonts/merriweather-bold-webfont.woff") format("woff"), url("../fonts/merriweather-bold-webfont.ttf") format("truetype"); }
+
 h1,
 h2,
 h3,
@@ -4513,15 +4590,68 @@ input[type="range"] {
   color: #475363;
   margin-top: 0; }
 
-.pages-home .row:after {
-  content: ".";
-  display: block;
-  height: 0;
-  clear: both;
-  visibility: hidden; }
-
-.pages-home .usa-hero {
-  text-align: center; }
+.pages-home {
+  position: relative; }
+  .pages-home .app-nav {
+    background-color: transparent;
+    color: #ffffff;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 1000; }
+    .pages-home .app-nav a:hover {
+      background-color: rgba(17, 46, 81, 0.65); }
+  .pages-home .calls-to-action a {
+    margin: 0; }
+  .pages-home .calls-to-action li {
+    display: inline-block;
+    margin-bottom: 0;
+    margin-top: 0; }
+  .pages-home .row:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden; }
+  .pages-home .usa-hero {
+    background-color: #112e51;
+    color: #ffffff;
+    max-height: 550px;
+    overflow: hidden;
+    text-align: center; }
+    .pages-home .usa-hero h1 {
+      color: #ffffff;
+      font-family: "Caviar Dreams";
+      font-size: 2.4em;
+      font-weight: 500;
+      margin: 0; }
+    .pages-home .usa-hero p {
+      font-size: 1.2em;
+      margin: 0.5em 0 1em; }
+    .pages-home .usa-hero strong {
+      font-size: 2em;
+      line-height: 1.1em;
+      text-transform: uppercase; }
+    .pages-home .usa-hero video {
+      margin-top: -8em;
+      opacity: 0.15; }
+    .pages-home .usa-hero .content-container {
+      left: 0;
+      position: absolute;
+      right: 0;
+      top: 9.5em; }
+    .pages-home .usa-hero .usa-button {
+      background-color: transparent;
+      box-shadow: inset 0 0 0 2px #fcfc45;
+      color: #ffffff;
+      font-weight: bold;
+      padding: 0.75em 1em; }
+      .pages-home .usa-hero .usa-button:hover {
+        box-shadow: inset 0 0 0 2px #ffffff;
+        color: #ffffff; }
+  .pages-home .preposition {
+    margin: 0 0.5em; }
 
 .gini-input {
   margin-bottom: 1em;

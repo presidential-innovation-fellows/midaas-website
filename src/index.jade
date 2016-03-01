@@ -4,9 +4,20 @@ html.no-js(lang='en')
   body.pages-home
     include modules/_nav.jade
     section.usa-hero
-      .usa-grid
-        header
-          h1 Income-Distribution
-          p Discover tools and topics powered by Census data.
-          a.usa-button(href="/topics")
-            | Explore Topics
+      video(src="assets/video/banner-video.mp4", autoplay="true", loop="true", width="100%")
+      .content-container
+        .usa-grid
+          header
+            h1 Income Across
+              br
+              strong America
+            p Explore how income changes across geographies and demographics.
+            ul.calls-to-action
+              li.action
+                a.usa-button.usa-button-outline(href="/topics")
+                  | Browse Topics
+              li.preposition
+                | or
+              li.action
+                a.usa-button.usa-button-outline(href="/topics")
+                  | Create A Story

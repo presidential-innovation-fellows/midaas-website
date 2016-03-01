@@ -1,4 +1,26 @@
 @font-face {
+    font-family: 'Caviar Dreams';
+    font-style: normal;
+    font-weight: normal;
+    src: url('../fonts/CaviarDreams-webfont.eot');
+    src: url('../fonts/CaviarDreams-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/CaviarDreams-webfont.woff') format('woff'),
+         url('../fonts/CaviarDreams-webfont.ttf') format('truetype'),
+         url('../fonts/CaviarDreams.svg#caviardreams') format('svg');
+}
+
+@font-face {
+    font-family: 'Caviar Dreams';
+    font-style: normal;
+    font-weight: bold;
+    src: url('../fonts/Caviar_Dreams_Bold-webfont.eot');
+    src: url('../fonts/Caviar_Dreams_Bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/Caviar_Dreams_Bold-webfont.woff') format('woff'),
+         url('../fonts/Caviar_Dreams_Bold-webfont.ttf') format('truetype'),
+         url('../fonts/Caviar_Dreams_Bold-webfont.svg#caviar_dreamsbold') format('svg');
+}
+
+@font-face {
     font-family: 'Source Sans Pro';
     font-style: normal;
     font-weight: 300;

@@ -1,10 +1,92 @@
 .pages-home {
+  position: relative;
+
+  .app-nav {
+    background-color: transparent;
+    color: $color-white;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 1000;
+
+    a {
+      &:hover {
+        background-color: rgba($color-primary-darkest, 0.65);
+      }
+    }
+  }
+
+  .calls-to-action {
+
+    a {
+      margin: 0;
+    }
+
+    li {
+      display: inline-block;
+      margin-bottom: 0;
+      margin-top: 0;
+    }
+  }
 
   .row {
     @include clearfix;
   }
 
   .usa-hero {
+    background-color: $color-primary-darkest;
+    color: $color-white;
+    max-height: 550px;
+    overflow: hidden;
     text-align: center;
+
+    h1 {
+      color: $color-white;
+      font-family: $font-caviar;
+      font-size: 2.4em;
+      font-weight: 500;
+      margin: 0;
+    }
+
+    p {
+      font-size: 1.2em;
+      margin: 0.5em 0 1em;
+    }
+
+    strong {
+      font-size: 2em;
+      line-height: 1.1em;
+      text-transform: uppercase;
+    }
+
+    video {
+      margin-top: -8em;
+      opacity: 0.15;
+    }
+
+    .content-container {
+      left: 0;
+      position: absolute;
+      right: 0;
+      top: 9.5em;
+    }
+
+    .usa-button {
+      background-color: transparent;
+      box-shadow: inset 0 0 0 2px darken($color-yellow, 10);
+      color: $color-white;
+      font-weight: bold;
+      padding: 0.75em 1em;
+
+      &:hover {
+        box-shadow: inset 0 0 0 2px $color-white;
+        color: $color-white;
+      }
+    }
+  }
+
+  .preposition {
+    margin: 0 0.5em;
   }
 }
