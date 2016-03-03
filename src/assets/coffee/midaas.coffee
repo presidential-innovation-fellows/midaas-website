@@ -2,6 +2,9 @@ window.Ag ?= {}
 
 class Midaas
 
+  charts: {}
+  observers: {}
+
   constructor: ->
     @initConfig()
     @createCharts()
@@ -18,31 +21,34 @@ class Midaas
     Ag.config = config
 
   createChart: (id, config) ->
-    switch config?.type
-      when "bar"
-        return new Ag.Chart.Bar(id, config)
-      when "map"
-        return new Ag.Chart.Map(id, config)
+    Ag.charts[id] = @charts[id] = Ag.Chart.Create(id, config)
+    @observers["chart_#{id}"] = new PathObserver(config, "type")
+    @observers["chart_#{id}"].open((type, oldType) =>
+      @destroyChart(id)
+      @createChart(id, Ag.config[id])
+    )
+
+  destroyChart: (id) ->
+    @observers["chart_#{id}"].close()
+    @charts[id].destroy()
+    delete @charts[id]
+    delete Ag.charts[id]
 
   createCharts: ->
-    charts = {}
+    Ag.charts = @charts = {}
     for id, config of Ag.config
-      charts[id] = @createChart(id, config)
-
-    Ag.charts = charts
+      @createChart(id, config)
 
     # observe changes to chart keys
-    chartsObserver = new ObjectObserver(Ag.config)
-    chartsObserver.open((added, removed, changed, getOldValueFn) =>
+    @observers.charts = new ObjectObserver(Ag.config)
+    @observers.charts.open((added, removed, changed, getOldValueFn) =>
       Object.keys(added).forEach((id) =>
         config = added[id]
-        chart = @createChart(id, config)
-        Ag.charts[id] = chart
+        @createChart(id, config)
       )
       Object.keys(removed).forEach((id) =>
         config = removed[id]
-        Ag.charts[id].destroy()
-        delete Ag.charts[id]
+        @destroyChart(id)
       )
     )
 

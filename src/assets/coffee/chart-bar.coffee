@@ -2,6 +2,8 @@ class ChartBar extends Ag.Chart.Abstract
 
   constructor: (@id, @config) ->
     super(@id, @config)
+
+  initChart: ->
     @showLoading()
     bindElement = "##{@id} .chart"
     @interact.fetchData((err, data) =>
@@ -12,8 +14,8 @@ class ChartBar extends Ag.Chart.Abstract
           x: "x"
           columns: data
           type: "bar"
-          onclick: (d, el) =>
-            @interact.trigger(d, el)
+          # onclick: (d, el) =>
+          #   @interact.trigger(d, el)
         }
         bar: {
           width: {

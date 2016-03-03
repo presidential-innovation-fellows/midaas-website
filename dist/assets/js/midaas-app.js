@@ -8,6 +8,7 @@
       var ref;
       this.chart = chart;
       this.config = (ref = this.chart.config) != null ? ref.interact : void 0;
+      this.initObservers();
     }
 
     InteractAbstract.prototype.initUi = function() {
@@ -26,6 +27,42 @@
       return results;
     };
 
+    InteractAbstract.prototype.initObservers = function() {
+      this.observers = {
+        ui: new ObjectObserver(this.config.ui),
+        query: new ObjectObserver(this.config.query),
+        title: new PathObserver(this.chart.config, "title")
+      };
+      this.observers.ui.open((function(_this) {
+        return function(added, removed, changed, getOldValueFn) {
+          return _this.initUi();
+        };
+      })(this));
+      this.observers.query.open((function(_this) {
+        return function(added, removed, changed, getOldValueFn) {
+          return _this.chart.update();
+        };
+      })(this));
+      return this.observers.title.open((function(_this) {
+        return function(title, oldTitle) {
+          if (title !== oldTitle) {
+            return _this.setTitle();
+          }
+        };
+      })(this));
+    };
+
+    InteractAbstract.prototype.closeObservers = function() {
+      var observer, observerKey, ref, results;
+      ref = this.observers;
+      results = [];
+      for (observerKey in ref) {
+        observer = ref[observerKey];
+        results.push(observer.close());
+      }
+      return results;
+    };
+
     InteractAbstract.prototype.fetchData = function(callback) {
       var data, err;
       err = null;
@@ -38,6 +75,10 @@
       el = $("#" + this.chart.id);
       title = (ref = this.chart.config) != null ? ref.title : void 0;
       return el.find(".chart-title").text(title);
+    };
+
+    InteractAbstract.prototype.destroy = function() {
+      return this.closeObservers();
     };
 
     return InteractAbstract;
@@ -311,6 +352,36 @@
 }).call(this);
 
 (function() {
+  var base, createInteract;
+
+  createInteract = function(chart) {
+    var interact, ref, type;
+    interact = chart != null ? (ref = chart.config) != null ? ref.interact : void 0 : void 0;
+    type = interact != null ? interact.type : void 0;
+    if (type == null) {
+      return console.error(new Error("Missing interact.type in Ag config."));
+    }
+    switch (type) {
+      case "IncomeQuantilesCompare":
+        return new Ag.Interact.IncomeQuantilesCompare(chart);
+      case "IncomeQuantileGenderRatio":
+        return new Ag.Interact.IncomeQuantileGenderRatio(chart);
+    }
+  };
+
+  if (window.Ag == null) {
+    window.Ag = {};
+  }
+
+  if ((base = window.Ag).Interact == null) {
+    base.Interact = {};
+  }
+
+  window.Ag.Interact.Create = createInteract;
+
+}).call(this);
+
+(function() {
   var ChartAbstract, base;
 
   ChartAbstract = (function() {
@@ -318,21 +389,26 @@
       this.id = id;
       this.config = config;
       this.initInteract();
+      this.initObservers();
+      this.initChart();
     }
 
+    ChartAbstract.prototype.initChart = function() {};
+
     ChartAbstract.prototype.initInteract = function() {
-      var interact, ref, type;
-      interact = (ref = this.config) != null ? ref.interact : void 0;
-      type = interact != null ? interact.type : void 0;
-      if (type == null) {
-        return console.error(new Error("Missing interact.type in Ag config."));
-      }
-      switch (type) {
-        case "IncomeQuantilesCompare":
-          return this.interact = new Ag.Interact.IncomeQuantilesCompare(this);
-        case "IncomeQuantileGenderRatio":
-          return this.interact = new Ag.Interact.IncomeQuantileGenderRatio(this);
-      }
+      return this.interact = Ag.Interact.Create(this);
+    };
+
+    ChartAbstract.prototype.initObservers = function() {
+      this.observers = {
+        type: new PathObserver(this.config, "interact.type")
+      };
+      return this.observers.type.open((function(_this) {
+        return function(type, oldType) {
+          _this.initInteract();
+          return _this.initChart();
+        };
+      })(this));
     };
 
     ChartAbstract.prototype.showLoading = function() {
@@ -343,7 +419,20 @@
       return $("#" + this.id + " #loading-icon").fadeOut("fast");
     };
 
+    ChartAbstract.prototype.closeObservers = function() {
+      var observer, observerKey, ref, results;
+      ref = this.observers;
+      results = [];
+      for (observerKey in ref) {
+        observer = ref[observerKey];
+        results.push(observer.close());
+      }
+      return results;
+    };
+
     ChartAbstract.prototype.destroy = function() {
+      this.closeObservers();
+      this.interact.destroy();
       return $("#" + this.id).html("");
     };
 
@@ -372,13 +461,16 @@
     extend(ChartBar, superClass);
 
     function ChartBar(id, config) {
-      var bindElement;
       this.id = id;
       this.config = config;
       ChartBar.__super__.constructor.call(this, this.id, this.config);
+    }
+
+    ChartBar.prototype.initChart = function() {
+      var bindElement;
       this.showLoading();
       bindElement = "#" + this.id + " .chart";
-      this.interact.fetchData((function(_this) {
+      return this.interact.fetchData((function(_this) {
         return function(err, data) {
           data = _this.translateData(data);
           _this._chart = c3.generate({
@@ -386,10 +478,7 @@
             data: {
               x: "x",
               columns: data,
-              type: "bar",
-              onclick: function(d, el) {
-                return _this.interact.trigger(d, el);
-              }
+              type: "bar"
             },
             bar: {
               width: {
@@ -405,7 +494,7 @@
           return _this.hideLoading();
         };
       })(this));
-    }
+    };
 
     ChartBar.prototype.update = function() {
       this.showLoading();
@@ -461,13 +550,16 @@
     extend(ChartMap, superClass);
 
     function ChartMap(id, config) {
-      var bindElement;
       this.id = id;
       this.config = config;
       ChartMap.__super__.constructor.call(this, this.id, this.config);
+    }
+
+    ChartMap.prototype.initChart = function() {
+      var bindElement;
       this.showLoading();
       bindElement = "#" + this.id + " .chart";
-      this.interact.fetchData((function(_this) {
+      return this.interact.fetchData((function(_this) {
         return function(err, data) {
           data = _this.translateData(data);
           _this._chart = d3.geomap.choropleth().geofile('/assets/topojson/USA.json').projection(d3.geo.albersUsa).colors(colorbrewer.Greens[9]).column('Data').unitId('Fips').scale(1000).legend(true);
@@ -475,7 +567,7 @@
           return _this.hideLoading();
         };
       })(this));
-    }
+    };
 
     ChartMap.prototype.update = function() {
       var bindElement;
@@ -581,6 +673,30 @@
 }).call(this);
 
 (function() {
+  var base, createChart;
+
+  createChart = function(id, config) {
+    switch (config != null ? config.type : void 0) {
+      case "bar":
+        return new Ag.Chart.Bar(id, config);
+      case "map":
+        return new Ag.Chart.Map(id, config);
+    }
+  };
+
+  if (window.Ag == null) {
+    window.Ag = {};
+  }
+
+  if ((base = window.Ag).Chart == null) {
+    base.Chart = {};
+  }
+
+  window.Ag.Chart.Create = createChart;
+
+}).call(this);
+
+(function() {
   var Midaas;
 
   if (window.Ag == null) {
@@ -588,6 +704,10 @@
   }
 
   Midaas = (function() {
+    Midaas.prototype.charts = {};
+
+    Midaas.prototype.observers = {};
+
     function Midaas() {
       this.initConfig();
       this.createCharts();
@@ -605,23 +725,44 @@
     };
 
     Midaas.prototype.createChart = function(id, config) {
-      switch (config != null ? config.type : void 0) {
-        case "bar":
-          return new Ag.Chart.Bar(id, config);
-        case "map":
-          return new Ag.Chart.Map(id, config);
-      }
+      Ag.charts[id] = this.charts[id] = Ag.Chart.Create(id, config);
+      this.observers["chart_" + id] = new PathObserver(config, "type");
+      return this.observers["chart_" + id].open((function(_this) {
+        return function(type, oldType) {
+          _this.destroyChart(id);
+          return _this.createChart(id, Ag.config[id]);
+        };
+      })(this));
+    };
+
+    Midaas.prototype.destroyChart = function(id) {
+      this.observers["chart_" + id].close();
+      this.charts[id].destroy();
+      delete this.charts[id];
+      return delete Ag.charts[id];
     };
 
     Midaas.prototype.createCharts = function() {
-      var charts, config, id, ref;
-      charts = {};
+      var config, id, ref;
+      Ag.charts = this.charts = {};
       ref = Ag.config;
       for (id in ref) {
         config = ref[id];
-        charts[id] = this.createChart(id, config);
+        this.createChart(id, config);
       }
-      return Ag.charts = charts;
+      this.observers.charts = new ObjectObserver(Ag.config);
+      return this.observers.charts.open((function(_this) {
+        return function(added, removed, changed, getOldValueFn) {
+          Object.keys(added).forEach(function(id) {
+            config = added[id];
+            return _this.createChart(id, config);
+          });
+          return Object.keys(removed).forEach(function(id) {
+            config = removed[id];
+            return _this.destroyChart(id);
+          });
+        };
+      })(this));
     };
 
     return Midaas;

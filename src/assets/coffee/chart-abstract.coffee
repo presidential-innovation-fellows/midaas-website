@@ -2,17 +2,24 @@ class ChartAbstract
 
   constructor: (@id, @config) ->
     @initInteract()
+    @initObservers()
+    @initChart()
+
+  initChart: ->
+    # overwrite/extend this
 
   initInteract: ->
-    interact = @config?.interact
-    type = interact?.type
-    unless type?
-      return console.error(new Error("Missing interact.type in Ag config."))
-    switch type
-      when "IncomeQuantilesCompare"
-        @interact = new Ag.Interact.IncomeQuantilesCompare(@)
-      when "IncomeQuantileGenderRatio"
-        @interact = new Ag.Interact.IncomeQuantileGenderRatio(@)
+    @interact = Ag.Interact.Create(@)
+
+  initObservers: ->
+    @observers = {
+      type: new PathObserver(@config, "interact.type")
+    }
+
+    @observers.type.open((type, oldType) =>
+      @initInteract()
+      @initChart()
+    )
 
   showLoading: ->
     $("##{@id} #loading-icon").fadeIn("fast")
@@ -20,7 +27,13 @@ class ChartAbstract
   hideLoading: ->
     $("##{@id} #loading-icon").fadeOut("fast")
 
+  closeObservers: ->
+    for observerKey, observer of @observers
+      observer.close()
+
   destroy: ->
+    @closeObservers()
+    @interact.destroy()
     $("##{@id}").html("")
 
 window.Ag ?= {}

@@ -2,6 +2,8 @@ class ChartMap extends Ag.Chart.Abstract
 
   constructor: (@id, @config) ->
     super(@id, @config)
+
+  initChart: ->
     @showLoading()
     bindElement = "##{@id} .chart"
     @interact.fetchData((err, data) =>
