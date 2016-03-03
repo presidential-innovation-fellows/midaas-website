@@ -36,7 +36,7 @@ module.exports = (grunt) ->
           'dist/assets/js/midaas-app.js': [
             'src/assets/coffee/interact-abstract.coffee'
             'src/assets/coffee/interact-income-quantiles-compare.coffee'
-            'src/assets/coffee/interact-income-quantile-gender-ratio.coffee'
+            'src/assets/coffee/interact-income-quantile-ratio.coffee'
             'src/assets/coffee/interact.coffee'
             'src/assets/coffee/chart-abstract.coffee'
             'src/assets/coffee/chart-bar.coffee'

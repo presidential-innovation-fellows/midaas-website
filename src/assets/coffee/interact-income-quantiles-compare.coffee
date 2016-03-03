@@ -24,8 +24,9 @@ class InteractIncomeQuantilesCompare extends Ag.Interact.Abstract
   fetchData: (callback) =>
     params = []
     url = @getApiUrl()
+    query = @config?.query
 
-    compare = @config?.query?.compare?.toLowerCase()
+    compare = query.compare?.toLowerCase()
     switch compare
       when "race"
         params.push("compare=race")
@@ -33,8 +34,10 @@ class InteractIncomeQuantilesCompare extends Ag.Interact.Abstract
         params.push("compare=sex")
       when "age"
         params.push("compare=agegroup")
+      when "state"
+        params.push("compare=state")
 
-    compareRegion = @config?.query?.compareRegion?.toUpperCase()
+    compareRegion = query.compareRegion?.toUpperCase()
     if compareRegion and compareRegion isnt "US"
       params.push("state=" + compareRegion)
 

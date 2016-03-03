@@ -4033,10 +4033,11 @@ return d.pie(d.filterTargetsToShow(d.data.targets)).forEach(function(b){f||b.dat
     };
 
     InteractIncomeQuantilesCompare.prototype.fetchData = function(callback) {
-      var compare, compareRegion, params, ref, ref1, ref2, ref3, ref4, ref5, url;
+      var compare, compareRegion, params, query, ref, ref1, ref2, url;
       params = [];
       url = this.getApiUrl();
-      compare = (ref = this.config) != null ? (ref1 = ref.query) != null ? (ref2 = ref1.compare) != null ? ref2.toLowerCase() : void 0 : void 0 : void 0;
+      query = (ref = this.config) != null ? ref.query : void 0;
+      compare = (ref1 = query.compare) != null ? ref1.toLowerCase() : void 0;
       switch (compare) {
         case "race":
           params.push("compare=race");
@@ -4047,8 +4048,11 @@ return d.pie(d.filterTargetsToShow(d.data.targets)).forEach(function(b){f||b.dat
           break;
         case "age":
           params.push("compare=agegroup");
+          break;
+        case "state":
+          params.push("compare=state");
       }
-      compareRegion = (ref3 = this.config) != null ? (ref4 = ref3.query) != null ? (ref5 = ref4.compareRegion) != null ? ref5.toUpperCase() : void 0 : void 0 : void 0;
+      compareRegion = (ref2 = query.compareRegion) != null ? ref2.toUpperCase() : void 0;
       if (compareRegion && compareRegion !== "US") {
         params.push("state=" + compareRegion);
       }
@@ -4140,22 +4144,22 @@ return d.pie(d.filterTargetsToShow(d.data.targets)).forEach(function(b){f||b.dat
 }).call(this);
 
 (function() {
-  var InteractIncomeQuantileGenderRatio, base,
+  var InteractIncomeQuantileRatio, base,
     bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
     extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
     hasProp = {}.hasOwnProperty;
 
-  InteractIncomeQuantileGenderRatio = (function(superClass) {
-    extend(InteractIncomeQuantileGenderRatio, superClass);
+  InteractIncomeQuantileRatio = (function(superClass) {
+    extend(InteractIncomeQuantileRatio, superClass);
 
-    function InteractIncomeQuantileGenderRatio(chart) {
+    function InteractIncomeQuantileRatio(chart) {
       var el, template;
       this.chart = chart;
       this.fetchData = bind(this.fetchData, this);
       this.getApiUrl = bind(this.getApiUrl, this);
-      InteractIncomeQuantileGenderRatio.__super__.constructor.call(this, this.chart);
+      InteractIncomeQuantileRatio.__super__.constructor.call(this, this.chart);
       el = $("#" + this.chart.id);
-      template = "/assets/templates/income-quantile-gender-ratio.html";
+      template = "/assets/templates/income-quantile-ratio.html";
       $("#" + this.chart.id).load(template, null, (function(_this) {
         return function() {
           return _this.initUi();
@@ -4163,9 +4167,9 @@ return d.pie(d.filterTargetsToShow(d.data.targets)).forEach(function(b){f||b.dat
       })(this));
     }
 
-    InteractIncomeQuantileGenderRatio.prototype.initUi = function() {
+    InteractIncomeQuantileRatio.prototype.initUi = function() {
       var ref, ref1;
-      InteractIncomeQuantileGenderRatio.__super__.initUi.call(this);
+      InteractIncomeQuantileRatio.__super__.initUi.call(this);
       $("#" + this.chart.id + " #compareQuantile").val((ref = (ref1 = this.config.query) != null ? ref1.compareQuantile : void 0) != null ? ref : "50");
       return $("#" + this.chart.id + " #compareQuantile").change((function(_this) {
         return function(event) {
@@ -4179,25 +4183,46 @@ return d.pie(d.filterTargetsToShow(d.data.targets)).forEach(function(b){f||b.dat
       })(this));
     };
 
-    InteractIncomeQuantileGenderRatio.prototype.getApiUrl = function() {
-      return this.apiUrlBase + "income/quantiles?compare=state";
+    InteractIncomeQuantileRatio.prototype.getApiUrl = function() {
+      return this.apiUrlBase + "income/quantiles";
     };
 
-    InteractIncomeQuantileGenderRatio.prototype.fetchData = function(callback) {
-      var compareQuantile, params, ref, ref1, url;
+    InteractIncomeQuantileRatio.prototype.fetchData = function(callback) {
+      var compare, compareQuantile, params, paramsDenominator, paramsNumerator, query, ratioDenominator, ratioNumerator, ratioType, ref, ref1, ref2, ref3, ref4, url;
       params = [];
       url = this.getApiUrl();
-      compareQuantile = (ref = this.config) != null ? (ref1 = ref.query) != null ? ref1.compareQuantile : void 0 : void 0;
-      if (parseInt(compareQuantile) >= 0 && parseInt(compareQuantile) <= 100) {
-        url += "&quantile=" + compareQuantile;
+      query = (ref = this.config) != null ? ref.query : void 0;
+      compare = (ref1 = query.compare) != null ? ref1.toLowerCase() : void 0;
+      switch (compare) {
+        case "race":
+          params.push("compare=race");
+          break;
+        case "gender":
+        case "sex":
+          params.push("compare=sex");
+          break;
+        case "age":
+          params.push("compare=agegroup");
+          break;
+        case "state":
+          params.push("compare=state");
       }
+      compareQuantile = query.compareQuantile;
+      if (parseInt(compareQuantile) >= 0 && parseInt(compareQuantile) <= 100) {
+        params.push("quantile=" + compareQuantile);
+      }
+      ratioType = (ref2 = query.ratioType) != null ? ref2.toLowerCase() : void 0;
+      ratioNumerator = (ref3 = query.ratioNumerator) != null ? ref3.toLowerCase() : void 0;
+      ratioDenominator = (ref4 = query.ratioDenominator) != null ? ref4.toLowerCase() : void 0;
+      paramsNumerator = params.concat(ratioType + "=" + ratioNumerator);
+      paramsDenominator = params.concat(ratioType + "=" + ratioDenominator);
       return $.when($.ajax({
         dataType: "json",
-        url: url + "&sex=male",
+        url: url + "?" + (paramsNumerator.join('&')),
         timeout: 10000
       }), $.ajax({
         dataType: "json",
-        url: url + "&sex=female",
+        url: url + "?" + (paramsDenominator.join('&')),
         timeout: 10000
       })).done((function(_this) {
         return function(mResponse, fResponse) {
@@ -4222,7 +4247,7 @@ return d.pie(d.filterTargetsToShow(d.data.targets)).forEach(function(b){f||b.dat
       })(this));
     };
 
-    return InteractIncomeQuantileGenderRatio;
+    return InteractIncomeQuantileRatio;
 
   })(Ag.Interact.Abstract);
 
@@ -4234,7 +4259,7 @@ return d.pie(d.filterTargetsToShow(d.data.targets)).forEach(function(b){f||b.dat
     base.Interact = {};
   }
 
-  window.Ag.Interact.IncomeQuantileGenderRatio = InteractIncomeQuantileGenderRatio;
+  window.Ag.Interact.IncomeQuantileRatio = InteractIncomeQuantileRatio;
 
 }).call(this);
 
@@ -4251,8 +4276,8 @@ return d.pie(d.filterTargetsToShow(d.data.targets)).forEach(function(b){f||b.dat
     switch (type) {
       case "IncomeQuantilesCompare":
         return new Ag.Interact.IncomeQuantilesCompare(chart);
-      case "IncomeQuantileGenderRatio":
-        return new Ag.Interact.IncomeQuantileGenderRatio(chart);
+      case "IncomeQuantileRatio":
+        return new Ag.Interact.IncomeQuantileRatio(chart);
     }
   };
 

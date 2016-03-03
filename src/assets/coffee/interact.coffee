@@ -6,8 +6,8 @@ createInteract = (chart) ->
   switch type
     when "IncomeQuantilesCompare"
       return new Ag.Interact.IncomeQuantilesCompare(chart)
-    when "IncomeQuantileGenderRatio"
-      return new Ag.Interact.IncomeQuantileGenderRatio(chart)
+    when "IncomeQuantileRatio"
+      return new Ag.Interact.IncomeQuantileRatio(chart)
 
 window.Ag ?= {}
 window.Ag.Interact ?= {}

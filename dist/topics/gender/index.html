@@ -81,9 +81,13 @@
         title: "National Income Data By State",
         type: "map",
         interact: {
-          type: "IncomeQuantileGenderRatio",
+          type: "IncomeQuantileRatio",
           query: {
-            compareQuantile: 50
+            compare: "state",
+            compareQuantile: 50,
+            ratioType: "sex",
+            ratioNumerator: "female",
+            ratioDenominator: "male"
           },
           ui: {
             compareQuantile: true
