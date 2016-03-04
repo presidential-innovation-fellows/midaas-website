@@ -1,17 +1,13 @@
 .widget-content
-  h2 Create a Bar Chart
+  input.widget-title.editing(placeholder="Name This Widget" type="text" name="Widget Title")
   ul.completion-bar
     li.data
     li.demographic
     li.geographic
+  .widget-edit
+    .widget-remove
+      i.fa.fa-trash
 ul.widget-attributes
-  li.data-drop
-    .placeholder
-      i.fa.fa-database
-  li.demographic-drop
-    .placeholder
-      i.fa.fa-users
-  li.geographic-drop
-    .placeholder
-      i.fa.fa-map-marker
-
+  li.data-drop.drop(data-type="data")
+  li.demographic-drop.drop(data-type="demographic")
+  li.geographic-drop.drop(data-type="geographic")

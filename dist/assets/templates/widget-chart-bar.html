@@ -1,20 +1,17 @@
 
 <div class="widget-content">
-  <h2>Create a Bar Chart</h2>
+  <input placeholder="Name This Widget" type="text" name="Widget Title" class="widget-title editing"/>
   <ul class="completion-bar">
     <li class="data"></li>
     <li class="demographic"></li>
     <li class="geographic"></li>
   </ul>
+  <div class="widget-edit">
+    <div class="widget-remove"><i class="fa fa-trash"></i></div>
+  </div>
 </div>
 <ul class="widget-attributes">
-  <li class="data-drop">
-    <div class="placeholder"><i class="fa fa-database"></i></div>
-  </li>
-  <li class="demographic-drop">
-    <div class="placeholder"><i class="fa fa-users"></i></div>
-  </li>
-  <li class="geographic-drop">
-    <div class="placeholder"><i class="fa fa-map-marker"></i></div>
-  </li>
+  <li data-type="data" class="data-drop drop"></li>
+  <li data-type="demographic" class="demographic-drop drop"></li>
+  <li data-type="geographic" class="geographic-drop drop"></li>
 </ul>

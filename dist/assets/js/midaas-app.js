@@ -800,30 +800,79 @@
       return null;
     }
 
+    WidgetAbstract.prototype.addDestroyListener = function(el) {
+      var widgetId;
+      widgetId = "#" + el.id;
+      return $(widgetId + " .widget-remove").on("click", (function(_this) {
+        return function() {
+          return _this.destroyWidget(widgetId);
+        };
+      })(this));
+    };
+
     WidgetAbstract.prototype.addDragClassToBody = function() {
       var body;
       body = document.body;
       return body.className = body.className += " open-widget-attributes";
     };
 
+    WidgetAbstract.prototype.addDragEventListeners = function(drake, dropLocation, menuId, widgetId) {
+      return drake.on('drag', (function(_this) {
+        return function(el) {
+          _this.addDragClassToBody();
+          return el.className = el.className.replace('ex-moved', '');
+        };
+      })(this)).on('drop', (function(_this) {
+        return function(el, container) {
+          el.className += ' ex-moved';
+          _this.removeExistingDrop(dropLocation, el, widgetId, container);
+          _this.animateCompletionBar(el, widgetId);
+          return _this.removeDragClassFromBody();
+        };
+      })(this)).on('over', function(el, container) {
+        return container.className += ' ex-over';
+      }).on('out', function(el, container) {
+        return container.className = container.className.replace("ex-over", "");
+      });
+    };
+
+    WidgetAbstract.prototype.addIdsToDrops = function(el) {
+      var widgetId;
+      widgetId = "#" + el.id;
+      return $(widgetId + " .widget-attributes li").each(function() {
+        var dataType;
+        dataType = this.getAttribute("data-type");
+        return $(this).attr("id", el.id + "-" + dataType + "-drop");
+      });
+    };
+
     WidgetAbstract.prototype.animateCompletionBar = function(draggedElement, widgetId) {
-      var completionBar, dataBar, dataType;
-      completionBar = widgetId + " .completion-bar";
+      var $bar, completionBarSelector, dataType, dragItem;
+      completionBarSelector = widgetId + " .completion-bar";
       dataType = draggedElement.getAttribute("data-type");
-      switch (dataType) {
-        case "data":
-          dataBar = document.querySelector(completionBar + " .data");
-          dataBar.className += " complete";
-          break;
-        case "demographic":
-          dataBar = document.querySelector(completionBar + " .demographic");
-          dataBar.className += " complete";
-          break;
-        case "geographic":
-          dataBar = document.querySelector(completionBar + " .geographic");
-          dataBar.className += " complete";
+      dragItem = widgetId + " ." + dataType + "-drop .drag-item";
+      if ($(dragItem).length > 0) {
+        switch (dataType) {
+          case "data":
+            $bar = $(completionBarSelector).find(".data");
+            if (!$bar.hasClass("complete")) {
+              $bar.addClass("complete");
+            }
+            break;
+          case "demographic":
+            $bar = $(completionBarSelector).find(".demographic");
+            if (!$bar.hasClass("complete")) {
+              $bar.addClass("complete");
+            }
+            break;
+          case "geographic":
+            $bar = $(completionBarSelector).find(".geographic");
+            if (!$bar.hasClass("complete")) {
+              $bar.addClass("complete");
+            }
+        }
+        return this.checkCompleteness(dataType, widgetId);
       }
-      return this.checkCompleteness(dataType, widgetId);
     };
 
     WidgetAbstract.prototype.checkCompleteness = function(dataType, widgetId) {
@@ -844,31 +893,52 @@
       return $(widgetId).addClass("closed");
     };
 
+    WidgetAbstract.prototype.destroyWidget = function(widgetId) {
+      $(widgetId + " .drag-item").unbind();
+      return $(widgetId).remove();
+    };
+
     WidgetAbstract.prototype.enableDragging = function(el, menuId) {
-      var dataDrop, dataMenu, dataType, widgetId;
+      var dataMenu, dataType, dropLocation, widgetId;
       widgetId = "#" + el.id;
-      dataMenu = document.querySelector(menuId);
       dataType = document.querySelector(menuId + " li").getAttribute("data-type");
-      dataDrop = document.querySelector(widgetId + " ." + dataType + "-drop");
-      return dragula([dataMenu, dataDrop], {
-        copy: true
-      }).on('drag', (function(_this) {
-        return function(el) {
-          _this.addDragClassToBody();
-          return el.className = el.className.replace('ex-moved', '');
-        };
-      })(this)).on('drop', (function(_this) {
-        return function(el) {
-          _this.removeExistingDrop(dataDrop, el, widgetId);
-          _this.animateCompletionBar(el, widgetId);
-          _this.removeDragClassFromBody();
-          return el.className += ' ex-moved';
-        };
-      })(this)).on('over', function(el, container) {
-        return container.className += ' ex-over';
-      }).on('out', function(el, container) {
-        return container.className = container.className.replace("ex-over", "");
-      });
+      dropLocation = document.querySelector(widgetId + "-" + dataType + "-drop");
+      dataMenu = document.querySelector(menuId);
+      if (!$("#active-widget-container").hasClass("dropped")) {
+        switch (dataType) {
+          case "demographic":
+            window.Ag.Widget.demographicDrake = dragula([dataMenu], {
+              copy: true
+            });
+            window.Ag.Widget.demographicDrake.containers.push(dropLocation);
+            return this.addDragEventListeners(window.Ag.Widget.demographicDrake, dropLocation, menuId, widgetId);
+          case "data":
+            window.Ag.Widget.dataDrake = dragula([dataMenu], {
+              copy: true
+            });
+            window.Ag.Widget.dataDrake.containers.push(dropLocation);
+            return this.addDragEventListeners(window.Ag.Widget.dataDrake, dropLocation, menuId, widgetId);
+          case "geographic":
+            window.Ag.Widget.geographicDrake = dragula([dataMenu], {
+              copy: true
+            });
+            window.Ag.Widget.geographicDrake.containers.push(dropLocation);
+            this.addDragEventListeners(window.Ag.Widget.geographicDrake, dropLocation, menuId, widgetId);
+            return $("#active-widget-container").addClass("dropped");
+        }
+      } else {
+        switch (dataType) {
+          case "demographic":
+            window.Ag.Widget.demographicDrake.containers.push(dropLocation);
+            return this.addDragEventListeners(window.Ag.Widget.demographicDrake, dropLocation, menuId, widgetId);
+          case "data":
+            window.Ag.Widget.dataDrake.containers.push(dropLocation);
+            return this.addDragEventListeners(window.Ag.Widget.dataDrake, dropLocation, menuId, widgetId);
+          case "geographic":
+            window.Ag.Widget.geographicDrake.containers.push(dropLocation);
+            return this.addDragEventListeners(window.Ag.Widget.geographicDrake, dropLocation, menuId, widgetId);
+        }
+      }
     };
 
     WidgetAbstract.prototype.openDrawer = function(widgetId) {
@@ -879,11 +949,20 @@
       return $("body").removeClass("open-widget-attributes");
     };
 
-    WidgetAbstract.prototype.removeExistingDrop = function(dataDrop, el, widgetId) {
+    WidgetAbstract.prototype.removeExistingDrop = function(dataDrop, el, widgetId, container) {
       var dataType;
-      dataDrop.className += " full";
       dataType = el.getAttribute("data-type");
-      return $(widgetId + widgetId + " ." + dataType + "-drop .ex-moved").remove();
+      if ($("#" + container.id + " .ex-moved").length > 1) {
+        return $("#" + container.id + " .ex-moved:first").remove();
+      }
+    };
+
+    WidgetAbstract.prototype.widgetTitleListener = function(el) {
+      return $("#" + el.id + " .widget-title").on("blur", function() {
+        return $(this).removeClass("editing");
+      }).on("focus", function() {
+        return $(this).addClass("editing");
+      });
     };
 
     return WidgetAbstract;
@@ -900,6 +979,8 @@
 
   window.Ag.Widget.Abstract = WidgetAbstract;
 
+  window.Ag.Widget.cartridgeDragging = false;
+
 }).call(this);
 
 (function() {
@@ -915,9 +996,12 @@
       template = "/assets/templates/widget-chart-bar.html";
       $(el).load(template, null, (function(_this) {
         return function() {
+          _this.addDestroyListener(el);
+          _this.addIdsToDrops(el);
           _this.enableDragging(el, "#data-menu");
           _this.enableDragging(el, "#demographic-menu");
-          return _this.enableDragging(el, "#geographic-menu");
+          _this.enableDragging(el, "#geographic-menu");
+          return _this.widgetTitleListener(el);
         };
       })(this));
     }
@@ -925,6 +1009,8 @@
     return WidgetChartBar;
 
   })(Ag.Widget.Abstract);
+
+  window.Ag.Widget.Draggable = [];
 
   if (window.Ag == null) {
     window.Ag = {};
@@ -939,7 +1025,7 @@
 }).call(this);
 
 (function() {
-  var Dashboard;
+  var Dashboard, base;
 
   if (window.Ag == null) {
     window.Ag = {};
@@ -947,28 +1033,32 @@
 
   Dashboard = (function() {
     function Dashboard() {
-      this.enableDragging();
+      this.enableWidgetDragging();
     }
 
-    Dashboard.prototype.enableDragging = function() {
-      var dashContainer, dashContainerWidth, dashMenu, widgetCount;
+    Dashboard.prototype.enableWidgetDragging = function() {
+      var dashContainer, dashContainerWidth, dashMenu, drake;
       dashMenu = document.querySelector("#toolbox-menu");
       dashContainer = document.querySelector("#active-widget-container");
       dashContainerWidth = dashContainer.offsetWidth + "px";
-      widgetCount = 0;
-      return dragula([dashMenu, dashContainer], {
+      drake = dragula([dashMenu, dashContainer], {
         copy: true
-      }).on('drag', function(el) {
-        el.className = el.className.replace('ex-moved', '');
-        return $(".gu-mirror").attr("width", dashContainerWidth);
-      }).on('drop', (function(_this) {
+      });
+      return drake.on('drag', (function(_this) {
         return function(el) {
+          el.className = el.className.replace('ex-moved', '');
+          return $(".gu-mirror").attr("width", dashContainerWidth);
+        };
+      })(this)).on('drop', (function(_this) {
+        return function(el) {
+          window.Ag.Dashboard.widgetCount += 1;
+          el.id = "widget-" + window.Ag.Dashboard.widgetCount;
           el.className += ' ex-moved widget';
-          widgetCount += 1;
-          el.id = "widget-" + widgetCount;
           return _this.initWidget(el);
         };
-      })(this)).on('over', function(el, container) {
+      })(this)).on("moves", function(el) {
+        return false;
+      }).on('over', function(el, container) {
         return container.className += ' ex-over';
       }).on('out', function(el, container) {
         return container.className = container.className.replace('ex-over', '');
@@ -978,10 +1068,17 @@
     Dashboard.prototype.initWidget = function(el) {
       var widgetType;
       widgetType = el.getAttribute("data-widget");
+      console.log("initWidget", widgetType);
       switch (widgetType) {
         case "bar-chart":
           return new Ag.Widget.ChartBar(el);
       }
+    };
+
+    Dashboard.prototype.widgetTitleListener = function() {
+      return $(".widget-title").on("blur", function() {
+        return this.removeClass("editing");
+      });
     };
 
     return Dashboard;
@@ -991,5 +1088,11 @@
   $(function() {
     return new Dashboard();
   });
+
+  if ((base = window.Ag).Dashboard == null) {
+    base.Dashboard = {};
+  }
+
+  window.Ag.Dashboard.widgetCount = 0;
 
 }).call(this);

@@ -83,7 +83,7 @@ module.exports = (grunt) ->
           'src/assets/js/vendor/c3-0.4.10.min.js'
           'src/assets/js/vendor/pathseg.js'
           'src/assets/js/vendor/observe.js'
-          'src/assets/js/vendor/dragula.min.js'
+          'src/assets/js/vendor/dragula.js'
         ]
         dest: 'dist/assets/js/midaas-dependencies.js'
       }

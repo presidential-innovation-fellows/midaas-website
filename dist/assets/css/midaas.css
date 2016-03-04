@@ -4773,15 +4773,18 @@ input[type="range"] {
       background-color: #c2d4ee; }
       .widget-attributes li.ex-over li {
         display: none; }
-      .widget-attributes li.ex-over .placeholder {
-        display: none; }
-    .widget-attributes li.full .placeholder {
-      display: none; }
     .widget-attributes li li {
       text-align: center;
       width: 100%; }
   .widget-attributes .data-drop .drag-item {
     background-color: #0071bc; }
+  .widget-attributes .drop {
+    background-color: #44484f;
+    height: 60px;
+    text-align: center;
+    width: 100%; }
+    .widget-attributes .drop:after {
+      content: ""; }
   .widget-attributes .demographic-drop .drag-item {
     background-color: #e8b500;
     border-bottom: 0; }
@@ -4793,12 +4796,6 @@ input[type="range"] {
     padding: 1em 0.5em; }
   .widget-attributes .geographic-drop .drag-item {
     background-color: #359849; }
-  .widget-attributes .placeholder {
-    background-color: #44484f;
-    height: 60px;
-    padding: 1em;
-    text-align: center;
-    width: 100%; }
 
 .widget-content {
   -webkit-animation: slideWidth 0.3s ease;
@@ -4811,16 +4808,19 @@ input[type="range"] {
   -moz-transition: width 0.3s ease;
   transition: width 0.3s ease;
   bottom: 0;
+  padding: 0.5em 1em;
   position: absolute;
   right: 0;
   top: 0;
   width: 100%;
   z-index: 100; }
-  .widget-content h2 {
-    display: inline-block;
-    font-size: 1.5em;
-    font-weight: normal;
-    margin: 0; }
+  .widget-content h3 {
+    color: #8e949e;
+    font-size: 1em;
+    font-weight: 500;
+    margin: 0;
+    padding: 0;
+    text-transform: uppercase; }
 
 .closed .widget-attributes:hover .edit-attributes {
   opacity: 1;
@@ -4851,6 +4851,12 @@ input[type="range"] {
   -moz-animation-fill-mode: forwards;
   animation-fill-mode: forwards; }
 
+.widget-edit {
+  font-size: 1.1em;
+  position: absolute;
+  right: 0;
+  top: 0; }
+
 .widget-menu {
   background-color: #ffffff;
   border-radius: 50%;
@@ -4864,6 +4870,20 @@ input[type="range"] {
   top: 15px;
   vertical-align: center;
   width: 30px; }
+
+.widget-remove {
+  cursor: pointer;
+  padding: 0.5em 0.75em; }
+
+input.widget-title {
+  border: 0;
+  font-size: 1.5em;
+  max-width: 300px;
+  padding: 0; }
+  input.widget-title:focus {
+    box-shadow: none; }
+  input.widget-title.editing {
+    border-bottom: 1px dotted #aeb0b5; }
 
 .topics-gender ol {
   display: block;

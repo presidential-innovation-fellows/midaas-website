@@ -99,17 +99,6 @@
       li {
         display: none;
       }
-
-      .placeholder {
-        display: none;
-      }
-    }
-
-    &.full {
-
-      .placeholder {
-        display: none;
-      }
     }
 
     li {
@@ -122,6 +111,17 @@
 
     .drag-item {
       background-color: $color-primary;
+    }
+  }
+
+  .drop {
+    background-color: darken($color-gray, 10);
+    height: 60px;
+    text-align: center;
+    width: 100%;
+
+    &:after {
+      content: "";
     }
   }
 
@@ -147,14 +147,6 @@
       background-color: lighten($color-green, 5);
     }
   }
-
-  .placeholder {
-    background-color: darken($color-gray, 10);
-    height: 60px;
-    padding: 1em;
-    text-align: center;
-    width: 100%;
-  }
 }
 
 .widget-content {
@@ -163,17 +155,20 @@
   @include animation-fill-mode(forwards);
   @include transition(width 0.3s ease);
   bottom: 0;
+  padding: 0.5em 1em;
   position: absolute;
   right: 0;
   top: 0;
   width: 100%;
   z-index: 100;
 
-  h2 {
-    display: inline-block;
-    font-size: 1.5em;
-    font-weight: normal;
+  h3 {
+    color: lighten($color-gray, 20);
+    font-size: 1em;
+    font-weight: 500;
     margin: 0;
+    padding: 0;
+    text-transform: uppercase;
   }
 }
 
@@ -213,6 +208,13 @@
   }
 }
 
+.widget-edit {
+  font-size: 1.1em;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
 .widget-menu {
   background-color: $color-white;
   border-radius: 50%;
@@ -226,4 +228,27 @@
   top: 15px;
   vertical-align: center;
   width: 30px;
+}
+
+.widget-remove {
+  cursor: pointer;
+  padding: 0.5em 0.75em;
+}
+
+input {
+
+  &.widget-title {
+    border: 0;
+    font-size: 1.5em;
+    max-width: 300px;
+    padding: 0;
+
+    &:focus {
+      box-shadow: none;
+    }
+
+    &.editing {
+      border-bottom: 1px dotted $color-gray-light;
+    }
+  }
 }
