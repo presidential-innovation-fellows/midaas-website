@@ -66,24 +66,16 @@ class InteractIncomeQuantilesCompare extends Ag.Interact.Abstract
     return unless queryUpdate?
     @config.query ?= {}
 
-    updateChart = false
-
     compare = queryUpdate.compare?.toLowerCase()
     if compare in ["overall", "race", "gender", "sex", "age"]
-      if @config.query.compare.toLowerCase() isnt compare
-        updateChart = true
       @config.query.compare = compare
       $("##{@chart.id} #compare .toggles li").removeClass("active")
       $("##{@chart.id} #compare .toggles li .#{compare}").addClass("active")
 
     compareRegion = queryUpdate.compareRegion?.toUpperCase()
     if compareRegion?
-      if @config.query.compareRegion.toUpperCase() isnt compareRegion
-        updateChart = true
       @config.query.compareRegion = compareRegion
       $("##{@chart.id} #compareRegion").val(compareRegion)
-
-    @chart.update() if updateChart
 
 window.Ag ?= {}
 window.Ag.Interact ?= {}
