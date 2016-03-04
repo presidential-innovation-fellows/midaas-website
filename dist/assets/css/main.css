@@ -4379,129 +4379,31 @@ fieldset {
   src: url("../fonts/merriweather-bold-webfont.eot");
   src: url("../fonts/merriweather-bold-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/merriweather-bold-webfont.woff2") format("woff2"), url("../fonts/merriweather-bold-webfont.woff") format("woff"), url("../fonts/merriweather-bold-webfont.ttf") format("truetype"); }
 
-@-webkit-keyframes slideCartridge {
+@-webkit-keyframes scaleUp {
   from {
-    -webkit-transform: translateX(0); }
+    -webkit-transform: scale(0); }
   to {
-    -webkit-transform: translateX(30%); } }
+    -webkit-transform: scale(1); } }
 
-@-moz-keyframes slideCartridge {
+@-moz-keyframes scaleUp {
   from {
-    -moz-transform: translateX(0); }
+    -moz-transform: scale(0); }
   to {
-    -moz-transform: translateX(30%); } }
+    -moz-transform: scale(1); } }
 
-@keyframes slideCartridge {
+@keyframes scaleUp {
   from {
-    -webkit-transform: translateX(0);
-    -moz-transform: translateX(0);
-    -ms-transform: translateX(0);
-    -o-transform: translateX(0);
-    transform: translateX(0); }
+    -webkit-transform: scale(0);
+    -moz-transform: scale(0);
+    -ms-transform: scale(0);
+    -o-transform: scale(0);
+    transform: scale(0); }
   to {
-    -webkit-transform: translateX(30%);
-    -moz-transform: translateX(30%);
-    -ms-transform: translateX(30%);
-    -o-transform: translateX(30%);
-    transform: translateX(30%); } }
-
-@-webkit-keyframes slideCartridgeClose {
-  from {
-    -webkit-transform: translateX(30%); }
-  to {
-    -webkit-transform: translateX(0); } }
-
-@-moz-keyframes slideCartridgeClose {
-  from {
-    -moz-transform: translateX(30%); }
-  to {
-    -moz-transform: translateX(0); } }
-
-@keyframes slideCartridgeClose {
-  from {
-    -webkit-transform: translateX(30%);
-    -moz-transform: translateX(30%);
-    -ms-transform: translateX(30%);
-    -o-transform: translateX(30%);
-    transform: translateX(30%); }
-  to {
-    -webkit-transform: translateX(0);
-    -moz-transform: translateX(0);
-    -ms-transform: translateX(0);
-    -o-transform: translateX(0);
-    transform: translateX(0); } }
-
-@-webkit-keyframes slideClose {
-  from {
-    width: 87.5%; }
-  to {
-    width: 99%; } }
-
-@-moz-keyframes slideClose {
-  from {
-    width: 87.5%; }
-  to {
-    width: 99%; } }
-
-@keyframes slideClose {
-  from {
-    width: 87.5%; }
-  to {
-    width: 99%; } }
-
-@-webkit-keyframes slideWidth {
-  from {
-    width: 100%; }
-  to {
-    width: 87.5%; } }
-
-@-moz-keyframes slideWidth {
-  from {
-    width: 100%; }
-  to {
-    width: 87.5%; } }
-
-@keyframes slideWidth {
-  from {
-    width: 100%; }
-  to {
-    width: 87.5%; } }
-
-@-webkit-keyframes slideOpen {
-  from {
-    width: 97%; }
-  to {
-    width: 87.5%; } }
-
-@-moz-keyframes slideOpen {
-  from {
-    width: 97%; }
-  to {
-    width: 87.5%; } }
-
-@keyframes slideOpen {
-  from {
-    width: 97%; }
-  to {
-    width: 87.5%; } }
-
-@-webkit-keyframes crackOpen {
-  from {
-    width: 99%; }
-  to {
-    width: 97%; } }
-
-@-moz-keyframes crackOpen {
-  from {
-    width: 99%; }
-  to {
-    width: 97%; } }
-
-@keyframes crackOpen {
-  from {
-    width: 99%; }
-  to {
-    width: 97%; } }
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    -o-transform: scale(1);
+    transform: scale(1); } }
 
 h1,
 h2,
@@ -4729,12 +4631,37 @@ input[type="range"] {
   .completion-bar .geographic {
     background-color: #359849; }
 
+.dashboard-header p {
+  margin: 0; }
+
 .pages-dashboard .app-nav {
   display: none; }
 
 .pages-dashboard .drag-item.gu-transit {
+  -webkit-animation: scaleUp 0.3s ease;
+  -moz-animation: scaleUp 0.3s ease;
+  animation: scaleUp 0.3s ease;
+  -webkit-animation-fill-mode: forwards;
+  -moz-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
   background-color: #aeb0b5;
+  border-bottom: 0;
+  height: 150px;
+  margin-bottom: 1.5em;
   width: 100%; }
+  .pages-dashboard .drag-item.gu-transit::after {
+    color: rgba(0, 0, 0, 0.75);
+    content: "\f067";
+    display: block;
+    font-family: FontAwesome;
+    font-size: 3em;
+    font-style: normal;
+    font-weight: normal;
+    height: 250px;
+    line-height: 100px;
+    text-align: center;
+    vertical-align: center;
+    width: 100%; }
 
 .pages-dashboard .main-content {
   margin-left: 200px; }
@@ -4746,7 +4673,8 @@ input[type="range"] {
 .pages-dashboard .widget-container {
   min-height: 1000px; }
   .pages-dashboard .widget-container.gu-transit {
-    background-color: #5b616b; }
+    background-color: #5b616b;
+    height: 400px !important; }
   .pages-dashboard .widget-container .widget {
     background-color: transparent;
     border-bottom: 0;

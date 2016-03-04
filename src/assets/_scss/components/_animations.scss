@@ -1,65 +1,10 @@
-@include keyframes(slideCartridge) {
+@include keyframes(scaleUp) {
 
   from {
-    @include transform(translateX(0));
+    @include transform(scale(0));
   }
 
   to {
-    @include transform(translateX(30%));
-  }
-}
-
-@include keyframes(slideCartridgeClose) {
-
-  from {
-    @include transform(translateX(30%));
-  }
-
-  to {
-    @include transform(translateX(0));
-  }
-}
-
-@include keyframes(slideClose) {
-
-  from {
-    width: 87.5%;
-  }
-
-  to {
-    width: 99%;
-  }
-}
-
-@include keyframes(slideWidth) {
-
-  from {
-    width: 100%;
-  }
-
-  to {
-    width: 87.5%;
-  }
-}
-
-@include keyframes(slideOpen) {
-
-  from {
-    width: 97%;
-  }
-
-  to {
-    width: 87.5%;
-  }
-}
-
-@include keyframes(crackOpen) {
-
-  from {
-    width: 99%;
-  }
-
-  to {
-    width: 97%;
+    @include transform(scale(1));
   }
 }

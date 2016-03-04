@@ -5842,6 +5842,10 @@ module.exports = eventmap;
 
     Dashboard.prototype.widgetCount = 0;
 
+    Dashboard.prototype.addDraggingClass = function() {
+      return $("#active-widget-container").addClass("dragging");
+    };
+
     function Dashboard() {
       this.enableWidgetDragging();
     }
@@ -5862,6 +5866,7 @@ module.exports = eventmap;
       return this.drake.on('drag', (function(_this) {
         return function(el) {
           el.className = el.className.replace('ex-moved', '');
+          console.log(el);
           return $(".gu-mirror").attr("width", dashContainerWidth);
         };
       })(this)).on('drop', (function(_this) {
@@ -5894,6 +5899,10 @@ module.exports = eventmap;
         case "bar-chart":
           return new Ag.Widget.ChartBar(el);
       }
+    };
+
+    Dashboard.prototype.removeDraggingClass = function() {
+      return $("#active-widget-container").removeClass("dragging");
     };
 
     Dashboard.prototype.widgetTitleListener = function() {

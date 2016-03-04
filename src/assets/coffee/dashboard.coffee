@@ -6,6 +6,9 @@ class Dashboard
   containerId: "active-widget-container"
   widgetCount: 0
 
+  addDraggingClass: ->
+    $("#active-widget-container").addClass("dragging")
+
   constructor: ->
     @enableWidgetDragging()
 
@@ -22,8 +25,11 @@ class Dashboard
 
     @drake.on('drag', (el) =>
       el.className = el.className.replace('ex-moved', '')
+      console.log(el)
       $(".gu-mirror").attr("width", dashContainerWidth)
+      #@addDraggingClass()
     ).on('drop', (el, target, source, sibling) =>
+      #@removeDraggingClass()
       return unless target?.id is @containerId
       el.id = "widget-#{@widgetCount}"
       el.className += ' ex-moved widget'
@@ -47,6 +53,9 @@ class Dashboard
     switch widgetType
       when "bar-chart"
         new Ag.Widget.ChartBar(el)
+
+  removeDraggingClass: ->
+    $("#active-widget-container").removeClass("dragging")
 
   widgetTitleListener: ->
     $(".widget-title").on("blur", ->
