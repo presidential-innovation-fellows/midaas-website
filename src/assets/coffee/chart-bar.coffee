@@ -27,6 +27,9 @@ class ChartBar extends Ag.Chart.Abstract
             type: "category"
           }
         }
+        color: {
+          pattern: ["#0071bc", "#ffca0d", "#02bfe7", "#2e8540", "#e31c3d"]
+        }
       })
       @hideLoading()
     )

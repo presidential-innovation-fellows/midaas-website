@@ -11,7 +11,7 @@ class ChartMap extends Ag.Chart.Abstract
       @_chart = d3.geomap.choropleth()
         .geofile('/assets/topojson/USA.json')
         .projection(d3.geo.albersUsa)
-        .colors(colorbrewer.Greens[9])
+        .colors(colorbrewer.Midaas[11])
         .column('Data')
         .unitId('Fips')
         .scale(1000)

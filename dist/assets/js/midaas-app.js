@@ -504,6 +504,9 @@
               x: {
                 type: "category"
               }
+            },
+            color: {
+              pattern: ["#0071bc", "#ffca0d", "#02bfe7", "#2e8540", "#e31c3d"]
             }
           });
           return _this.hideLoading();
@@ -577,7 +580,7 @@
       return this.interact.fetchData((function(_this) {
         return function(err, data) {
           data = _this.translateData(data);
-          _this._chart = d3.geomap.choropleth().geofile('/assets/topojson/USA.json').projection(d3.geo.albersUsa).colors(colorbrewer.Greens[9]).column('Data').unitId('Fips').scale(1000).legend(true);
+          _this._chart = d3.geomap.choropleth().geofile('/assets/topojson/USA.json').projection(d3.geo.albersUsa).colors(colorbrewer.Midaas[11]).column('Data').unitId('Fips').scale(1000).legend(true);
           d3.select(bindElement).datum(data).call(_this._chart.draw, _this._chart);
           return _this.hideLoading();
         };
