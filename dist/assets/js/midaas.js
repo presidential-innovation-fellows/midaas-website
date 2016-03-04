@@ -5820,25 +5820,37 @@ module.exports = eventmap;
   }
 
   Dashboard = (function() {
+    Dashboard.prototype.menuId = "toolbox-menu";
+
+    Dashboard.prototype.containerId = "active-widget-container";
+
     function Dashboard() {
       this.enableWidgetDragging();
     }
 
     Dashboard.prototype.enableWidgetDragging = function() {
-      var dashContainer, dashContainerWidth, dashMenu, drake;
-      dashMenu = document.querySelector("#toolbox-menu");
-      dashContainer = document.querySelector("#active-widget-container");
+      var dashContainer, dashContainerWidth, dashMenu;
+      dashMenu = document.querySelector("#" + this.menuId);
+      dashContainer = document.querySelector("#" + this.containerId);
       dashContainerWidth = dashContainer.offsetWidth + "px";
-      drake = dragula([dashMenu, dashContainer], {
-        copy: true
+      this.drake = dragula([dashMenu, dashContainer], {
+        copy: true,
+        accepts: (function(_this) {
+          return function(el, target, source, sibling) {
+            return target.id === _this.containerId;
+          };
+        })(this)
       });
-      return drake.on('drag', (function(_this) {
+      return this.drake.on('drag', (function(_this) {
         return function(el) {
           el.className = el.className.replace('ex-moved', '');
           return $(".gu-mirror").attr("width", dashContainerWidth);
         };
       })(this)).on('drop', (function(_this) {
-        return function(el) {
+        return function(el, target, source, sibling) {
+          if ((target != null ? target.id : void 0) !== _this.containerId) {
+            return;
+          }
           window.Ag.Dashboard.widgetCount += 1;
           el.id = "widget-" + window.Ag.Dashboard.widgetCount;
           el.className += ' ex-moved widget';
