@@ -5416,7 +5416,8 @@ module.exports = eventmap;
 
     WidgetAbstract.prototype.destroyWidget = function(widgetId) {
       $(widgetId + " .drag-item").unbind();
-      return $(widgetId).remove();
+      $(widgetId).remove();
+      return this.disableCreationMode();
     };
 
     WidgetAbstract.prototype.disableCreationMode = function() {

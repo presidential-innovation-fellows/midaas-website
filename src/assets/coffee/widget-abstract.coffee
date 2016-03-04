@@ -98,6 +98,7 @@ class WidgetAbstract
   destroyWidget: (widgetId) ->
     $(widgetId + " .drag-item").unbind()
     $(widgetId).remove()
+    @disableCreationMode()
 
   disableCreationMode: ->
     $("body").removeClass("creation-mode")
