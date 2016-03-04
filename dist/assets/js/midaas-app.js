@@ -210,33 +210,23 @@
     };
 
     InteractIncomeQuantilesCompare.prototype.react = function(queryUpdate) {
-      var base, compare, compareRegion, ref, ref1, updateChart;
+      var base, compare, compareRegion, ref, ref1;
       if (queryUpdate == null) {
         return;
       }
       if ((base = this.config).query == null) {
         base.query = {};
       }
-      updateChart = false;
       compare = (ref = queryUpdate.compare) != null ? ref.toLowerCase() : void 0;
       if (compare === "overall" || compare === "race" || compare === "gender" || compare === "sex" || compare === "age") {
-        if (this.config.query.compare.toLowerCase() !== compare) {
-          updateChart = true;
-        }
         this.config.query.compare = compare;
         $("#" + this.chart.id + " #compare .toggles li").removeClass("active");
         $("#" + this.chart.id + " #compare .toggles li ." + compare).addClass("active");
       }
       compareRegion = (ref1 = queryUpdate.compareRegion) != null ? ref1.toUpperCase() : void 0;
       if (compareRegion != null) {
-        if (this.config.query.compareRegion.toUpperCase() !== compareRegion) {
-          updateChart = true;
-        }
         this.config.query.compareRegion = compareRegion;
-        $("#" + this.chart.id + " #compareRegion").val(compareRegion);
-      }
-      if (updateChart) {
-        return this.chart.update();
+        return $("#" + this.chart.id + " #compareRegion").val(compareRegion);
       }
     };
 
