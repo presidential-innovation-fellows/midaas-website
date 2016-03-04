@@ -5607,20 +5607,34 @@ module.exports = eventmap;
     WidgetAbstract.prototype.addDragEventListeners = function(drake, dropLocation, menuId, widgetId) {
       return drake.on('drag', (function(_this) {
         return function(el) {
+          var dataType;
+          dataType = el.getAttribute("data-type");
           _this.addDragClassToBody();
-          return el.className = el.className.replace('ex-moved', '');
+          el.className = el.className.replace('ex-moved', '');
+          return $("." + dataType + "-drop").addClass("droppable");
         };
       })(this)).on('drop', (function(_this) {
         return function(el, container) {
+          var dataType;
+          dataType = el.getAttribute("data-type");
           el.className += ' ex-moved';
           _this.removeExistingDrop(dropLocation, el, widgetId, container);
           _this.animateCompletionBar(el, widgetId);
-          return _this.removeDragClassFromBody();
+          _this.removeDragClassFromBody();
+          return $(".droppable").removeClass("droppable");
         };
       })(this)).on('over', function(el, container) {
-        return container.className += ' ex-over';
+        var $widget;
+        container.className += ' ex-over';
+        if ($("#" + container.id).hasClass("drop")) {
+          $widget = $("#" + container.id).closest(".widget");
+          return $widget.removeClass("closed");
+        }
       }).on('out', function(el, container) {
-        return container.className = container.className.replace("ex-over", "");
+        var $widget;
+        container.className = container.className.replace("ex-over", "");
+        $widget = $("#" + container.id).closest(".widget");
+        return $widget.addClass("closed");
       });
     };
 
@@ -5678,7 +5692,7 @@ module.exports = eventmap;
     };
 
     WidgetAbstract.prototype.closeDrawer = function(widgetId) {
-      return $(widgetId).addClass("closed");
+      return $(widgetId).removeClass("initialized").addClass("closed");
     };
 
     WidgetAbstract.prototype.destroyWidget = function(widgetId) {
@@ -5742,6 +5756,8 @@ module.exports = eventmap;
       dataType = el.getAttribute("data-type");
       if ($("#" + container.id + " .ex-moved").length > 1) {
         return $("#" + container.id + " .ex-moved:first").remove();
+      } else {
+        return $("#" + container.id).addClass("cartridge-full");
       }
     };
 
@@ -5855,6 +5871,9 @@ module.exports = eventmap;
           }
           el.id = "widget-" + _this.widgetCount;
           el.className += ' ex-moved widget';
+          setTimeout(function() {
+            return el.className += " initialized";
+          }, 30);
           _this.initWidget(el);
           return _this.widgetCount++;
         };

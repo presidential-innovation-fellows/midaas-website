@@ -14,17 +14,27 @@ class WidgetAbstract
 
   addDragEventListeners: (drake, dropLocation, menuId, widgetId) ->
     drake.on('drag', (el) =>
+      dataType = el.getAttribute("data-type")
       @addDragClassToBody()
       el.className = el.className.replace('ex-moved', '')
+      $("." + dataType + "-drop").addClass("droppable")
     ).on('drop', (el, container) =>
+      dataType = el.getAttribute("data-type")
       el.className += ' ex-moved'
+
       @removeExistingDrop(dropLocation, el, widgetId, container)
       @animateCompletionBar(el, widgetId)
       @removeDragClassFromBody()
+      $(".droppable").removeClass("droppable")
     ).on('over', (el, container) ->
       container.className += ' ex-over'
+      if $("#" + container.id).hasClass("drop")
+        $widget = $("#" + container.id).closest(".widget")
+        $widget.removeClass("closed")
     ).on('out', (el, container) ->
       container.className = container.className.replace("ex-over", "")
+      $widget = $("#" + container.id).closest(".widget")
+      $widget.addClass("closed")
     )
 
   addIdsToDrops: (el) ->
@@ -71,7 +81,7 @@ class WidgetAbstract
         @openDrawer(widgetId)
 
   closeDrawer: (widgetId) ->
-    $(widgetId).addClass("closed")
+    $(widgetId).removeClass("initialized").addClass("closed")
 
   destroyWidget: (widgetId) ->
     $(widgetId + " .drag-item").unbind()
@@ -123,6 +133,9 @@ class WidgetAbstract
 
     if $("#" + container.id + " .ex-moved").length > 1
       $("#" + container.id + " .ex-moved:first").remove()
+
+    else
+      $("#" + container.id).addClass("cartridge-full")
 
   widgetTitleListener: (el) ->
     $("#" + el.id + " .widget-title").on("blur", ->

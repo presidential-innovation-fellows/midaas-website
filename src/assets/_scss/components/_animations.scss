@@ -41,3 +41,25 @@
     width: 87.5%;
   }
 }
+
+@include keyframes(slideOpen) {
+
+  from {
+    width: 97%;
+  }
+
+  to {
+    width: 87.5%;
+  }
+}
+
+@include keyframes(crackOpen) {
+
+  from {
+    width: 99%;
+  }
+
+  to {
+    width: 97%;
+  }
+}

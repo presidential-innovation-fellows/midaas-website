@@ -69,6 +69,7 @@
       background-color: transparent;
       border-bottom: 0;
       box-shadow: none;
+      margin-bottom: 1.5em;
       padding: 4em 0 0.75em;
       width: 100%;
     }
@@ -88,8 +89,6 @@
     position: relative;
 
     &.ex-moved {
-      @include animation(slideCartridge 0.3s ease);
-      @include animation-fill-mode(forwards);
       text-align: left;
     }
 
@@ -109,23 +108,28 @@
 
   .data-drop {
 
+    &::after {
+      content: "\f1c0";
+    }
+
+    &.droppable {
+      background-color: darken($color-primary, 5);
+    }
+
     .drag-item {
       background-color: $color-primary;
     }
   }
 
-  .drop {
-    background-color: darken($color-gray, 10);
-    height: 60px;
-    text-align: center;
-    width: 100%;
-
-    &:after {
-      content: "";
-    }
-  }
-
   .demographic-drop {
+
+    &::after {
+      content: "\f0c0";
+    }
+
+    &.droppable {
+      background-color: darken($color-yellow, 12);
+    }
 
     .drag-item {
       background-color: darken($color-yellow, 7);
@@ -134,6 +138,7 @@
   }
 
   .drag-item {
+    border-bottom: 0;
     color: $color-white;
     font-size: 1em;
     font-weight: bold;
@@ -141,7 +146,54 @@
     padding: 1em 0.5em;
   }
 
+  .drop {
+    @include transform(translateX(0));
+    @include transition(all 0.2s ease);
+    background-color: darken($color-gray, 10);
+    height: 60px;
+    text-align: center;
+    width: 100%;
+
+    &::after {
+      color: rgba($color-white, 0.5);
+      display: block;
+      font-family: FontAwesome;
+      font-size: 1em;
+      font-style: normal;
+      font-weight: normal;
+      line-height: 60px;
+      padding-left: 1em;
+      text-align: left;
+      vertical-align: center;
+      width: 100%;
+    }
+
+    &.cartridge-full {
+      @include transform(translateX(10%));
+
+      &::after {
+        display: none;
+      }
+
+      &.droppable {
+        @include transform(translateX(0));
+      }
+    }
+
+    &.droppable {
+      @include transform(translateX(0));
+    }
+  }
+
   .geographic-drop {
+
+    &::after {
+      content: "\f041";
+    }
+
+    &.droppable {
+      background-color: $color-green;
+    }
 
     .drag-item {
       background-color: lighten($color-green, 5);
@@ -151,9 +203,7 @@
 
 .widget-content {
   @extend %card;
-  @include animation(slideWidth 0.3s ease);
-  @include animation-fill-mode(forwards);
-  @include transition(width 0.3s ease);
+  @include transition(width 0.25s ease);
   bottom: 0;
   padding: 0.5em 1em;
   position: absolute;
@@ -174,37 +224,40 @@
 
 .closed {
 
-  .widget-attributes {
+  .drop {
 
-    &:hover {
-
-      .edit-attributes {
-        opacity: 1;
-        visibility: visible;
-      }
-    }
-
-    li {
-
-      &.ex-moved {
-        @include animation(slideCartridgeClose 0.3s ease);
-        @include animation-fill-mode(forwards);
-        padding-left: 2em;
-      }
+    &.cartridge-full {
+      @include transform(translateX(5%));
     }
   }
 
   .widget-content {
-    @include animation(slideClose 0.3s ease);
-    @include animation-fill-mode(forwards);
+    width: 98%;
+  }
+}
+
+.initialized {
+
+  .widget-content {
+    width: 90%;
   }
 }
 
 .open-widget-attributes {
 
+  .closed {
+
+    .widget-content {
+      width: 97%;
+    }
+  }
+
+  .drop {
+    @include transform(translateX(5%));
+  }
+
   .widget-content {
-    @include animation(slideWidth 0.3s ease);
-    @include animation-fill-mode(forwards);
+    width: 90%;
   }
 }
 

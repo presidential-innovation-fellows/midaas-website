@@ -4467,6 +4467,42 @@ fieldset {
   to {
     width: 87.5%; } }
 
+@-webkit-keyframes slideOpen {
+  from {
+    width: 97%; }
+  to {
+    width: 87.5%; } }
+
+@-moz-keyframes slideOpen {
+  from {
+    width: 97%; }
+  to {
+    width: 87.5%; } }
+
+@keyframes slideOpen {
+  from {
+    width: 97%; }
+  to {
+    width: 87.5%; } }
+
+@-webkit-keyframes crackOpen {
+  from {
+    width: 99%; }
+  to {
+    width: 97%; } }
+
+@-moz-keyframes crackOpen {
+  from {
+    width: 99%; }
+  to {
+    width: 97%; } }
+
+@keyframes crackOpen {
+  from {
+    width: 99%; }
+  to {
+    width: 97%; } }
+
 h1,
 h2,
 h3,
@@ -4715,6 +4751,7 @@ input[type="range"] {
     background-color: transparent;
     border-bottom: 0;
     box-shadow: none;
+    margin-bottom: 1.5em;
     padding: 4em 0 0.75em;
     width: 100%; }
 
@@ -4734,12 +4771,6 @@ input[type="range"] {
     min-height: 60px;
     position: relative; }
     .widget-attributes li.ex-moved {
-      -webkit-animation: slideCartridge 0.3s ease;
-      -moz-animation: slideCartridge 0.3s ease;
-      animation: slideCartridge 0.3s ease;
-      -webkit-animation-fill-mode: forwards;
-      -moz-animation-fill-mode: forwards;
-      animation-fill-mode: forwards;
       text-align: left; }
     .widget-attributes li.ex-over {
       background-color: #c2d4ee; }
@@ -4748,37 +4779,82 @@ input[type="range"] {
     .widget-attributes li li {
       text-align: center;
       width: 100%; }
+  .widget-attributes .data-drop::after {
+    content: "\f1c0"; }
+  .widget-attributes .data-drop.droppable {
+    background-color: #0062a3; }
   .widget-attributes .data-drop .drag-item {
     background-color: #0071bc; }
-  .widget-attributes .drop {
-    background-color: #44484f;
-    height: 60px;
-    text-align: center;
-    width: 100%; }
-    .widget-attributes .drop:after {
-      content: ""; }
+  .widget-attributes .demographic-drop::after {
+    content: "\f0c0"; }
+  .widget-attributes .demographic-drop.droppable {
+    background-color: #cfa200; }
   .widget-attributes .demographic-drop .drag-item {
     background-color: #e8b500;
     border-bottom: 0; }
   .widget-attributes .drag-item {
+    border-bottom: 0;
     color: #ffffff;
     font-size: 1em;
     font-weight: bold;
     min-height: 60px;
     padding: 1em 0.5em; }
+  .widget-attributes .drop {
+    -webkit-transform: translateX(0);
+    -moz-transform: translateX(0);
+    -ms-transform: translateX(0);
+    -o-transform: translateX(0);
+    transform: translateX(0);
+    -webkit-transition: all 0.2s ease;
+    -moz-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+    background-color: #44484f;
+    height: 60px;
+    text-align: center;
+    width: 100%; }
+    .widget-attributes .drop::after {
+      color: rgba(255, 255, 255, 0.5);
+      display: block;
+      font-family: FontAwesome;
+      font-size: 1em;
+      font-style: normal;
+      font-weight: normal;
+      line-height: 60px;
+      padding-left: 1em;
+      text-align: left;
+      vertical-align: center;
+      width: 100%; }
+    .widget-attributes .drop.cartridge-full {
+      -webkit-transform: translateX(10%);
+      -moz-transform: translateX(10%);
+      -ms-transform: translateX(10%);
+      -o-transform: translateX(10%);
+      transform: translateX(10%); }
+      .widget-attributes .drop.cartridge-full::after {
+        display: none; }
+      .widget-attributes .drop.cartridge-full.droppable {
+        -webkit-transform: translateX(0);
+        -moz-transform: translateX(0);
+        -ms-transform: translateX(0);
+        -o-transform: translateX(0);
+        transform: translateX(0); }
+    .widget-attributes .drop.droppable {
+      -webkit-transform: translateX(0);
+      -moz-transform: translateX(0);
+      -ms-transform: translateX(0);
+      -o-transform: translateX(0);
+      transform: translateX(0); }
+  .widget-attributes .geographic-drop::after {
+    content: "\f041"; }
+  .widget-attributes .geographic-drop.droppable {
+    background-color: #2e8540; }
   .widget-attributes .geographic-drop .drag-item {
     background-color: #359849; }
 
 .widget-content {
-  -webkit-animation: slideWidth 0.3s ease;
-  -moz-animation: slideWidth 0.3s ease;
-  animation: slideWidth 0.3s ease;
-  -webkit-animation-fill-mode: forwards;
-  -moz-animation-fill-mode: forwards;
-  animation-fill-mode: forwards;
-  -webkit-transition: width 0.3s ease;
-  -moz-transition: width 0.3s ease;
-  transition: width 0.3s ease;
+  -webkit-transition: width 0.25s ease;
+  -moz-transition: width 0.25s ease;
+  transition: width 0.25s ease;
   bottom: 0;
   padding: 0.5em 1em;
   position: absolute;
@@ -4794,34 +4870,31 @@ input[type="range"] {
     padding: 0;
     text-transform: uppercase; }
 
-.closed .widget-attributes:hover .edit-attributes {
-  opacity: 1;
-  visibility: visible; }
-
-.closed .widget-attributes li.ex-moved {
-  -webkit-animation: slideCartridgeClose 0.3s ease;
-  -moz-animation: slideCartridgeClose 0.3s ease;
-  animation: slideCartridgeClose 0.3s ease;
-  -webkit-animation-fill-mode: forwards;
-  -moz-animation-fill-mode: forwards;
-  animation-fill-mode: forwards;
-  padding-left: 2em; }
+.closed .drop.cartridge-full {
+  -webkit-transform: translateX(5%);
+  -moz-transform: translateX(5%);
+  -ms-transform: translateX(5%);
+  -o-transform: translateX(5%);
+  transform: translateX(5%); }
 
 .closed .widget-content {
-  -webkit-animation: slideClose 0.3s ease;
-  -moz-animation: slideClose 0.3s ease;
-  animation: slideClose 0.3s ease;
-  -webkit-animation-fill-mode: forwards;
-  -moz-animation-fill-mode: forwards;
-  animation-fill-mode: forwards; }
+  width: 98%; }
+
+.initialized .widget-content {
+  width: 90%; }
+
+.open-widget-attributes .closed .widget-content {
+  width: 97%; }
+
+.open-widget-attributes .drop {
+  -webkit-transform: translateX(5%);
+  -moz-transform: translateX(5%);
+  -ms-transform: translateX(5%);
+  -o-transform: translateX(5%);
+  transform: translateX(5%); }
 
 .open-widget-attributes .widget-content {
-  -webkit-animation: slideWidth 0.3s ease;
-  -moz-animation: slideWidth 0.3s ease;
-  animation: slideWidth 0.3s ease;
-  -webkit-animation-fill-mode: forwards;
-  -moz-animation-fill-mode: forwards;
-  animation-fill-mode: forwards; }
+  width: 90%; }
 
 .widget-edit {
   font-size: 1.1em;

@@ -27,6 +27,9 @@ class Dashboard
       return unless target?.id is @containerId
       el.id = "widget-#{@widgetCount}"
       el.className += ' ex-moved widget'
+      setTimeout( ->
+        el.className += " initialized"
+      , 30)
       @initWidget(el)
       @widgetCount++
     ).on("moves", (el) ->
