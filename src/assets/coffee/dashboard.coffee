@@ -2,22 +2,28 @@ window.Ag ?= {}
 
 class Dashboard
 
+  menuId: "toolbox-menu"
+  containerId: "active-widget-container"
+
   constructor: ->
     @enableWidgetDragging()
 
   enableWidgetDragging: ->
-    dashMenu = document.querySelector("#toolbox-menu")
-    dashContainer = document.querySelector("#active-widget-container")
+    dashMenu = document.querySelector("##{@menuId}")
+    dashContainer = document.querySelector("##{@containerId}")
     dashContainerWidth = dashContainer.offsetWidth + "px"
 
-    drake = dragula([dashMenu, dashContainer],
-      copy: true,
-    )
+    @drake = dragula([dashMenu, dashContainer], {
+      copy: true
+      accepts: (el, target, source, sibling) =>
+        return target.id is @containerId
+    })
 
-    drake.on('drag', (el) =>
+    @drake.on('drag', (el) =>
       el.className = el.className.replace('ex-moved', '')
       $(".gu-mirror").attr("width", dashContainerWidth)
-    ).on('drop', (el) =>
+    ).on('drop', (el, target, source, sibling) =>
+      return unless target?.id is @containerId
       window.Ag.Dashboard.widgetCount += 1
       el.id = "widget-" + window.Ag.Dashboard.widgetCount
       el.className += ' ex-moved widget'
