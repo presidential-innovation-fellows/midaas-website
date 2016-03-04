@@ -4662,6 +4662,9 @@ input[type="range"] {
 .dashboard-header p {
   margin: 0; }
 
+.disable-menu li {
+  opacity: 0.25; }
+
 .pages-dashboard .app-nav {
   display: none; }
 
@@ -4737,14 +4740,10 @@ input[type="range"] {
       width: 100%; }
   .widget-attributes .data-drop::after {
     content: "\f1c0"; }
-  .widget-attributes .data-drop.droppable {
-    background-color: #0062a3; }
   .widget-attributes .data-drop .drag-item {
     background-color: #0071bc; }
   .widget-attributes .demographic-drop::after {
     content: "\f0c0"; }
-  .widget-attributes .demographic-drop.droppable {
-    background-color: #cfa200; }
   .widget-attributes .demographic-drop .drag-item {
     background-color: #e8b500;
     border-bottom: 0; }
@@ -4780,32 +4779,41 @@ input[type="range"] {
       text-align: left;
       vertical-align: center;
       width: 100%; }
-    .widget-attributes .drop.cartridge-full {
-      -webkit-transform: translateX(10%);
-      -moz-transform: translateX(10%);
-      -ms-transform: translateX(10%);
-      -o-transform: translateX(10%);
-      transform: translateX(10%); }
-      .widget-attributes .drop.cartridge-full::after {
-        display: none; }
-      .widget-attributes .drop.cartridge-full.droppable {
-        -webkit-transform: translateX(0);
-        -moz-transform: translateX(0);
-        -ms-transform: translateX(0);
-        -o-transform: translateX(0);
-        transform: translateX(0); }
-    .widget-attributes .drop.droppable {
-      -webkit-transform: translateX(0);
-      -moz-transform: translateX(0);
-      -ms-transform: translateX(0);
-      -o-transform: translateX(0);
-      transform: translateX(0); }
   .widget-attributes .geographic-drop::after {
     content: "\f041"; }
-  .widget-attributes .geographic-drop.droppable {
-    background-color: #2e8540; }
   .widget-attributes .geographic-drop .drag-item {
     background-color: #359849; }
+
+.widget-creation .data-drop.droppable {
+  background-color: #0062a3; }
+
+.widget-creation .demographic-drop.droppable {
+  background-color: #cfa200; }
+
+.widget-creation .drop.cartridge-full {
+  -webkit-transform: translateX(10%);
+  -moz-transform: translateX(10%);
+  -ms-transform: translateX(10%);
+  -o-transform: translateX(10%);
+  transform: translateX(10%); }
+  .widget-creation .drop.cartridge-full::after {
+    display: none; }
+  .widget-creation .drop.cartridge-full.droppable {
+    -webkit-transform: translateX(0);
+    -moz-transform: translateX(0);
+    -ms-transform: translateX(0);
+    -o-transform: translateX(0);
+    transform: translateX(0); }
+
+.widget-creation .drop.droppable {
+  -webkit-transform: translateX(0);
+  -moz-transform: translateX(0);
+  -ms-transform: translateX(0);
+  -o-transform: translateX(0);
+  transform: translateX(0); }
+
+.widget-creation .geographic-drop.droppable {
+  background-color: #2e8540; }
 
 .widget-content {
   -webkit-transition: width 0.25s ease;
@@ -4839,17 +4847,17 @@ input[type="range"] {
 .initialized .widget-content {
   width: 90%; }
 
-.open-widget-attributes .closed .widget-content {
+.open-widget-attributes .closed.widget-creation .widget-content {
   width: 97%; }
 
-.open-widget-attributes .drop {
+.open-widget-attributes .widget-creation .drop {
   -webkit-transform: translateX(5%);
   -moz-transform: translateX(5%);
   -ms-transform: translateX(5%);
   -o-transform: translateX(5%);
   transform: translateX(5%); }
 
-.open-widget-attributes .widget-content {
+.open-widget-attributes .widget-creation .widget-content {
   width: 90%; }
 
 .widget-edit {

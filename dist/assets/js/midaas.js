@@ -5293,6 +5293,15 @@ module.exports = eventmap;
       return null;
     }
 
+    WidgetAbstract.prototype.addCreateListener = function() {
+      return $(".widget-creation .create-button").on("click", (function(_this) {
+        return function() {
+          $(".widget-creation").removeClass("widget-creation");
+          return _this.completeWidget();
+        };
+      })(this));
+    };
+
     WidgetAbstract.prototype.addDestroyListener = function(el) {
       var widgetId;
       widgetId = "#" + el.id;
@@ -5323,6 +5332,7 @@ module.exports = eventmap;
           var dataType;
           dataType = el.getAttribute("data-type");
           el.className += ' ex-moved';
+          console.log("Container:", container);
           _this.removeExistingDrop(dropLocation, el, widgetId, container);
           _this.animateCompletionBar(el, widgetId);
           _this.removeDragClassFromBody();
@@ -5400,9 +5410,27 @@ module.exports = eventmap;
       return $(widgetId).removeClass("initialized").addClass("closed");
     };
 
+    WidgetAbstract.prototype.completeWidget = function() {
+      return this.disableCreationMode();
+    };
+
     WidgetAbstract.prototype.destroyWidget = function(widgetId) {
       $(widgetId + " .drag-item").unbind();
       return $(widgetId).remove();
+    };
+
+    WidgetAbstract.prototype.disableCreationMode = function() {
+      $("body").removeClass("creation-mode");
+      $("#toolbox-menu").removeClass("disable-menu");
+      $(".create-button").remove();
+      return window.Ag.Dashboard.creationMode = false;
+    };
+
+    WidgetAbstract.prototype.enableCreationMode = function() {
+      $("body").addClass("creation-mode");
+      $("#active-widget-container").addClass("dropped");
+      $("#toolbox-menu").addClass("disable-menu");
+      return this.addCreateListener();
     };
 
     WidgetAbstract.prototype.enableDragging = function(el, menuId) {
@@ -5411,40 +5439,33 @@ module.exports = eventmap;
       dataType = document.querySelector(menuId + " li").getAttribute("data-type");
       dropLocation = document.querySelector(widgetId + "-" + dataType + "-drop");
       dataMenu = document.querySelector(menuId);
-      if (!$("#active-widget-container").hasClass("dropped")) {
-        switch (dataType) {
-          case "demographic":
-            window.Ag.Widget.demographicDrake = dragula([dataMenu], {
-              copy: true
-            });
-            window.Ag.Widget.demographicDrake.containers.push(dropLocation);
-            return this.addDragEventListeners(window.Ag.Widget.demographicDrake, dropLocation, menuId, widgetId);
-          case "data":
-            window.Ag.Widget.dataDrake = dragula([dataMenu], {
-              copy: true
-            });
-            window.Ag.Widget.dataDrake.containers.push(dropLocation);
-            return this.addDragEventListeners(window.Ag.Widget.dataDrake, dropLocation, menuId, widgetId);
-          case "geographic":
-            window.Ag.Widget.geographicDrake = dragula([dataMenu], {
-              copy: true
-            });
-            window.Ag.Widget.geographicDrake.containers.push(dropLocation);
-            this.addDragEventListeners(window.Ag.Widget.geographicDrake, dropLocation, menuId, widgetId);
-            return $("#active-widget-container").addClass("dropped");
-        }
-      } else {
-        switch (dataType) {
-          case "demographic":
-            window.Ag.Widget.demographicDrake.containers.push(dropLocation);
-            return this.addDragEventListeners(window.Ag.Widget.demographicDrake, dropLocation, menuId, widgetId);
-          case "data":
-            window.Ag.Widget.dataDrake.containers.push(dropLocation);
-            return this.addDragEventListeners(window.Ag.Widget.dataDrake, dropLocation, menuId, widgetId);
-          case "geographic":
-            window.Ag.Widget.geographicDrake.containers.push(dropLocation);
-            return this.addDragEventListeners(window.Ag.Widget.geographicDrake, dropLocation, menuId, widgetId);
-        }
+      if ($("#active-widget-container").hasClass("dropped")) {
+        window.Ag.Widget.dataDrake.destroy();
+        window.Ag.Widget.demographicDrake.destroy();
+        window.Ag.Widget.geographicDrake.destroy();
+        $("#active-widget-container").removeClass("dropped");
+      }
+      switch (dataType) {
+        case "demographic":
+          window.Ag.Widget.demographicDrake = dragula([dataMenu], {
+            copy: true
+          });
+          window.Ag.Widget.demographicDrake.containers.push(dropLocation);
+          return this.addDragEventListeners(window.Ag.Widget.demographicDrake, dropLocation, menuId, widgetId);
+        case "data":
+          window.Ag.Widget.dataDrake = dragula([dataMenu], {
+            copy: true
+          });
+          window.Ag.Widget.dataDrake.containers.push(dropLocation);
+          return this.addDragEventListeners(window.Ag.Widget.dataDrake, dropLocation, menuId, widgetId);
+        case "geographic":
+          window.Ag.Widget.geographicDrake = dragula([dataMenu], {
+            copy: true
+          });
+          window.Ag.Widget.geographicDrake.containers.push(dropLocation);
+          this.addDragEventListeners(window.Ag.Widget.geographicDrake, dropLocation, menuId, widgetId);
+          $("#active-widget-container").addClass("dropped");
+          return this.enableCreationMode();
       }
     };
 
@@ -5534,7 +5555,7 @@ module.exports = eventmap;
 }).call(this);
 
 (function() {
-  var Dashboard;
+  var Dashboard, base;
 
   if (window.Ag == null) {
     window.Ag = {};
@@ -5564,14 +5585,15 @@ module.exports = eventmap;
         copy: true,
         accepts: (function(_this) {
           return function(el, target, source, sibling) {
-            return target.id === _this.containerId;
+            if (window.Ag.Dashboard.creationMode === false) {
+              return target.id === _this.containerId;
+            }
           };
         })(this)
       });
       return this.drake.on('drag', (function(_this) {
         return function(el) {
           el.className = el.className.replace('ex-moved', '');
-          console.log(el);
           return $(".gu-mirror").attr("width", dashContainerWidth);
         };
       })(this)).on('drop', (function(_this) {
@@ -5580,12 +5602,13 @@ module.exports = eventmap;
             return;
           }
           el.id = "widget-" + _this.widgetCount;
-          el.className += ' ex-moved widget';
+          el.className += ' ex-moved widget widget-creation';
           setTimeout(function() {
             return el.className += " initialized";
           }, 30);
           _this.initWidget(el);
-          return _this.widgetCount++;
+          _this.widgetCount++;
+          return window.Ag.Dashboard.creationMode = true;
         };
       })(this)).on("moves", function(el) {
         return false;
@@ -5599,7 +5622,6 @@ module.exports = eventmap;
     Dashboard.prototype.initWidget = function(el) {
       var widgetType;
       widgetType = el.getAttribute("data-widget");
-      console.log("initWidget", widgetType);
       switch (widgetType) {
         case "bar-chart":
           return new Ag.Widget.ChartBar(el);
@@ -5623,5 +5645,11 @@ module.exports = eventmap;
   $(function() {
     return new Dashboard();
   });
+
+  if ((base = window.Ag).Dashboard == null) {
+    base.Dashboard = {};
+  }
+
+  window.Ag.Dashboard.creationMode = false;
 
 }).call(this);

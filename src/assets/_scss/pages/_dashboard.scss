@@ -33,8 +33,16 @@
 }
 
 .dashboard-header {
+
   p {
     margin: 0;
+  }
+}
+
+.disable-menu {
+
+  li {
+    opacity: 0.25;
   }
 }
 
@@ -139,10 +147,6 @@
       content: "\f1c0";
     }
 
-    &.droppable {
-      background-color: darken($color-primary, 5);
-    }
-
     .drag-item {
       background-color: $color-primary;
     }
@@ -152,10 +156,6 @@
 
     &::after {
       content: "\f0c0";
-    }
-
-    &.droppable {
-      background-color: darken($color-yellow, 12);
     }
 
     .drag-item {
@@ -194,6 +194,37 @@
       vertical-align: center;
       width: 100%;
     }
+  }
+
+  .geographic-drop {
+
+    &::after {
+      content: "\f041";
+    }
+
+    .drag-item {
+      background-color: lighten($color-green, 5);
+    }
+  }
+}
+
+.widget-creation {
+
+  .data-drop {
+
+    &.droppable {
+      background-color: darken($color-primary, 5);
+    }
+  }
+
+  .demographic-drop {
+
+    &.droppable {
+      background-color: darken($color-yellow, 12);
+    }
+  }
+
+  .drop {
 
     &.cartridge-full {
       @include transform(translateX(10%));
@@ -214,16 +245,8 @@
 
   .geographic-drop {
 
-    &::after {
-      content: "\f041";
-    }
-
     &.droppable {
       background-color: $color-green;
-    }
-
-    .drag-item {
-      background-color: lighten($color-green, 5);
     }
   }
 }
@@ -274,17 +297,23 @@
 
   .closed {
 
-    .widget-content {
-      width: 97%;
+    &.widget-creation {
+
+      .widget-content {
+        width: 97%;
+      }
     }
   }
 
-  .drop {
-    @include transform(translateX(5%));
-  }
+  .widget-creation {
 
-  .widget-content {
-    width: 90%;
+    .drop {
+      @include transform(translateX(5%));
+    }
+
+    .widget-content {
+      width: 90%;
+    }
   }
 }
 

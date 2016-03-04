@@ -20,24 +20,25 @@ class Dashboard
     @drake = dragula([dashMenu, dashContainer], {
       copy: true
       accepts: (el, target, source, sibling) =>
-        return target.id is @containerId
+        if window.Ag.Dashboard.creationMode == false
+          return target.id is @containerId
     })
 
     @drake.on('drag', (el) =>
       el.className = el.className.replace('ex-moved', '')
-      console.log(el)
       $(".gu-mirror").attr("width", dashContainerWidth)
       #@addDraggingClass()
     ).on('drop', (el, target, source, sibling) =>
       #@removeDraggingClass()
       return unless target?.id is @containerId
       el.id = "widget-#{@widgetCount}"
-      el.className += ' ex-moved widget'
+      el.className += ' ex-moved widget widget-creation'
       setTimeout( ->
         el.className += " initialized"
       , 30)
       @initWidget(el)
       @widgetCount++
+      window.Ag.Dashboard.creationMode = true
     ).on("moves", (el) ->
       return false
     ).on('over', (el, container) ->
@@ -48,7 +49,6 @@ class Dashboard
 
   initWidget: (el) ->
     widgetType = el.getAttribute("data-widget")
-    console.log "initWidget", widgetType
 
     switch widgetType
       when "bar-chart"
@@ -65,3 +65,6 @@ class Dashboard
 $( ->
   new Dashboard()
 )
+
+window.Ag.Dashboard ?= {}
+window.Ag.Dashboard.creationMode = false

@@ -2,6 +2,12 @@ class WidgetAbstract
   constructor: ->
     return null
 
+  addCreateListener: ->
+    $(".widget-creation .create-button").on("click", =>
+      $(".widget-creation").removeClass("widget-creation")
+      @completeWidget()
+    )
+
   addDestroyListener: (el) ->
     widgetId = "#" + el.id
     $(widgetId + " .widget-remove").on("click", =>
@@ -21,6 +27,8 @@ class WidgetAbstract
     ).on('drop', (el, container) =>
       dataType = el.getAttribute("data-type")
       el.className += ' ex-moved'
+
+      console.log("Container:", container)
 
       @removeExistingDrop(dropLocation, el, widgetId, container)
       @animateCompletionBar(el, widgetId)
@@ -83,9 +91,27 @@ class WidgetAbstract
   closeDrawer: (widgetId) ->
     $(widgetId).removeClass("initialized").addClass("closed")
 
+  completeWidget: ->
+    #Balint Function Here
+    @disableCreationMode()
+
   destroyWidget: (widgetId) ->
     $(widgetId + " .drag-item").unbind()
     $(widgetId).remove()
+
+  disableCreationMode: ->
+    $("body").removeClass("creation-mode")
+    $("#toolbox-menu").removeClass("disable-menu")
+    $(".create-button").remove()
+
+    window.Ag.Dashboard.creationMode = false
+
+  enableCreationMode: ->
+    $("body").addClass("creation-mode")
+    $("#active-widget-container").addClass("dropped")
+    $("#toolbox-menu").addClass("disable-menu")
+
+    @addCreateListener()
 
   enableDragging: (el, menuId) ->
     widgetId = "#" + el.id
@@ -93,33 +119,27 @@ class WidgetAbstract
     dropLocation = document.querySelector(widgetId + "-" + dataType + "-drop")
     dataMenu = document.querySelector(menuId)
 
-    if !$("#active-widget-container").hasClass("dropped")
+    if $("#active-widget-container").hasClass("dropped")
+      window.Ag.Widget.dataDrake.destroy()
+      window.Ag.Widget.demographicDrake.destroy()
+      window.Ag.Widget.geographicDrake.destroy()
+      $("#active-widget-container").removeClass("dropped")
 
-      switch dataType
-        when "demographic"
-          window.Ag.Widget.demographicDrake = dragula([dataMenu], copy: true)
-          window.Ag.Widget.demographicDrake.containers.push(dropLocation)
-          @addDragEventListeners(window.Ag.Widget.demographicDrake, dropLocation, menuId, widgetId)
-        when "data"
-          window.Ag.Widget.dataDrake = dragula([dataMenu], copy: true)
-          window.Ag.Widget.dataDrake.containers.push(dropLocation)
-          @addDragEventListeners(window.Ag.Widget.dataDrake, dropLocation, menuId, widgetId)
-        when "geographic"
-          window.Ag.Widget.geographicDrake = dragula([dataMenu], copy: true)
-          window.Ag.Widget.geographicDrake.containers.push(dropLocation)
-          @addDragEventListeners(window.Ag.Widget.geographicDrake, dropLocation, menuId, widgetId)
-          $("#active-widget-container").addClass("dropped")
-    else
-      switch dataType
-        when "demographic"
-          window.Ag.Widget.demographicDrake.containers.push(dropLocation)
-          @addDragEventListeners(window.Ag.Widget.demographicDrake, dropLocation, menuId, widgetId)
-        when "data"
-          window.Ag.Widget.dataDrake.containers.push(dropLocation)
-          @addDragEventListeners(window.Ag.Widget.dataDrake, dropLocation, menuId, widgetId)
-        when "geographic"
-          window.Ag.Widget.geographicDrake.containers.push(dropLocation)
-          @addDragEventListeners(window.Ag.Widget.geographicDrake, dropLocation, menuId, widgetId)
+    switch dataType
+      when "demographic"
+        window.Ag.Widget.demographicDrake = dragula([dataMenu], copy: true)
+        window.Ag.Widget.demographicDrake.containers.push(dropLocation)
+        @addDragEventListeners(window.Ag.Widget.demographicDrake, dropLocation, menuId, widgetId)
+      when "data"
+        window.Ag.Widget.dataDrake = dragula([dataMenu], copy: true)
+        window.Ag.Widget.dataDrake.containers.push(dropLocation)
+        @addDragEventListeners(window.Ag.Widget.dataDrake, dropLocation, menuId, widgetId)
+      when "geographic"
+        window.Ag.Widget.geographicDrake = dragula([dataMenu], copy: true)
+        window.Ag.Widget.geographicDrake.containers.push(dropLocation)
+        @addDragEventListeners(window.Ag.Widget.geographicDrake, dropLocation, menuId, widgetId)
+        $("#active-widget-container").addClass("dropped")
+        @enableCreationMode()
 
 
   openDrawer: (widgetId) ->
