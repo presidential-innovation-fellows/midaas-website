@@ -4217,17 +4217,17 @@ return d.pie(d.filterTargetsToShow(d.data.targets)).forEach(function(b){f||b.dat
         url: url + "?" + (paramsDenominator.join('&')),
         timeout: 10000
       })).done((function(_this) {
-        return function(mResponse, fResponse) {
-          var data, fData, mData, quantile, state;
-          mData = mResponse[0];
-          fData = fResponse[0];
+        return function(nResponse, dResponse) {
+          var dData, data, nData, quantile, state;
+          nData = nResponse[0];
+          dData = dResponse[0];
           data = {};
-          for (state in mData) {
-            for (quantile in mData[state]) {
+          for (state in nData) {
+            for (quantile in nData[state]) {
               if (data[quantile] == null) {
                 data[quantile] = {};
               }
-              data[quantile][state] = fData[state][quantile] / mData[state][quantile];
+              data[quantile][state] = nData[state][quantile] / dData[state][quantile];
             }
           }
           return callback(null, data);
