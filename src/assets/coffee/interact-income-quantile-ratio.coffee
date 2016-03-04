@@ -58,14 +58,14 @@ class InteractIncomeQuantileRatio extends Ag.Interact.Abstract
         url: "#{url}?#{paramsDenominator.join('&')}"
         timeout: 10000
       })
-    ).done((mResponse, fResponse) =>
-      mData = mResponse[0]
-      fData = fResponse[0]
+    ).done((nResponse, dResponse) =>
+      nData = nResponse[0]
+      dData = dResponse[0]
       data = {}
-      for state of mData
-        for quantile of mData[state]
+      for state of nData
+        for quantile of nData[state]
           data[quantile] ?= {}
-          data[quantile][state] = fData[state][quantile] / mData[state][quantile]
+          data[quantile][state] = nData[state][quantile] / dData[state][quantile]
       return callback(null, data)
     ).fail((err) =>
       return callback(err)
