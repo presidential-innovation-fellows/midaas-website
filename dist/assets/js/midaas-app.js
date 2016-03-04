@@ -1025,7 +1025,7 @@
 }).call(this);
 
 (function() {
-  var Dashboard, base;
+  var Dashboard;
 
   if (window.Ag == null) {
     window.Ag = {};
@@ -1035,6 +1035,8 @@
     Dashboard.prototype.menuId = "toolbox-menu";
 
     Dashboard.prototype.containerId = "active-widget-container";
+
+    Dashboard.prototype.widgetCount = 0;
 
     function Dashboard() {
       this.enableWidgetDragging();
@@ -1063,10 +1065,10 @@
           if ((target != null ? target.id : void 0) !== _this.containerId) {
             return;
           }
-          window.Ag.Dashboard.widgetCount += 1;
-          el.id = "widget-" + window.Ag.Dashboard.widgetCount;
+          el.id = "widget-" + _this.widgetCount;
           el.className += ' ex-moved widget';
-          return _this.initWidget(el);
+          _this.initWidget(el);
+          return _this.widgetCount++;
         };
       })(this)).on("moves", function(el) {
         return false;
@@ -1100,11 +1102,5 @@
   $(function() {
     return new Dashboard();
   });
-
-  if ((base = window.Ag).Dashboard == null) {
-    base.Dashboard = {};
-  }
-
-  window.Ag.Dashboard.widgetCount = 0;
 
 }).call(this);

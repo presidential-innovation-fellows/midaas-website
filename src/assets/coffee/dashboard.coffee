@@ -4,6 +4,7 @@ class Dashboard
 
   menuId: "toolbox-menu"
   containerId: "active-widget-container"
+  widgetCount: 0
 
   constructor: ->
     @enableWidgetDragging()
@@ -24,10 +25,10 @@ class Dashboard
       $(".gu-mirror").attr("width", dashContainerWidth)
     ).on('drop', (el, target, source, sibling) =>
       return unless target?.id is @containerId
-      window.Ag.Dashboard.widgetCount += 1
-      el.id = "widget-" + window.Ag.Dashboard.widgetCount
+      el.id = "widget-#{@widgetCount}"
       el.className += ' ex-moved widget'
       @initWidget(el)
+      @widgetCount++
     ).on("moves", (el) ->
       return false
     ).on('over', (el, container) ->
@@ -52,6 +53,3 @@ class Dashboard
 $( ->
   new Dashboard()
 )
-
-window.Ag.Dashboard ?= {}
-window.Ag.Dashboard.widgetCount = 0
