@@ -828,7 +828,7 @@
       return body.className = body.className += " open-widget-attributes";
     };
 
-    WidgetAbstract.prototype.addDragEventListeners = function(drake, dropLocation, menuId, widgetId) {
+    WidgetAbstract.prototype.addDragEventListeners = function(drake, dropLocation, menuId, widgetId, validContainerId) {
       return drake.on('drag', (function(_this) {
         return function(el) {
           var dataType;
@@ -840,11 +840,13 @@
       })(this)).on('drop', (function(_this) {
         return function(el, container) {
           var dataType;
-          dataType = el.getAttribute("data-type");
-          el.className += ' ex-moved';
-          console.log("Container:", container);
-          _this.removeExistingDrop(dropLocation, el, widgetId, container);
-          _this.animateCompletionBar(el, widgetId);
+          if ((container != null ? container.id : void 0) === validContainerId) {
+            dataType = el.getAttribute("data-type");
+            el.className += ' ex-moved';
+            console.log("Container:", container);
+            _this.removeExistingDrop(dropLocation, el, widgetId, container);
+            _this.animateCompletionBar(el, widgetId);
+          }
           _this.removeDragClassFromBody();
           return $(".droppable").removeClass("droppable");
         };
@@ -935,7 +937,7 @@
       $("#toolbox-menu").parent().removeClass("disable-menu");
       $(".create-button").remove();
       $(".drag-menu:not(#toolbox-menu").parent().addClass("disable-menu");
-      return window.Ag.Dashboard.creationMode = false;
+      return Ag.Dashboard.creationMode = false;
     };
 
     WidgetAbstract.prototype.enableCreationMode = function() {
@@ -947,11 +949,12 @@
     };
 
     WidgetAbstract.prototype.enableDragging = function(el, menuId) {
-      var dataMenu, dataType, dropLocation, widgetId;
+      var dataMenu, dataType, dropLocation, validContainerId, widgetId;
       widgetId = "#" + el.id;
       dataType = document.querySelector(menuId + " li").getAttribute("data-type");
       dropLocation = document.querySelector(widgetId + "-" + dataType + "-drop");
       dataMenu = document.querySelector(menuId);
+      validContainerId = el.id + "-" + dataType + "-drop";
       if ($("#active-widget-container").hasClass("dropped")) {
         window.Ag.Widget.dataDrake.destroy();
         window.Ag.Widget.demographicDrake.destroy();
@@ -964,19 +967,19 @@
             copy: true
           });
           window.Ag.Widget.demographicDrake.containers.push(dropLocation);
-          return this.addDragEventListeners(window.Ag.Widget.demographicDrake, dropLocation, menuId, widgetId);
+          return this.addDragEventListeners(window.Ag.Widget.demographicDrake, dropLocation, menuId, widgetId, validContainerId);
         case "data":
           window.Ag.Widget.dataDrake = dragula([dataMenu], {
             copy: true
           });
           window.Ag.Widget.dataDrake.containers.push(dropLocation);
-          return this.addDragEventListeners(window.Ag.Widget.dataDrake, dropLocation, menuId, widgetId);
+          return this.addDragEventListeners(window.Ag.Widget.dataDrake, dropLocation, menuId, widgetId, validContainerId);
         case "geographic":
           window.Ag.Widget.geographicDrake = dragula([dataMenu], {
             copy: true
           });
           window.Ag.Widget.geographicDrake.containers.push(dropLocation);
-          this.addDragEventListeners(window.Ag.Widget.geographicDrake, dropLocation, menuId, widgetId);
+          this.addDragEventListeners(window.Ag.Widget.geographicDrake, dropLocation, menuId, widgetId, validContainerId);
           $("#active-widget-container").addClass("dropped");
           return this.enableCreationMode();
       }
@@ -1098,9 +1101,7 @@
         copy: true,
         accepts: (function(_this) {
           return function(el, target, source, sibling) {
-            if (window.Ag.Dashboard.creationMode === false) {
-              return target.id === _this.containerId;
-            }
+            return Ag.Dashboard.creationMode === false && target.id === _this.containerId;
           };
         })(this)
       });
@@ -1121,7 +1122,7 @@
           }, 30);
           _this.initWidget(el);
           _this.widgetCount++;
-          return window.Ag.Dashboard.creationMode = true;
+          return Ag.Dashboard.creationMode = true;
         };
       })(this)).on("moves", function(el) {
         return false;
