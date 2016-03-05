@@ -38,7 +38,7 @@ class Dashboard
       , 30)
       @initWidget(el)
       @widgetCount++
-      window.Ag.Dashboard.creationMode = true
+      Ag.Dashboard.creationMode = true
     ).on("moves", (el) ->
       return false
     ).on('over', (el, container) ->

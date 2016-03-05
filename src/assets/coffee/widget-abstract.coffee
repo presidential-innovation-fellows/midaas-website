@@ -106,7 +106,7 @@ class WidgetAbstract
     $(".create-button").remove()
     $(".drag-menu:not(#toolbox-menu").parent().addClass("disable-menu")
 
-    window.Ag.Dashboard.creationMode = false
+    Ag.Dashboard.creationMode = false
 
   enableCreationMode: ->
     $("body").addClass("creation-mode")
