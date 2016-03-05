@@ -102,15 +102,17 @@ class WidgetAbstract
 
   disableCreationMode: ->
     $("body").removeClass("creation-mode")
-    $("#toolbox-menu").removeClass("disable-menu")
+    $("#toolbox-menu").parent().removeClass("disable-menu")
     $(".create-button").remove()
+    $(".drag-menu:not(#toolbox-menu").parent().addClass("disable-menu")
 
     window.Ag.Dashboard.creationMode = false
 
   enableCreationMode: ->
     $("body").addClass("creation-mode")
     $("#active-widget-container").addClass("dropped")
-    $("#toolbox-menu").addClass("disable-menu")
+    $(".disable-menu").removeClass("disable-menu")
+    $("#toolbox-menu").parent().addClass("disable-menu")
 
     @addCreateListener()
 

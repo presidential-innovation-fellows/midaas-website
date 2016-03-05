@@ -7,24 +7,23 @@
           | Beta
   .toolbox
     .widgets
-      h2 Widgets
-      ul#toolbox-menu
+      h2
+        | Widgets
+      ul#toolbox-menu.drag-menu
         li.drag-item(data-widget="bar-chart")
           | Bar Chart
-          .drag-icon
-            i.fa.fa-arrows
         li.drag-item(data-widget="map")
           | Map
-    .data
+    .data.disable-menu
       h2 Data
-      ul#data-menu
+      ul#data-menu.drag-menu
         li.drag-item(data-type="data" data-dataset="quantiles")
           | Quantiles
         li.drag-item(data-type="data" data-dataset="ratio")
           | Ratios
-    .demographic
+    .demographic.disable-menu
       h2 Demographic
-      ul#demographic-menu
+      ul#demographic-menu.drag-menu
         li.drag-item(data-type="demographic")
           | All
         li.drag-item(data-type="demographic")
@@ -33,9 +32,9 @@
           | Age
         li.drag-item(data-type="demographic")
           | Race
-    .geography
+    .geography.disable-menu
       h2 Geography
-      ul#geographic-menu
+      ul#geographic-menu.drag-menu
         li.drag-item(data-type="geographic")
           | National
         li.drag-item(data-type="geographic")

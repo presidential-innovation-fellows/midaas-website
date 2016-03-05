@@ -932,15 +932,17 @@
 
     WidgetAbstract.prototype.disableCreationMode = function() {
       $("body").removeClass("creation-mode");
-      $("#toolbox-menu").removeClass("disable-menu");
+      $("#toolbox-menu").parent().removeClass("disable-menu");
       $(".create-button").remove();
+      $(".drag-menu:not(#toolbox-menu").parent().addClass("disable-menu");
       return window.Ag.Dashboard.creationMode = false;
     };
 
     WidgetAbstract.prototype.enableCreationMode = function() {
       $("body").addClass("creation-mode");
       $("#active-widget-container").addClass("dropped");
-      $("#toolbox-menu").addClass("disable-menu");
+      $(".disable-menu").removeClass("disable-menu");
+      $("#toolbox-menu").parent().addClass("disable-menu");
       return this.addCreateListener();
     };
 

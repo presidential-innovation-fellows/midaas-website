@@ -4501,24 +4501,35 @@ input[type="range"] {
   top: 0;
   width: 200px; }
   .dashboard-menu h2 {
-    font-size: 1.2em;
-    margin: 0; }
+    color: #c9cacd;
+    font-size: 0.9em;
+    font-weight: 500;
+    margin: 0;
+    padding-left: 1em; }
   .dashboard-menu li {
     background-color: #323a45;
-    border-bottom: 1px solid #5b616b;
     color: #aeb0b5;
     cursor: grab;
     cursor: -webkit-grab;
-    font-size: 0.9em;
+    font-size: 0.85em;
     margin: 0;
-    padding: 0.5em 3rem;
+    padding: 0.4em 1em;
     position: relative;
     width: 100%; }
+    .dashboard-menu li:hover {
+      background-color: #272e36; }
   .dashboard-menu ul {
     margin: 0; }
+    .dashboard-menu ul.drag-menu {
+      margin-bottom: 1em; }
+  .dashboard-menu .disable-menu li {
+    cursor: default; }
+    .dashboard-menu .disable-menu li:hover {
+      background-color: #323a45; }
   .dashboard-menu .logo-container {
     background-color: #0071bc;
     height: 69.5px;
+    margin-bottom: 2em;
     padding: 1.45rem 0 3rem 3rem; }
     .dashboard-menu .logo-container:after {
       content: ".";
@@ -4529,14 +4540,12 @@ input[type="range"] {
 
 .drag-icon {
   color: rgba(255, 255, 255, 0.5);
+  display: inline-block;
   font-size: 0.85em;
-  position: absolute;
-  right: 2rem;
-  top: 0.75em; }
+  margin-right: 0.5em; }
 
 .drag-item {
   background-color: #323a45;
-  border-bottom: 1px solid #5b616b;
   color: #aeb0b5;
   font-size: 0.9em;
   margin: 0;
@@ -4544,9 +4553,7 @@ input[type="range"] {
   position: relative; }
   .drag-item.gu-mirror {
     cursor: grabbing;
-    cursor: -webkit-grabbing;
-    height: 50px;
-    width: 100px; }
+    cursor: -webkit-grabbing; }
 
 .app-nav {
   background-color: #323a45;
@@ -4634,7 +4641,7 @@ input[type="range"] {
 .dashboard-header p {
   margin: 0; }
 
-.disable-menu li {
+.disable-menu {
   opacity: 0.25; }
 
 .pages-dashboard .app-nav {
