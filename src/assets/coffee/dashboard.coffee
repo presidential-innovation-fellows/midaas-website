@@ -20,8 +20,8 @@ class Dashboard
     @drake = dragula([dashMenu, dashContainer], {
       copy: true
       accepts: (el, target, source, sibling) =>
-        if window.Ag.Dashboard.creationMode == false
-          return target.id is @containerId
+        return Ag.Dashboard.creationMode is false and
+          target.id is @containerId
     })
 
     @drake.on('drag', (el) =>
