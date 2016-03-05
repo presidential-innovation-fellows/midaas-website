@@ -4,6 +4,9 @@ class InteractAbstract
 
   constructor: (@chart) ->
     @config = @chart.config?.interact
+    # ensure config has required parts
+    @config.ui ?= {}
+    @config.query ?= {}
     @initObservers()
 
   # should be called after template is loaded

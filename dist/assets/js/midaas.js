@@ -4495,9 +4495,15 @@ module.exports = eventmap;
     InteractAbstract.prototype.apiUrlBase = "https://brbimhg0w9.execute-api.us-west-2.amazonaws.com/dev/";
 
     function InteractAbstract(chart) {
-      var ref;
+      var base, base1, ref;
       this.chart = chart;
       this.config = (ref = this.chart.config) != null ? ref.interact : void 0;
+      if ((base = this.config).ui == null) {
+        base.ui = {};
+      }
+      if ((base1 = this.config).query == null) {
+        base1.query = {};
+      }
       this.initObservers();
     }
 
@@ -5293,11 +5299,11 @@ module.exports = eventmap;
       return null;
     }
 
-    WidgetAbstract.prototype.addCreateListener = function() {
+    WidgetAbstract.prototype.addCreateListener = function(el) {
       return $(".widget-creation .create-button").on("click", (function(_this) {
         return function() {
           $(".widget-creation").removeClass("widget-creation");
-          return _this.completeWidget();
+          return _this.completeWidget(el);
         };
       })(this));
     };
@@ -5329,10 +5335,12 @@ module.exports = eventmap;
         };
       })(this)).on('drop', (function(_this) {
         return function(el, container) {
-          var dataType;
+          var dataSelection, dataType;
           if ((container != null ? container.id : void 0) === validContainerId) {
             dataType = el.getAttribute("data-type");
+            dataSelection = el.textContent.toLowerCase();
             el.className += ' ex-moved';
+            container.setAttribute("data-selection", dataSelection);
             console.log("Container:", container);
             _this.removeExistingDrop(dropLocation, el, widgetId, container);
             _this.animateCompletionBar(el, widgetId);
@@ -5412,7 +5420,8 @@ module.exports = eventmap;
       return $(widgetId).removeClass("initialized").addClass("closed");
     };
 
-    WidgetAbstract.prototype.completeWidget = function() {
+    WidgetAbstract.prototype.completeWidget = function(el) {
+      Ag.Widget.editConfigForWidget(el.id);
       return this.disableCreationMode();
     };
 
@@ -5430,12 +5439,12 @@ module.exports = eventmap;
       return Ag.Dashboard.creationMode = false;
     };
 
-    WidgetAbstract.prototype.enableCreationMode = function() {
+    WidgetAbstract.prototype.enableCreationMode = function(el) {
       $("body").addClass("creation-mode");
       $("#active-widget-container").addClass("dropped");
       $(".disable-menu").removeClass("disable-menu");
       $("#toolbox-menu").parent().addClass("disable-menu");
-      return this.addCreateListener();
+      return this.addCreateListener(el);
     };
 
     WidgetAbstract.prototype.enableDragging = function(el, menuId) {
@@ -5471,7 +5480,7 @@ module.exports = eventmap;
           window.Ag.Widget.geographicDrake.containers.push(dropLocation);
           this.addDragEventListeners(window.Ag.Widget.geographicDrake, dropLocation, menuId, widgetId, validContainerId);
           $("#active-widget-container").addClass("dropped");
-          return this.enableCreationMode();
+          return this.enableCreationMode(el);
       }
     };
 
@@ -5557,6 +5566,62 @@ module.exports = eventmap;
   }
 
   window.Ag.Widget.ChartBar = WidgetChartBar;
+
+}).call(this);
+
+(function() {
+  var base, editConfigForWidget;
+
+  editConfigForWidget = function(widgetId) {
+    var chart, chartDemographic, chartInteract, chartTitle, chartType, ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7, widget;
+    widget = {
+      title: (ref = $('#widget-0 input.widget-title')) != null ? ref.val() : void 0,
+      type: (ref1 = $("#" + widgetId)) != null ? ref1.attr("data-widget") : void 0,
+      data: (ref2 = $("#" + widgetId + "-data-drop")) != null ? ref2.attr("data-selection") : void 0,
+      geographic: (ref3 = $("#" + widgetId + "-geographic-drop")) != null ? ref3.attr("data-selection") : void 0,
+      demographic: (ref4 = $("#" + widgetId + "-demographic-drop")) != null ? ref4.attr("data-selection") : void 0
+    };
+    chartTitle = (ref5 = widget.title) != null ? ref5 : "";
+    chartType = {
+      "bar-chart": "bar",
+      "map-chart": "map"
+    }[widget.type];
+    if (chartType == null) {
+      return;
+    }
+    chartInteract = (ref6 = {
+      "quantiles": "IncomeQuantilesCompare",
+      "ratios": "IncomeQuantileRatio"
+    }[widget.data]) != null ? ref6 : "IncomeQuantilesCompare";
+    chartDemographic = (ref7 = {
+      "all": "overall",
+      "gender": "gender",
+      "age": "age",
+      "race": "race"
+    }[widget.demographic]) != null ? ref7 : "overall";
+    chart = {
+      title: chartTitle,
+      type: chartType,
+      interact: {
+        type: chartInteract,
+        query: {
+          compare: chartDemographic,
+          compareRegion: "US"
+        },
+        ui: {
+          compare: false,
+          compareRegion: false
+        }
+      }
+    };
+    return Ag.config[widgetId] = chart;
+  };
+
+  if ((base = window.Ag).Widget == null) {
+    base.Widget = {};
+  }
+
+  window.Ag.Widget.editConfigForWidget = editConfigForWidget;
 
 }).call(this);
 

@@ -2,10 +2,10 @@ class WidgetAbstract
   constructor: ->
     return null
 
-  addCreateListener: ->
+  addCreateListener: (el) ->
     $(".widget-creation .create-button").on("click", =>
       $(".widget-creation").removeClass("widget-creation")
-      @completeWidget()
+      @completeWidget(el)
     )
 
   addDestroyListener: (el) ->
@@ -27,7 +27,9 @@ class WidgetAbstract
     ).on('drop', (el, container) =>
       if container?.id is validContainerId
         dataType = el.getAttribute("data-type")
+        dataSelection = el.textContent.toLowerCase()
         el.className += ' ex-moved'
+        container.setAttribute("data-selection", dataSelection)
 
         console.log("Container:", container)
 
@@ -92,8 +94,8 @@ class WidgetAbstract
   closeDrawer: (widgetId) ->
     $(widgetId).removeClass("initialized").addClass("closed")
 
-  completeWidget: ->
-    #Balint Function Here
+  completeWidget: (el) ->
+    Ag.Widget.editConfigForWidget(el.id)
     @disableCreationMode()
 
   destroyWidget: (widgetId) ->
@@ -109,13 +111,13 @@ class WidgetAbstract
 
     Ag.Dashboard.creationMode = false
 
-  enableCreationMode: ->
+  enableCreationMode: (el) ->
     $("body").addClass("creation-mode")
     $("#active-widget-container").addClass("dropped")
     $(".disable-menu").removeClass("disable-menu")
     $("#toolbox-menu").parent().addClass("disable-menu")
 
-    @addCreateListener()
+    @addCreateListener(el)
 
   enableDragging: (el, menuId) ->
     widgetId = "#" + el.id
@@ -144,7 +146,7 @@ class WidgetAbstract
         window.Ag.Widget.geographicDrake.containers.push(dropLocation)
         @addDragEventListeners(window.Ag.Widget.geographicDrake, dropLocation, menuId, widgetId, validContainerId)
         $("#active-widget-container").addClass("dropped")
-        @enableCreationMode()
+        @enableCreationMode(el)
 
 
   openDrawer: (widgetId) ->
