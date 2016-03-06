@@ -49,6 +49,8 @@ class InteractAbstract
     title = @chart.config?.title
     el.find(".chart-title").text(title)
 
+  # triggers interaction with another chart (defined by the
+  # `connect` property)
   trigger: (selectionValue) =>
     return unless @config.connect?
     queryKey = switch @config.query?.compare?.toLowerCase()
