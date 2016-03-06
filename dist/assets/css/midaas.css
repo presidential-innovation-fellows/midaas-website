@@ -5040,6 +5040,44 @@ input.widget-title {
     display: inline-block;
     margin-bottom: 0;
     margin-top: 0; }
+  .pages-home .feature-list {
+    margin: 3em 0 0; }
+    .pages-home .feature-list:after {
+      content: ".";
+      display: block;
+      height: 0;
+      clear: both;
+      visibility: hidden; }
+    .pages-home .feature-list figure {
+      margin: 0 auto;
+      max-width: 6em; }
+    .pages-home .feature-list h2 {
+      font-size: 1.2em;
+      margin-top: 0; }
+    .pages-home .feature-list li {
+      background-color: #f9f9f9;
+      border-left: 1px solid #e0e0e0;
+      float: left;
+      margin: 0;
+      padding: 3em 1em;
+      text-align: center;
+      width: 25%; }
+    .pages-home .feature-list p {
+      color: #727a87; }
+  .pages-home .features {
+    background-color: #ffffff;
+    padding-top: 4em; }
+    .pages-home .features h1 {
+      font-size: 1.75em;
+      font-weight: normal;
+      margin: 0; }
+    .pages-home .features header {
+      margin: 0 auto;
+      max-width: 45em;
+      text-align: center; }
+  .pages-home .features-description {
+    color: #5b616b;
+    font-size: 1.1em; }
   .pages-home .row:after {
     content: ".";
     display: block;

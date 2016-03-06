@@ -30,6 +30,57 @@
     }
   }
 
+  .feature-list {
+    @include clearfix;
+    margin: 3em 0 0;
+
+    figure {
+      margin: 0 auto;
+      max-width: 6em;
+    }
+
+    h2 {
+      font-size: 1.2em;
+      margin-top: 0;
+    }
+
+    li {
+      background-color: $color-gray-extra-light;
+      border-left: 1px solid darken($color-gray-extra-light, 10);
+      float: left;
+      margin: 0;
+      padding: 3em 1em;
+      text-align: center;
+      width: 25%;
+    }
+
+    p {
+      color: lighten($color-gray, 10);
+    }
+  }
+
+  .features {
+    background-color: $color-white;
+    padding-top: 4em;
+
+    h1 {
+      font-size: 1.75em;
+      font-weight: normal;
+      margin: 0;
+    }
+
+    header {
+      margin: 0 auto;
+      max-width: 45em;
+      text-align: center;
+    }
+  }
+
+  .features-description {
+    color: $color-gray;
+    font-size: 1.1em;
+  }
+
   .row {
     @include clearfix;
   }
