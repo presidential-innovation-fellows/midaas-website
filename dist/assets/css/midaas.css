@@ -4583,6 +4583,58 @@ input[type="range"] {
     cursor: grabbing;
     cursor: -webkit-grabbing; }
 
+.app-footer {
+  background-color: #323a45;
+  padding: 2em 0; }
+  .app-footer .col {
+    float: left;
+    display: block;
+    margin-right: 2.3576515979%;
+    width: 48.821174201%; }
+    .app-footer .col:last-child {
+      margin-right: 0; }
+  .app-footer .label {
+    display: block;
+    overflow: hidden;
+    text-indent: 100%;
+    white-space: nowrap; }
+  .app-footer .links {
+    font-size: 1.5em; }
+    .app-footer .links a {
+      color: #ffffff; }
+      .app-footer .links a:hover {
+        color: #56bcff; }
+
+.footer-info {
+  text-align: right; }
+  .footer-info h1 {
+    color: #ffffff;
+    font-size: 2em;
+    margin: 0; }
+
+.footer-logos li {
+  float: left;
+  display: block;
+  margin-right: 7.4229703521%;
+  width: 19.432772236%;
+  margin-top: 0;
+  max-width: 85px; }
+  .footer-logos li:last-child {
+    margin-right: 0; }
+  .footer-logos li.census {
+    padding-top: 1em; }
+  .footer-logos li a {
+    display: block; }
+
+.footer-logos ul {
+  margin: 0; }
+  .footer-logos ul:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden; }
+
 .app-nav {
   background-color: #323a45;
   padding-bottom: 0.75em;

@@ -1,0 +1,59 @@
+.app-footer {
+  background-color: $color-gray-dark;
+  padding: 2em 0;
+
+  .col {
+    @include span-columns(6);
+  }
+
+  .label {
+    display: block;
+    overflow: hidden;
+    text-indent: 100%;
+    white-space: nowrap;
+  }
+
+  .links {
+    font-size: 1.5em;
+
+    a {
+      color: $color-white;
+
+      &:hover {
+        color: lighten($color-primary, 30);
+      }
+    }
+  }
+}
+
+.footer-info {
+  text-align: right;
+
+  h1 {
+    color: $color-white;
+    font-size: 2em;
+    margin: 0;
+  }
+}
+
+.footer-logos {
+
+  li {
+    @include span-columns(1 of 4);
+    margin-top: 0;
+    max-width: 85px;
+
+    &.census {
+      padding-top: 1em;
+    }
+
+    a {
+      display: block;
+    }
+  }
+
+  ul {
+    @include clearfix;
+    margin: 0;
+  }
+}
