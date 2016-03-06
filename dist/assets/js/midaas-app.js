@@ -942,6 +942,7 @@
     };
 
     WidgetAbstract.prototype.completeWidget = function(el) {
+      $("#" + el.id + " .widget-content").append("<div id='" + el.id + "-chart'></div>");
       Ag.Widget.editConfigForWidget(el.id);
       return this.disableCreationMode();
     };
@@ -1179,7 +1180,7 @@
         chart.interact.query.compareQuantile = 50;
       }
     }
-    return Ag.config[widgetId] = chart;
+    return Ag.config[chartId] = chart;
   };
 
   if ((base = window.Ag).Widget == null) {

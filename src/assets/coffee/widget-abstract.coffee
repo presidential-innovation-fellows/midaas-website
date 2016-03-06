@@ -3,7 +3,6 @@ class WidgetAbstract
     return null
 
   init: (el) =>
-    # $("##{el.id} .widget-content").append("<div id='#{el.id}-chart'></div>")
     @addDestroyListener(el)
     @addIdsToDrops(el)
     @enableDragging(el, "#data-menu" )
@@ -104,6 +103,7 @@ class WidgetAbstract
     $(widgetId).removeClass("initialized").addClass("closed")
 
   completeWidget: (el) ->
+    $("##{el.id} .widget-content").append("<div id='#{el.id}-chart'></div>")
     Ag.Widget.editConfigForWidget(el.id)
     @disableCreationMode()
 

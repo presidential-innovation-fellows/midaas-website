@@ -69,7 +69,7 @@ editConfigForWidget = (widgetId) ->
       chart.interact.query.ratioDenominator = chartRatio[1]
       chart.interact.query.compareQuantile = 50
 
-  Ag.config[widgetId] = chart
+  Ag.config[chartId] = chart
 
 window.Ag.Widget ?= {}
 window.Ag.Widget.editConfigForWidget = editConfigForWidget
