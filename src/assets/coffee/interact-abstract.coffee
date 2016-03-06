@@ -49,6 +49,22 @@ class InteractAbstract
     title = @chart.config?.title
     el.find(".chart-title").text(title)
 
+  trigger: (selectionValue) =>
+    return unless @config.connect?
+    queryKey = switch @config.query?.compare?.toLowerCase()
+      when "race" then "compareRace"
+      when "sex", "gender" then "compareSex"
+      when "age" then "compareAge"
+      when "state" then "compareRegion"
+
+    queryUpdate = {}
+    queryUpdate[queryKey] = selectionValue
+    $("##{@config.connect}").trigger("interact", queryUpdate)
+
+  # extend this
+  react: (queryUpdate) ->
+    return null
+
   destroy: ->
     @closeObservers()
 

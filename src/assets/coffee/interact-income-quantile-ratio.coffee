@@ -10,11 +10,10 @@ class InteractIncomeQuantileRatio extends Ag.Interact.Abstract
 
   initUi: ->
     super()
+    @react(@config.query)
     $("##{@chart.id} #compareQuantile").val(@config.query?.compareQuantile ? "50")
     $("##{@chart.id} #compareQuantile").change((event) =>
-      @config.query ?= {}
-      @config.query.compareQuantile = event.target.value
-      @chart.update()
+      @react({ compareQuantile: event.target.value })
     )
 
   getApiUrl: =>
@@ -70,6 +69,15 @@ class InteractIncomeQuantileRatio extends Ag.Interact.Abstract
     ).fail((err) =>
       return callback(err)
     )
+
+  react: (queryUpdate) ->
+    return unless queryUpdate?
+    @config.query ?= {}
+
+    compareQuantile = parseInt(queryUpdate.compareQuantile)
+    if compareQuantile >= 0 and compareQuantile <= 100
+      @config.query.compareQuantile = compareQuantile
+      $("##{@chart.id} #compareQuantile").val(compareQuantile)
 
 window.Ag ?= {}
 window.Ag.Interact ?= {}

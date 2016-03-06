@@ -1,5 +1,6 @@
 (function() {
-  var InteractAbstract, base;
+  var InteractAbstract, base,
+    bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
   InteractAbstract = (function() {
     InteractAbstract.prototype.apiUrlBase = "https://brbimhg0w9.execute-api.us-west-2.amazonaws.com/dev/";
@@ -7,6 +8,7 @@
     function InteractAbstract(chart) {
       var base, base1, ref;
       this.chart = chart;
+      this.trigger = bind(this.trigger, this);
       this.config = (ref = this.chart.config) != null ? ref.interact : void 0;
       if ((base = this.config).ui == null) {
         base.ui = {};
@@ -83,6 +85,34 @@
       return el.find(".chart-title").text(title);
     };
 
+    InteractAbstract.prototype.trigger = function(selectionValue) {
+      var queryKey, queryUpdate;
+      if (this.config.connect == null) {
+        return;
+      }
+      queryKey = (function() {
+        var ref, ref1;
+        switch ((ref = this.config.query) != null ? (ref1 = ref.compare) != null ? ref1.toLowerCase() : void 0 : void 0) {
+          case "race":
+            return "compareRace";
+          case "sex":
+          case "gender":
+            return "compareSex";
+          case "age":
+            return "compareAge";
+          case "state":
+            return "compareRegion";
+        }
+      }).call(this);
+      queryUpdate = {};
+      queryUpdate[queryKey] = selectionValue;
+      return $("#" + this.config.connect).trigger("interact", queryUpdate);
+    };
+
+    InteractAbstract.prototype.react = function(queryUpdate) {
+      return null;
+    };
+
     InteractAbstract.prototype.destroy = function() {
       return this.closeObservers();
     };
@@ -115,7 +145,6 @@
     function InteractIncomeQuantilesCompare(chart) {
       var el, template;
       this.chart = chart;
-      this.propagate = bind(this.propagate, this);
       this.fetchData = bind(this.fetchData, this);
       this.getApiUrl = bind(this.getApiUrl, this);
       InteractIncomeQuantilesCompare.__super__.constructor.call(this, this.chart);
@@ -193,28 +222,6 @@
       })(this));
     };
 
-    InteractIncomeQuantilesCompare.prototype.propagate = function(d, el) {
-      var queryKey;
-      if (this.config.connect == null) {
-        return;
-      }
-      queryKey = (function() {
-        var ref, ref1;
-        switch ((ref = this.config.query) != null ? (ref1 = ref.compare) != null ? ref1.toLowerCase() : void 0 : void 0) {
-          case "race":
-            return "compareRace";
-          case "sex":
-          case "gender":
-            return "compareSex";
-          case "age":
-            return "compareAge";
-        }
-      }).call(this);
-      return $("#" + this.config.connect).trigger("interact", {
-        queryKey: d.id
-      });
-    };
-
     InteractIncomeQuantilesCompare.prototype.react = function(queryUpdate) {
       var base, compare, compareRegion, ref, ref1;
       if (queryUpdate == null) {
@@ -279,15 +286,13 @@
     InteractIncomeQuantileRatio.prototype.initUi = function() {
       var ref, ref1;
       InteractIncomeQuantileRatio.__super__.initUi.call(this);
+      this.react(this.config.query);
       $("#" + this.chart.id + " #compareQuantile").val((ref = (ref1 = this.config.query) != null ? ref1.compareQuantile : void 0) != null ? ref : "50");
       return $("#" + this.chart.id + " #compareQuantile").change((function(_this) {
         return function(event) {
-          var base;
-          if ((base = _this.config).query == null) {
-            base.query = {};
-          }
-          _this.config.query.compareQuantile = event.target.value;
-          return _this.chart.update();
+          return _this.react({
+            compareQuantile: event.target.value
+          });
         };
       })(this));
     };
@@ -356,6 +361,21 @@
       })(this));
     };
 
+    InteractIncomeQuantileRatio.prototype.react = function(queryUpdate) {
+      var base, compareQuantile;
+      if (queryUpdate == null) {
+        return;
+      }
+      if ((base = this.config).query == null) {
+        base.query = {};
+      }
+      compareQuantile = parseInt(queryUpdate.compareQuantile);
+      if (compareQuantile >= 0 && compareQuantile <= 100) {
+        this.config.query.compareQuantile = compareQuantile;
+        return $("#" + this.chart.id + " #compareQuantile").val(compareQuantile);
+      }
+    };
+
     return InteractIncomeQuantileRatio;
 
   })(Ag.Interact.Abstract);
@@ -417,7 +437,12 @@
     ChartAbstract.prototype.initChart = function() {};
 
     ChartAbstract.prototype.initInteract = function() {
-      return this.interact = Ag.Interact.Create(this);
+      this.interact = Ag.Interact.Create(this);
+      return $("#" + this.id).on("interact", (function(_this) {
+        return function(evt, queryUpdate) {
+          return _this.interact.react(queryUpdate);
+        };
+      })(this));
     };
 
     ChartAbstract.prototype.initObservers = function() {
@@ -499,7 +524,10 @@
             data: {
               x: "x",
               columns: data,
-              type: "bar"
+              type: "bar",
+              onclick: function(d, el) {
+                return _this.interact.trigger(d.id);
+              }
             },
             bar: {
               width: {
@@ -586,7 +614,9 @@
       return this.interact.fetchData((function(_this) {
         return function(err, data) {
           data = _this.translateData(data);
-          _this._chart = d3.geomap.choropleth().geofile('/assets/topojson/USA.json').projection(d3.geo.albersUsa).colors(colorbrewer.Midaas[11]).column('Data').unitId('Fips').scale(1000).legend(true);
+          _this._chart = d3.geomap.choropleth().geofile('/assets/topojson/USA.json').projection(d3.geo.albersUsa).colors(colorbrewer.Midaas[11]).column('Data').unitId('Fips').click(function(d, el) {
+            return _this.interact.trigger(d.properties.code);
+          }).scale(1000).legend(true);
           d3.select(bindElement).datum(data).call(_this._chart.draw, _this._chart);
           return _this.hideLoading();
         };

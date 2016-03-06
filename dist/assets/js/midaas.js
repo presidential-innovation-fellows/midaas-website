@@ -782,27 +782,37 @@ var Geomap = (function () {
     _createClass(Geomap, [{
         key: 'clicked',
         value: function clicked(d) {
-            var _this = this;
+            if(this.properties.clickedId) {
+                d3.select(".unit-" + this.properties.clickedId)
+                  .style("fill", this.properties.clickedFill);
+            }
+            var el = d3.select(".unit-" + d.id);
+            this.properties.clickedId = d.id;
+            this.properties.clickedFill = el.style("fill");
+            el.style("fill", "#e31c3d");
+            this.properties.click(d, el);
 
-            var k = 1,
-                x0 = this.properties.width / 2,
-                y0 = this.properties.height / 2,
-                x = x0,
-                y = y0;
-
-            if (d && d.hasOwnProperty('geometry') && this._.centered !== d) {
-                var centroid = this.path.centroid(d);
-                x = centroid[0];
-                y = centroid[1];
-                k = this.properties.zoomFactor;
-                this._.centered = d;
-            } else this._.centered = null;
-
-            this.svg.selectAll('path.unit').classed('active', this._.centered && function (_) {
-                return _ === _this._.centered;
-            });
-
-            this.svg.selectAll('g.zoom').transition().duration(750).attr('transform', 'translate(' + x0 + ', ' + y0 + ')scale(' + k + ')translate(-' + x + ', -' + y + ')');
+            // var _this = this;
+            //
+            // var k = 1,
+            //     x0 = this.properties.width / 2,
+            //     y0 = this.properties.height / 2,
+            //     x = x0,
+            //     y = y0;
+            //
+            // if (d && d.hasOwnProperty('geometry') && this._.centered !== d) {
+            //     var centroid = this.path.centroid(d);
+            //     x = centroid[0];
+            //     y = centroid[1];
+            //     k = this.properties.zoomFactor;
+            //     this._.centered = d;
+            // } else this._.centered = null;
+            //
+            // this.svg.selectAll('path.unit').classed('active', this._.centered && function (_) {
+            //     return _ === _this._.centered;
+            // });
+            //
+            // this.svg.selectAll('g.zoom').transition().duration(750).attr('transform', 'translate(' + x0 + ', ' + y0 + ')scale(' + k + ')translate(-' + x + ', -' + y + ')');
         }
     }, {
         key: 'draw',
@@ -880,7 +890,8 @@ var Choropleth = (function (_Geomap) {
             duration: null,
             format: d3.format(',.02f'),
             legend: false,
-            valueScale: d3.scale.quantize
+            valueScale: d3.scale.quantize,
+            click: null
         };
 
         for (var key in properties) {
@@ -4489,7 +4500,8 @@ module.exports = eventmap;
 });
 
 (function() {
-  var InteractAbstract, base;
+  var InteractAbstract, base,
+    bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
   InteractAbstract = (function() {
     InteractAbstract.prototype.apiUrlBase = "https://brbimhg0w9.execute-api.us-west-2.amazonaws.com/dev/";
@@ -4497,6 +4509,7 @@ module.exports = eventmap;
     function InteractAbstract(chart) {
       var base, base1, ref;
       this.chart = chart;
+      this.trigger = bind(this.trigger, this);
       this.config = (ref = this.chart.config) != null ? ref.interact : void 0;
       if ((base = this.config).ui == null) {
         base.ui = {};
@@ -4573,6 +4586,34 @@ module.exports = eventmap;
       return el.find(".chart-title").text(title);
     };
 
+    InteractAbstract.prototype.trigger = function(selectionValue) {
+      var queryKey, queryUpdate;
+      if (this.config.connect == null) {
+        return;
+      }
+      queryKey = (function() {
+        var ref, ref1;
+        switch ((ref = this.config.query) != null ? (ref1 = ref.compare) != null ? ref1.toLowerCase() : void 0 : void 0) {
+          case "race":
+            return "compareRace";
+          case "sex":
+          case "gender":
+            return "compareSex";
+          case "age":
+            return "compareAge";
+          case "state":
+            return "compareRegion";
+        }
+      }).call(this);
+      queryUpdate = {};
+      queryUpdate[queryKey] = selectionValue;
+      return $("#" + this.config.connect).trigger("interact", queryUpdate);
+    };
+
+    InteractAbstract.prototype.react = function(queryUpdate) {
+      return null;
+    };
+
     InteractAbstract.prototype.destroy = function() {
       return this.closeObservers();
     };
@@ -4605,7 +4646,6 @@ module.exports = eventmap;
     function InteractIncomeQuantilesCompare(chart) {
       var el, template;
       this.chart = chart;
-      this.propagate = bind(this.propagate, this);
       this.fetchData = bind(this.fetchData, this);
       this.getApiUrl = bind(this.getApiUrl, this);
       InteractIncomeQuantilesCompare.__super__.constructor.call(this, this.chart);
@@ -4683,28 +4723,6 @@ module.exports = eventmap;
       })(this));
     };
 
-    InteractIncomeQuantilesCompare.prototype.propagate = function(d, el) {
-      var queryKey;
-      if (this.config.connect == null) {
-        return;
-      }
-      queryKey = (function() {
-        var ref, ref1;
-        switch ((ref = this.config.query) != null ? (ref1 = ref.compare) != null ? ref1.toLowerCase() : void 0 : void 0) {
-          case "race":
-            return "compareRace";
-          case "sex":
-          case "gender":
-            return "compareSex";
-          case "age":
-            return "compareAge";
-        }
-      }).call(this);
-      return $("#" + this.config.connect).trigger("interact", {
-        queryKey: d.id
-      });
-    };
-
     InteractIncomeQuantilesCompare.prototype.react = function(queryUpdate) {
       var base, compare, compareRegion, ref, ref1;
       if (queryUpdate == null) {
@@ -4769,15 +4787,13 @@ module.exports = eventmap;
     InteractIncomeQuantileRatio.prototype.initUi = function() {
       var ref, ref1;
       InteractIncomeQuantileRatio.__super__.initUi.call(this);
+      this.react(this.config.query);
       $("#" + this.chart.id + " #compareQuantile").val((ref = (ref1 = this.config.query) != null ? ref1.compareQuantile : void 0) != null ? ref : "50");
       return $("#" + this.chart.id + " #compareQuantile").change((function(_this) {
         return function(event) {
-          var base;
-          if ((base = _this.config).query == null) {
-            base.query = {};
-          }
-          _this.config.query.compareQuantile = event.target.value;
-          return _this.chart.update();
+          return _this.react({
+            compareQuantile: event.target.value
+          });
         };
       })(this));
     };
@@ -4846,6 +4862,21 @@ module.exports = eventmap;
       })(this));
     };
 
+    InteractIncomeQuantileRatio.prototype.react = function(queryUpdate) {
+      var base, compareQuantile;
+      if (queryUpdate == null) {
+        return;
+      }
+      if ((base = this.config).query == null) {
+        base.query = {};
+      }
+      compareQuantile = parseInt(queryUpdate.compareQuantile);
+      if (compareQuantile >= 0 && compareQuantile <= 100) {
+        this.config.query.compareQuantile = compareQuantile;
+        return $("#" + this.chart.id + " #compareQuantile").val(compareQuantile);
+      }
+    };
+
     return InteractIncomeQuantileRatio;
 
   })(Ag.Interact.Abstract);
@@ -4907,7 +4938,12 @@ module.exports = eventmap;
     ChartAbstract.prototype.initChart = function() {};
 
     ChartAbstract.prototype.initInteract = function() {
-      return this.interact = Ag.Interact.Create(this);
+      this.interact = Ag.Interact.Create(this);
+      return $("#" + this.id).on("interact", (function(_this) {
+        return function(evt, queryUpdate) {
+          return _this.interact.react(queryUpdate);
+        };
+      })(this));
     };
 
     ChartAbstract.prototype.initObservers = function() {
@@ -4989,7 +5025,10 @@ module.exports = eventmap;
             data: {
               x: "x",
               columns: data,
-              type: "bar"
+              type: "bar",
+              onclick: function(d, el) {
+                return _this.interact.trigger(d.id);
+              }
             },
             bar: {
               width: {
@@ -5076,7 +5115,9 @@ module.exports = eventmap;
       return this.interact.fetchData((function(_this) {
         return function(err, data) {
           data = _this.translateData(data);
-          _this._chart = d3.geomap.choropleth().geofile('/assets/topojson/USA.json').projection(d3.geo.albersUsa).colors(colorbrewer.Midaas[11]).column('Data').unitId('Fips').scale(1000).legend(true);
+          _this._chart = d3.geomap.choropleth().geofile('/assets/topojson/USA.json').projection(d3.geo.albersUsa).colors(colorbrewer.Midaas[11]).column('Data').unitId('Fips').click(function(d, el) {
+            return _this.interact.trigger(d.properties.code);
+          }).scale(1000).legend(true);
           d3.select(bindElement).datum(data).call(_this._chart.draw, _this._chart);
           return _this.hideLoading();
         };

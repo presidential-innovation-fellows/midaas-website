@@ -14,6 +14,9 @@ class ChartMap extends Ag.Chart.Abstract
         .colors(colorbrewer.Midaas[11])
         .column('Data')
         .unitId('Fips')
+        .click((d, el) =>
+          @interact.trigger(d.properties.code)
+        )
         .scale(1000)
         .legend(true)
 

@@ -782,27 +782,37 @@ var Geomap = (function () {
     _createClass(Geomap, [{
         key: 'clicked',
         value: function clicked(d) {
-            var _this = this;
+            if(this.properties.clickedId) {
+                d3.select(".unit-" + this.properties.clickedId)
+                  .style("fill", this.properties.clickedFill);
+            }
+            var el = d3.select(".unit-" + d.id);
+            this.properties.clickedId = d.id;
+            this.properties.clickedFill = el.style("fill");
+            el.style("fill", "#e31c3d");
+            this.properties.click(d, el);
 
-            var k = 1,
-                x0 = this.properties.width / 2,
-                y0 = this.properties.height / 2,
-                x = x0,
-                y = y0;
-
-            if (d && d.hasOwnProperty('geometry') && this._.centered !== d) {
-                var centroid = this.path.centroid(d);
-                x = centroid[0];
-                y = centroid[1];
-                k = this.properties.zoomFactor;
-                this._.centered = d;
-            } else this._.centered = null;
-
-            this.svg.selectAll('path.unit').classed('active', this._.centered && function (_) {
-                return _ === _this._.centered;
-            });
-
-            this.svg.selectAll('g.zoom').transition().duration(750).attr('transform', 'translate(' + x0 + ', ' + y0 + ')scale(' + k + ')translate(-' + x + ', -' + y + ')');
+            // var _this = this;
+            //
+            // var k = 1,
+            //     x0 = this.properties.width / 2,
+            //     y0 = this.properties.height / 2,
+            //     x = x0,
+            //     y = y0;
+            //
+            // if (d && d.hasOwnProperty('geometry') && this._.centered !== d) {
+            //     var centroid = this.path.centroid(d);
+            //     x = centroid[0];
+            //     y = centroid[1];
+            //     k = this.properties.zoomFactor;
+            //     this._.centered = d;
+            // } else this._.centered = null;
+            //
+            // this.svg.selectAll('path.unit').classed('active', this._.centered && function (_) {
+            //     return _ === _this._.centered;
+            // });
+            //
+            // this.svg.selectAll('g.zoom').transition().duration(750).attr('transform', 'translate(' + x0 + ', ' + y0 + ')scale(' + k + ')translate(-' + x + ', -' + y + ')');
         }
     }, {
         key: 'draw',
@@ -880,7 +890,8 @@ var Choropleth = (function (_Geomap) {
             duration: null,
             format: d3.format(',.02f'),
             legend: false,
-            valueScale: d3.scale.quantize
+            valueScale: d3.scale.quantize,
+            click: null
         };
 
         for (var key in properties) {

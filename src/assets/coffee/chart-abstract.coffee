@@ -10,6 +10,9 @@ class ChartAbstract
 
   initInteract: ->
     @interact = Ag.Interact.Create(@)
+    $("##{@id}").on("interact", (evt, queryUpdate) =>
+      @interact.react(queryUpdate)
+    )
 
   initObservers: ->
     @observers = {

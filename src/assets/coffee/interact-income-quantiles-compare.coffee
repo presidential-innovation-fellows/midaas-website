@@ -54,14 +54,6 @@ class InteractIncomeQuantilesCompare extends Ag.Interact.Abstract
       return callback(err)
     )
 
-  propagate: (d, el) =>
-    return unless @config.connect?
-    queryKey = switch @config.query?.compare?.toLowerCase()
-      when "race" then "compareRace"
-      when "sex", "gender" then "compareSex"
-      when "age" then "compareAge"
-    $("##{@config.connect}").trigger("interact", { queryKey: d.id })
-
   react: (queryUpdate) ->
     return unless queryUpdate?
     @config.query ?= {}
