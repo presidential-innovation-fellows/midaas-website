@@ -10,6 +10,7 @@ class Dashboard
     $("#active-widget-container").addClass("dragging")
 
   constructor: ->
+    return unless $(".pages-dashboard")?.length
     @enableWidgetDragging()
 
   enableWidgetDragging: ->
@@ -53,6 +54,8 @@ class Dashboard
     switch widgetType
       when "bar-chart"
         new Ag.Widget.ChartBar(el)
+      when "map"
+        new Ag.Widget.ChartMap(el)
 
   removeDraggingClass: ->
     $("#active-widget-container").removeClass("dragging")

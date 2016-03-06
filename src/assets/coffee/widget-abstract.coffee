@@ -2,6 +2,15 @@ class WidgetAbstract
   constructor: ->
     return null
 
+  init: (el) =>
+    # $("##{el.id} .widget-content").append("<div id='#{el.id}-chart'></div>")
+    @addDestroyListener(el)
+    @addIdsToDrops(el)
+    @enableDragging(el, "#data-menu" )
+    @enableDragging(el, "#demographic-menu" )
+    @enableDragging(el, "#geographic-menu" )
+    @widgetTitleListener(el)
+
   addCreateListener: (el) ->
     $(".widget-creation .create-button").on("click", =>
       $(".widget-creation").removeClass("widget-creation")

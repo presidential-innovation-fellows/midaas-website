@@ -5292,12 +5292,23 @@ module.exports = eventmap;
 }).call(this);
 
 (function() {
-  var WidgetAbstract, base;
+  var WidgetAbstract, base,
+    bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
   WidgetAbstract = (function() {
     function WidgetAbstract() {
+      this.init = bind(this.init, this);
       return null;
     }
+
+    WidgetAbstract.prototype.init = function(el) {
+      this.addDestroyListener(el);
+      this.addIdsToDrops(el);
+      this.enableDragging(el, "#data-menu");
+      this.enableDragging(el, "#demographic-menu");
+      this.enableDragging(el, "#geographic-menu");
+      return this.widgetTitleListener(el);
+    };
 
     WidgetAbstract.prototype.addCreateListener = function(el) {
       return $(".widget-creation .create-button").on("click", (function(_this) {
@@ -5541,12 +5552,7 @@ module.exports = eventmap;
       template = "/assets/templates/widget-chart-bar.html";
       $(el).load(template, null, (function(_this) {
         return function() {
-          _this.addDestroyListener(el);
-          _this.addIdsToDrops(el);
-          _this.enableDragging(el, "#data-menu");
-          _this.enableDragging(el, "#demographic-menu");
-          _this.enableDragging(el, "#geographic-menu");
-          return _this.widgetTitleListener(el);
+          return _this.init(el);
         };
       })(this));
     }
@@ -5555,14 +5561,8 @@ module.exports = eventmap;
 
   })(Ag.Widget.Abstract);
 
-  window.Ag.Widget.Draggable = [];
-
-  if (window.Ag == null) {
-    window.Ag = {};
-  }
-
-  if ((base = window.Ag.Widget).ChartBar == null) {
-    base.ChartBar = {};
+  if ((base = window.Ag).Widget == null) {
+    base.Widget = {};
   }
 
   window.Ag.Widget.ChartBar = WidgetChartBar;
@@ -5570,10 +5570,40 @@ module.exports = eventmap;
 }).call(this);
 
 (function() {
+  var WidgetChartMap, base,
+    extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+    hasProp = {}.hasOwnProperty;
+
+  WidgetChartMap = (function(superClass) {
+    extend(WidgetChartMap, superClass);
+
+    function WidgetChartMap(el) {
+      var template;
+      template = "/assets/templates/widget-chart-map.html";
+      $(el).load(template, null, (function(_this) {
+        return function() {
+          return _this.init(el);
+        };
+      })(this));
+    }
+
+    return WidgetChartMap;
+
+  })(Ag.Widget.Abstract);
+
+  if ((base = window.Ag).Widget == null) {
+    base.Widget = {};
+  }
+
+  window.Ag.Widget.ChartMap = WidgetChartMap;
+
+}).call(this);
+
+(function() {
   var base, editConfigForWidget;
 
   editConfigForWidget = function(widgetId) {
-    var chart, chartDemographic, chartInteract, chartTitle, chartType, ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7, widget;
+    var chart, chartDemographic, chartGeographic, chartId, chartInteract, chartRatio, chartTitle, chartType, ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7, widget;
     widget = {
       title: (ref = $('#widget-0 input.widget-title')) != null ? ref.val() : void 0,
       type: (ref1 = $("#" + widgetId)) != null ? ref1.attr("data-widget") : void 0,
@@ -5581,10 +5611,11 @@ module.exports = eventmap;
       geographic: (ref3 = $("#" + widgetId + "-geographic-drop")) != null ? ref3.attr("data-selection") : void 0,
       demographic: (ref4 = $("#" + widgetId + "-demographic-drop")) != null ? ref4.attr("data-selection") : void 0
     };
+    chartId = widgetId + "-chart";
     chartTitle = (ref5 = widget.title) != null ? ref5 : "";
     chartType = {
       "bar-chart": "bar",
-      "map-chart": "map"
+      "map": "map"
     }[widget.type];
     if (chartType == null) {
       return;
@@ -5593,27 +5624,51 @@ module.exports = eventmap;
       "quantiles": "IncomeQuantilesCompare",
       "ratios": "IncomeQuantileRatio"
     }[widget.data]) != null ? ref6 : "IncomeQuantilesCompare";
+    chartRatio = {
+      "gender": ["female", "male"],
+      "age": ["25-34", "55-64"],
+      "race": ["black", "white"]
+    }[widget.demographic];
     chartDemographic = (ref7 = {
       "all": "overall",
-      "gender": "gender",
+      "gender": "sex",
       "age": "age",
       "race": "race"
     }[widget.demographic]) != null ? ref7 : "overall";
+    chartGeographic = widget.geographic;
     chart = {
       title: chartTitle,
       type: chartType,
       interact: {
         type: chartInteract,
         query: {
-          compare: chartDemographic,
-          compareRegion: "US"
+          compare: chartDemographic
         },
         ui: {
           compare: false,
-          compareRegion: false
+          compareRegion: false,
+          compareQuantile: false
         }
       }
     };
+    if (chart.type === "bar") {
+      if (chartGeographic === "state") {
+        chart.interact.query.compareRegion = "CA";
+        chart.interact.ui.compareRegion = true;
+      } else if (chartGeographic === "national") {
+        chart.interact.query.compareRegion = "US";
+      }
+    } else if (chart.type === "map") {
+      chart.interact.query.compare = "state";
+    }
+    if (chart.interact.type === "IncomeQuantileRatio") {
+      if (chartRatio != null) {
+        chart.interact.query.ratioType = chartDemographic;
+        chart.interact.query.ratioNumerator = chartRatio[0];
+        chart.interact.query.ratioDenominator = chartRatio[1];
+        chart.interact.query.compareQuantile = 50;
+      }
+    }
     return Ag.config[widgetId] = chart;
   };
 
@@ -5644,6 +5699,10 @@ module.exports = eventmap;
     };
 
     function Dashboard() {
+      var ref;
+      if (!((ref = $(".pages-dashboard")) != null ? ref.length : void 0)) {
+        return;
+      }
       this.enableWidgetDragging();
     }
 
@@ -5694,6 +5753,8 @@ module.exports = eventmap;
       switch (widgetType) {
         case "bar-chart":
           return new Ag.Widget.ChartBar(el);
+        case "map":
+          return new Ag.Widget.ChartMap(el);
       }
     };
 

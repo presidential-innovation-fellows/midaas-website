@@ -45,6 +45,7 @@ module.exports = (grunt) ->
             'src/assets/coffee/midaas.coffee'
             'src/assets/coffee/widget-abstract.coffee'
             'src/assets/coffee/widget-chart-bar.coffee'
+            'src/assets/coffee/widget-chart-map.coffee'
             'src/assets/coffee/widget.coffee'
             'src/assets/coffee/dashboard.coffee'
             '!src/assets/coffee/**/_*.*'
