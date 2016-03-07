@@ -4971,6 +4971,9 @@ input.widget-title {
 .topics-gender .bottom-states .dollar {
   color: #cd2026; }
 
+.topics-gender .chart-widget {
+  margin-bottom: 2em; }
+
 .topics-gender .compare-national #region-selector {
   display: none; }
 
@@ -5050,6 +5053,7 @@ input.widget-title {
     margin-bottom: 0;
     margin-top: 0; }
   .pages-home .feature-list {
+    background-color: #f9f9f9;
     margin: 3em 0 0; }
     .pages-home .feature-list:after {
       content: ".";
@@ -5064,7 +5068,6 @@ input.widget-title {
       font-size: 1.2em;
       margin-top: 0; }
     .pages-home .feature-list li {
-      background-color: #f9f9f9;
       border-left: 1px solid #e0e0e0;
       float: left;
       margin: 0;
@@ -5225,24 +5228,23 @@ input.widget-title {
     top: 0;
     width: 6%; }
 
-.tools-tool {
-  padding-bottom: 6em; }
-  .tools-tool header {
-    margin-bottom: 1em; }
-    .tools-tool header h1 {
-      font-size: 2em;
-      line-height: 1.25em;
-      margin: 0 0 0.1em; }
-    .tools-tool header p {
-      color: #5b616b;
-      margin: 0; }
-  .tools-tool .col-lg {
-    float: left;
-    display: block;
-    margin-right: 2.3576515979%;
-    width: 65.8807828007%; }
-    .tools-tool .col-lg:last-child {
-      margin-right: 0; }
+.tools-tool header {
+  margin-bottom: 1em; }
+  .tools-tool header h1 {
+    font-size: 2em;
+    line-height: 1.25em;
+    margin: 0 0 0.1em; }
+  .tools-tool header p {
+    color: #5b616b;
+    margin: 0; }
+
+.tools-tool .col-lg {
+  float: left;
+  display: block;
+  margin-right: 2.3576515979%;
+  width: 65.8807828007%; }
+  .tools-tool .col-lg:last-child {
+    margin-right: 0; }
 
 .tool-description h2 {
   font-size: 1.5em;
@@ -5389,6 +5391,7 @@ input[type="range"] {
     width: 100%; }
 
 .main-content {
+  min-height: 550px;
   padding-top: 2em; }
   .main-content .ct-series-a .gray-line {
     fill: none;
@@ -5409,6 +5412,7 @@ input[type="range"] {
     cursor: pointer;
     font-size: 0.65em;
     font-weight: bold;
+    float: left;
     padding: 0.85em 1em; }
     .perspectives li:first-child {
       border-bottom: 1px solid #c9cacd;

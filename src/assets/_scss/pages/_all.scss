@@ -93,6 +93,7 @@ input {
 }
 
 .main-content {
+  min-height: 550px;
   padding-top: 2em;
 
   .ct-series-a {
@@ -122,6 +123,7 @@ input {
     cursor: pointer;
     font-size: 0.65em;
     font-weight: bold;
+    float: left;
     padding: 0.85em 1em;
 
     &:first-child {

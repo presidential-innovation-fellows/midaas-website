@@ -32,6 +32,7 @@
 
   .feature-list {
     @include clearfix;
+    background-color: $color-gray-extra-light;
     margin: 3em 0 0;
 
     figure {
@@ -45,7 +46,6 @@
     }
 
     li {
-      background-color: $color-gray-extra-light;
       border-left: 1px solid darken($color-gray-extra-light, 10);
       float: left;
       margin: 0;
