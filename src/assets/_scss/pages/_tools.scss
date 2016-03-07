@@ -16,6 +16,7 @@
     @extend %card;
     @include span-columns(3);
     margin-top: 0;
+    margin-right: 40px !important;
     padding: 0;
 
     &:hover {

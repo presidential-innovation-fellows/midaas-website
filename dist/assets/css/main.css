@@ -5232,6 +5232,7 @@ input.widget-title {
   margin-right: 2.3576515979%;
   width: 23.2317613015%;
   margin-top: 0;
+  margin-right: 40px !important;
   padding: 0; }
   .pages-tools .tool:last-child {
     margin-right: 0; }

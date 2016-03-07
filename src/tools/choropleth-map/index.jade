@@ -8,17 +8,16 @@ html.no-js(lang='en')
 
     window.Ag.config = {
       chart1: {
-        title: "Explore Income Distributions",
-        type: "bar",
+        title: "National Income Data Example",
+        type: "map",
         interact: {
-          type: "IncomeQuantilesCompare",
+          type: "IncomeQuantileRatio",
           query: {
-            compare: "overall",
-            compareRegion: "US"
-          },
-          ui: {
-            compare: true,
-            compareRegion: true
+            compare: "state",
+            compareQuantile: 50,
+            ratioType: "sex",
+            ratioNumerator: "female",
+            ratioDenominator: "male"
           }
         }
       }
@@ -34,11 +33,11 @@ html.no-js(lang='en')
         .chart-widget.widget.primary-widget
           #chart1
           .tool-description
-            h2 Purpose
+            h2 Description
             p
-              | This tool allows users to explore income distributions across
-              | different geographies by categories (Race, Gender, and Age Groups).
-              | Coming soon will be city data and exploration across time.
-              |
+              | Lorem ipsum Labore tempor fugiat Excepteur qui Excepteur occaecat.
+              | Lorem ipsum Mollit veniam ut nulla aliqua consectetur deserunt
+              | consequat deserunt enim cillum ex. Lorem ipsum Nisi laboris proident
+              | incididunt ut in nulla nisi.
         p(style="padding-bottom: 20px;")
     include ../../modules/_footer.jade
