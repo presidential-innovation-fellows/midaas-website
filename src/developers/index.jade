@@ -43,20 +43,20 @@ html.no-js(lang='en')
             header
               h2 Widgets
             p
-              | Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              | Aenean nec lacinia mauris. Aliquam efficitur varius tellus
-              | eget elementum. Nullam sit amet eros quis ante sollicitudin
-              | tristique commodo sit amet sapien. Aliquam eget gravida lacus.
-              | Aenean lectus nunc, luctus lobortis feugiat vitae, dictum eu
-              | ante. Aliquam facilisis vitae nulla non tempor. Nullam lectus
-              | eros, accumsan dignissim viverra sit amet, tempor sed enim.
+              | These prebuilt visualization, which are linked to APIs, will 
+              | make it easier for developers of all skill to add rich income 
+              | insights to their page.
+              | Below are two widgets for embedding barcharts and maps that pull 
+              | from our custom APIs.  More to come...
             section#widgets-bar-chart
               header
                 h3 Bar Chart
               p
                 | This tool allows users to explore income distributions across
                 | different geographies by categories (Race, Gender, and Age
-                | Groups). Coming soon will be city data and exploration across
+                | Groups).
+                | Want to learn more about the income distribution in your home state or other states? This tool is for you.
+                | Coming soon will be city data and exploration across
                 | time.
               .chart-widget.widget.primary-widget
                 #chart1
@@ -65,8 +65,10 @@ html.no-js(lang='en')
                 h3 Map
               p
                 | This tool allows users to explore income distributions across
-                | different geographies by categories (Race, Gender, and Age
-                | Groups). Coming soon will be city data and exploration across
+                | the US at different percentiles by categories (Race, Gender, and Age
+                | Groups). Want to know what the 1% is in different states?
+                | Want to know what the median individual income is in different states?
+                | This tool is for you. Coming soon will be city level maps as well and exploration across
                 | time.
               .chart-widget.widget.primary-widget
                 #chart2
@@ -74,24 +76,19 @@ html.no-js(lang='en')
             header
               h2 API
             p
-              | Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              | Aenean nec lacinia mauris. Aliquam efficitur varius tellus
-              | eget elementum. Nullam sit amet eros quis ante sollicitudin
-              | tristique commodo sit amet sapien. Aliquam eget gravida lacus.
-              | Aenean lectus nunc, luctus lobortis feugiat vitae, dictum eu
-              | ante. Aliquam facilisis vitae nulla non tempor. Nullam lectus
-              | eros, accumsan dignissim viverra sit amet, tempor sed enim.
+              | This API returns incomes of different percentiles for the overall population
+              | for various geographies. In addition, you can make calls for different subsets
+              | of the population based on race, gender, and agegroups. Please review documentation
+              | on our github.
             section#api-examples
               header
                 h3 Examples
               p
-                | Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                | Aenean nec lacinia mauris. Aliquam efficitur varius tellus
-                | eget elementum. Nullam sit amet eros quis ante sollicitudin
-                | tristique commodo sit amet sapien. Aliquam eget gravida lacus.
-                | Aenean lectus nunc, luctus lobortis feugiat vitae, dictum eu
-                | ante. Aliquam facilisis vitae nulla non tempor. Nullam lectus
-                | eros, accumsan dignissim viverra sit amet, tempor sed enim.
+                | Luke put code block here
+              p
+                | Luke put output here
+              p
+                | LUke put params here
 
     include ../modules/_footer.jade
   script.
@@ -116,7 +113,7 @@ html.no-js(lang='en')
         }
       },
       chart2: {
-        title: "National Income Data Example",
+        title: "Explore Income Distribution Map",
         type: "map",
         interact: {
           type: "IncomeQuantileRatio",
