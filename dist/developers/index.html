@@ -56,11 +56,14 @@
     <![endif]-->
   </head>
   <body class="pages-developers">
+    <div class="disclaimer">
+      <div class="usa-grid"><span class="usa-disclaimer-official"><img alt="US flag signifying that this is a United States Federal Government website" src="/assets/img/us_flag_small.png" class="usa-flag_icon">An official website of the United States Government</span></span><span class="usa-disclaimer-stage">This site is currently in alpha.<a href="https://18f.gsa.gov/dashboard/stages/#alpha" target="_blank">Learn More.</a></span></div>
+    </div>
     <nav class="app-nav">
       <div class="usa-grid">
         <div class="logo"><a href="/">
             <h1 class="logotype">MIDAAS</h1>
-            <div class="beta">Beta</div></a></div>
+            <div class="beta">Alpha</div></a></div>
         <div class="app-links">
           <ul>
             <li><a href="/topics">Topics</a></li>
@@ -101,13 +104,11 @@
               <h2>Widgets</h2>
             </header>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Aenean nec lacinia mauris. Aliquam efficitur varius tellus
-              eget elementum. Nullam sit amet eros quis ante sollicitudin
-              tristique commodo sit amet sapien. Aliquam eget gravida lacus.
-              Aenean lectus nunc, luctus lobortis feugiat vitae, dictum eu
-              ante. Aliquam facilisis vitae nulla non tempor. Nullam lectus
-              eros, accumsan dignissim viverra sit amet, tempor sed enim.
+              These prebuilt visualization, which are linked to APIs, will 
+              make it easier for developers of all skill to add rich income 
+              insights to their page.
+              Below are two widgets for embedding barcharts and maps that pull 
+              from our custom APIs.  More to come...
             </p>
             <section id="widgets-bar-chart">
               <header>
@@ -116,7 +117,9 @@
               <p>
                 This tool allows users to explore income distributions across
                 different geographies by categories (Race, Gender, and Age
-                Groups). Coming soon will be city data and exploration across
+                Groups).
+                Want to learn more about the income distribution in your home state or other states? This tool is for you.
+                Coming soon will be city data and exploration across
                 time.
               </p>
               <div class="chart-widget widget primary-widget">
@@ -129,8 +132,10 @@
               </header>
               <p>
                 This tool allows users to explore income distributions across
-                different geographies by categories (Race, Gender, and Age
-                Groups). Coming soon will be city data and exploration across
+                the US at different percentiles by categories (Race, Gender, and Age
+                Groups). Want to know what the 1% is in different states?
+                Want to know what the median individual income is in different states?
+                This tool is for you. Coming soon will be city level maps as well and exploration across
                 time.
               </p>
               <div class="chart-widget widget primary-widget">
@@ -143,27 +148,18 @@
               <h2>API</h2>
             </header>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Aenean nec lacinia mauris. Aliquam efficitur varius tellus
-              eget elementum. Nullam sit amet eros quis ante sollicitudin
-              tristique commodo sit amet sapien. Aliquam eget gravida lacus.
-              Aenean lectus nunc, luctus lobortis feugiat vitae, dictum eu
-              ante. Aliquam facilisis vitae nulla non tempor. Nullam lectus
-              eros, accumsan dignissim viverra sit amet, tempor sed enim.
+              This API returns incomes of different percentiles for the overall population
+              for various geographies. In addition, you can make calls for different subsets
+              of the population based on race, gender, and agegroups. Please review documentation
+              on our github.
             </p>
             <section id="api-examples">
               <header>
                 <h3>Examples</h3>
               </header>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Aenean nec lacinia mauris. Aliquam efficitur varius tellus
-                eget elementum. Nullam sit amet eros quis ante sollicitudin
-                tristique commodo sit amet sapien. Aliquam eget gravida lacus.
-                Aenean lectus nunc, luctus lobortis feugiat vitae, dictum eu
-                ante. Aliquam facilisis vitae nulla non tempor. Nullam lectus
-                eros, accumsan dignissim viverra sit amet, tempor sed enim.
-              </p>
+              <p>Luke put code block here</p>
+              <p>Luke put output here</p>
+              <p>LUke put params here</p>
             </section>
           </section>
         </div>
@@ -210,7 +206,7 @@
         }
       },
       chart2: {
-        title: "National Income Data Example",
+        title: "Explore Income Distribution Map",
         type: "map",
         interact: {
           type: "IncomeQuantileRatio",

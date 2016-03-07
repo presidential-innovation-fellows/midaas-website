@@ -4609,15 +4609,8 @@ input[type="range"] {
 
 .app-nav {
   background-color: #323a45;
-  padding-bottom: 0.75em;
-  padding-top: 0.75em; }
-
-.beta {
-  bottom: 0.4em;
-  color: #aeb0b5;
-  font-size: 0.8em;
-  position: absolute;
-  right: 0; }
+  padding-bottom: 0.5em;
+  padding-top: 0.5em; }
 
 .app-links {
   float: right;
@@ -4648,10 +4641,29 @@ input[type="range"] {
     display: block;
     margin: 0; }
 
+.beta {
+  bottom: 0.4em;
+  color: #aeb0b5;
+  font-size: 0.8em;
+  position: absolute;
+  right: 0; }
+
+.disclaimer {
+  background-color: #1d2127;
+  color: #ffffff;
+  font-size: 0.85em;
+  padding: 0.35em 0; }
+  .disclaimer a {
+    color: #ffffff;
+    font-weight: bold;
+    margin-left: 0.5em; }
+  .disclaimer img {
+    margin-right: 0.5em; }
+
 .logo {
   float: left;
   position: relative;
-  width: 7.75em; }
+  width: 8em; }
   .logo a {
     text-decoration: none; }
 
@@ -5047,7 +5059,7 @@ input.widget-title {
     left: 0;
     position: absolute;
     right: 0;
-    top: 0;
+    top: 28px;
     z-index: 1000; }
     .pages-home .app-nav a:hover {
       background-color: rgba(17, 46, 81, 0.65); }
@@ -5057,6 +5069,13 @@ input.widget-title {
     display: inline-block;
     margin-bottom: 0;
     margin-top: 0; }
+  .pages-home .disclaimer {
+    background-color: rgba(0, 21, 35, 0.65);
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 1000; }
   .pages-home .feature-list {
     background-color: #f9f9f9;
     margin: 3em 0 0; }

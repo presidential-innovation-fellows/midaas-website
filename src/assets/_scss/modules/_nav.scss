@@ -1,15 +1,7 @@
 .app-nav {
   background-color: $color-gray-dark;
-  padding-bottom: 0.75em;
-  padding-top: 0.75em;
-}
-
-.beta {
-  bottom: 0.4em;
-  color: $color-gray-light;
-  font-size: 0.8em;
-  position: absolute;
-  right: 0;
+  padding-bottom: 0.5em;
+  padding-top: 0.5em;
 }
 
 .app-links {
@@ -60,10 +52,35 @@
   }
 }
 
+.beta {
+  bottom: 0.4em;
+  color: $color-gray-light;
+  font-size: 0.8em;
+  position: absolute;
+  right: 0;
+}
+
+.disclaimer {
+  background-color: darken($color-gray-dark, 10);
+  color: $color-white;
+  font-size: 0.85em;
+  padding: 0.35em 0;
+
+  a {
+    color: $color-white;
+    font-weight: bold;
+    margin-left: 0.5em;
+  }
+
+  img {
+    margin-right: 0.5em;
+  }
+}
+
 .logo {
   float: left;
   position: relative;
-  width: 7.75em;
+  width: 8em;
 
   a {
     text-decoration: none;
