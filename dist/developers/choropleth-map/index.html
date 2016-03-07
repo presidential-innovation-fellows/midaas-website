@@ -62,17 +62,16 @@
     
     window.Ag.config = {
       chart1: {
-        title: "Explore Income Distributions",
-        type: "bar",
+        title: "National Income Data Example",
+        type: "map",
         interact: {
-          type: "IncomeQuantilesCompare",
+          type: "IncomeQuantileRatio",
           query: {
-            compare: "overall",
-            compareRegion: "US"
-          },
-          ui: {
-            compare: true,
-            compareRegion: true
+            compare: "state",
+            compareQuantile: 50,
+            ratioType: "sex",
+            ratioNumerator: "female",
+            ratioDenominator: "male"
           }
         }
       }
@@ -87,7 +86,7 @@
         <div class="app-links">
           <ul>
             <li><a href="/topics">Topics</a></li>
-            <li><a href="/tools">Tools</a></li>
+            <li><a href="/developers">Developers</a></li>
           </ul>
         </div>
       </div>
@@ -101,11 +100,12 @@
         <div class="chart-widget widget primary-widget">
           <div id="chart1"></div>
           <div class="tool-description">
-            <h2>Purpose</h2>
+            <h2>Description</h2>
             <p>
-              This tool allows users to explore income distributions across
-              different geographies by categories (Race, Gender, and Age Groups).
-              Coming soon will be city data and exploration across time.
+              Lorem ipsum Labore tempor fugiat Excepteur qui Excepteur occaecat.
+              Lorem ipsum Mollit veniam ut nulla aliqua consectetur deserunt
+              consequat deserunt enim cillum ex. Lorem ipsum Nisi laboris proident
+              incididunt ut in nulla nisi.
             </p>
           </div>
         </div>

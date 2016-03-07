@@ -1,11 +1,11 @@
 @import "dashboard";
+@import "developers";
 @import "gender";
 @import "home";
 @import "simulator";
 @import "topic";
 @import "topics";
 @import "tool";
-@import "tools";
 
 body {
   background-color: $color-gray-extra-light;
@@ -33,6 +33,7 @@ body {
 }
 
 input {
+
   &[type="range"] {
     @extend %slider;
     max-width: none;

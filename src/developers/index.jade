@@ -1,0 +1,132 @@
+doctype html
+html.no-js(lang='en')
+  include ../modules/_head.jade
+  body.pages-developers
+    include ../modules/_nav.jade
+    section.main-content
+      .usa-grid
+        .col-sm
+          ul.usa-sidenav-list
+            li
+              a(href="#getting-started")
+                | Getting Started
+            li.parent-item
+              a(href="#widgets-get-started")
+                | Widgets
+              ul.usa-sidenav-sub_list
+                li
+                  a(href="#widgets-get-started")
+                    | Getting Started
+                li
+                  a(href="#widgets-bar-chart")
+                    | Bar Chart
+                li
+                  a(href="#widgets-map")
+                    | Map
+            li.parent-item
+              a(href="#api-get-started")
+                | API
+              ul.usa-sidenav-sub_list
+                li
+                  a(href="#api-get-started")
+                    | Getting Started
+                li
+                  a(href="#api-examples")
+                    | Examples
+        .col-lg
+          section#getting-started
+            header
+              h1 Developers
+            p
+              | Browse our collection of tools you can embed on your own websites.
+          section#widgets
+            header
+              h2 Widgets
+            p
+              | Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              | Aenean nec lacinia mauris. Aliquam efficitur varius tellus
+              | eget elementum. Nullam sit amet eros quis ante sollicitudin
+              | tristique commodo sit amet sapien. Aliquam eget gravida lacus.
+              | Aenean lectus nunc, luctus lobortis feugiat vitae, dictum eu
+              | ante. Aliquam facilisis vitae nulla non tempor. Nullam lectus
+              | eros, accumsan dignissim viverra sit amet, tempor sed enim.
+            section#widgets-bar-chart
+              header
+                h3 Bar Chart
+              p
+                | This tool allows users to explore income distributions across
+                | different geographies by categories (Race, Gender, and Age
+                | Groups). Coming soon will be city data and exploration across
+                | time.
+              .chart-widget.widget.primary-widget
+                #chart1
+            section#widgets-map
+              header
+                h3 Map
+              p
+                | This tool allows users to explore income distributions across
+                | different geographies by categories (Race, Gender, and Age
+                | Groups). Coming soon will be city data and exploration across
+                | time.
+              .chart-widget.widget.primary-widget
+                #chart2
+          section#api-get-started
+            header
+              h2 API
+            p
+              | Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              | Aenean nec lacinia mauris. Aliquam efficitur varius tellus
+              | eget elementum. Nullam sit amet eros quis ante sollicitudin
+              | tristique commodo sit amet sapien. Aliquam eget gravida lacus.
+              | Aenean lectus nunc, luctus lobortis feugiat vitae, dictum eu
+              | ante. Aliquam facilisis vitae nulla non tempor. Nullam lectus
+              | eros, accumsan dignissim viverra sit amet, tempor sed enim.
+            section#api-examples
+              header
+                h3 Examples
+              p
+                | Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                | Aenean nec lacinia mauris. Aliquam efficitur varius tellus
+                | eget elementum. Nullam sit amet eros quis ante sollicitudin
+                | tristique commodo sit amet sapien. Aliquam eget gravida lacus.
+                | Aenean lectus nunc, luctus lobortis feugiat vitae, dictum eu
+                | ante. Aliquam facilisis vitae nulla non tempor. Nullam lectus
+                | eros, accumsan dignissim viverra sit amet, tempor sed enim.
+
+    include ../modules/_footer.jade
+  script.
+    if (window.Ag == null) {
+      window.Ag = {};
+    }
+
+    window.Ag.config = {
+      chart1: {
+        title: "Explore Income Distributions",
+        type: "bar",
+        interact: {
+          type: "IncomeQuantilesCompare",
+          query: {
+            compare: "overall",
+            compareRegion: "US"
+          },
+          ui: {
+            compare: true,
+            compareRegion: true
+          }
+        }
+      },
+      chart2: {
+        title: "National Income Data Example",
+        type: "map",
+        interact: {
+          type: "IncomeQuantileRatio",
+          query: {
+            compare: "state",
+            compareQuantile: 50,
+            ratioType: "sex",
+            ratioNumerator: "female",
+            ratioDenominator: "male"
+          }
+        }
+      }
+    };
