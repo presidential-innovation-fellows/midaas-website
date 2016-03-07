@@ -28,6 +28,13 @@
     }
   }
 
+  .map-chart {
+    .chart {
+      margin: 0 auto;
+      max-width: 800px;
+    }
+  }
+
   .navigation-tree {
     color: $color-gray;
     font-size: 0.95em;

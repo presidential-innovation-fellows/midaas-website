@@ -17,7 +17,7 @@ class ChartMap extends Ag.Chart.Abstract
         .click((d, el) =>
           @interact.trigger(d.properties.code)
         )
-        .scale(1000)
+        .scale(800)
         .legend(true)
 
       d3.select(bindElement)

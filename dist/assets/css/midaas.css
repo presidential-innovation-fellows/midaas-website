@@ -4969,6 +4969,10 @@ input.widget-title {
 .topics-gender .compare-national #region-selector {
   display: none; }
 
+.topics-gender .map-chart .chart {
+  margin: 0 auto;
+  max-width: 800px; }
+
 .topics-gender .navigation-tree {
   color: #5b616b;
   font-size: 0.95em;

@@ -616,7 +616,7 @@
           data = _this.translateData(data);
           _this._chart = d3.geomap.choropleth().geofile('/assets/topojson/USA.json').projection(d3.geo.albersUsa).colors(colorbrewer.Midaas[11]).column('Data').unitId('Fips').click(function(d, el) {
             return _this.interact.trigger(d.properties.code);
-          }).scale(1000).legend(true);
+          }).scale(800).legend(true);
           d3.select(bindElement).datum(data).call(_this._chart.draw, _this._chart);
           return _this.hideLoading();
         };
