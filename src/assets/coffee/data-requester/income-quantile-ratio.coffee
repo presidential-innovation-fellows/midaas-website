@@ -1,20 +1,4 @@
-class InteractIncomeQuantileRatio extends Ag.Interact.Abstract
-
-  constructor: (@chart) ->
-    super(@chart)
-    el = $("##{@chart.id}")
-    template = "/assets/templates/income-quantile-ratio.html"
-    $("##{@chart.id}").load(template, null, =>
-      @initUi()
-    )
-
-  initUi: ->
-    super()
-    @react(@config.query)
-    $("##{@chart.id} #compareQuantile").val(@config.query?.compareQuantile ? "50")
-    $("##{@chart.id} #compareQuantile").change((event) =>
-      @react({ compareQuantile: event.target.value })
-    )
+class DataRequesterIncomeQuantileRatio extends Ag.DataRequester.Abstract
 
   getApiUrl: =>
     return "#{@apiUrlBase}income/quantiles"
@@ -63,22 +47,13 @@ class InteractIncomeQuantileRatio extends Ag.Interact.Abstract
       data = {}
       for state of nData
         for quantile of nData[state]
-          data[quantile] ?= {}
-          data[quantile][state] = nData[state][quantile] / dData[state][quantile]
+          data[state] ?= {}
+          data[state][quantile] = nData[state][quantile] / dData[state][quantile]
       return callback(null, data)
     ).fail((err) =>
       return callback(err)
     )
 
-  react: (queryUpdate) ->
-    return unless queryUpdate?
-    @config.query ?= {}
-
-    compareQuantile = parseInt(queryUpdate.compareQuantile)
-    if compareQuantile >= 0 and compareQuantile <= 100
-      @config.query.compareQuantile = compareQuantile
-      $("##{@chart.id} #compareQuantile").val(compareQuantile)
-
 window.Ag ?= {}
-window.Ag.Interact ?= {}
-window.Ag.Interact.IncomeQuantileRatio = InteractIncomeQuantileRatio
+window.Ag.DataRequester ?= {}
+window.Ag.DataRequester.IncomeQuantileRatio = DataRequesterIncomeQuantileRatio

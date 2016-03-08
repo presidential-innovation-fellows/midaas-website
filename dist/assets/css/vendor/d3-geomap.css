@@ -10,11 +10,12 @@ text {
   cursor: pointer;
   fill: #ccc;
   /*stroke: #000;*/
-  stroke: #fff;
-  stroke-width: 0.4px; }
+  stroke: #999;
+  stroke-width: 0.1px; }
 
 .unit:hover {
-  fill: #e31c3d !important;
+  /*fill: #e31c3d !important;*/
+  /*stroke-width: 0.5px;*/
 }
 
 .legend-bg {

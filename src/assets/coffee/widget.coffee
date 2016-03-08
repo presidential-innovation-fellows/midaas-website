@@ -17,7 +17,7 @@ editConfigForWidget = (widgetId) ->
   }[widget.type]
   return unless chartType?
 
-  chartInteract = {
+  chartDataRequester = {
     "quantiles": "IncomeQuantilesCompare"
     "ratios": "IncomeQuantileRatio"
   }[widget.data] ? "IncomeQuantilesCompare"
@@ -40,34 +40,34 @@ editConfigForWidget = (widgetId) ->
   chart = {
     title: chartTitle
     type: chartType
-    interact: {
-      type: chartInteract
+    dataRequester: {
+      type: chartDataRequester
       query: {
         compare: chartDemographic
       }
-      ui: {
-        compare: false
-        compareRegion: false
-        compareQuantile: false
-      }
+    }
+    ui: {
+      compare: false
+      compareRegion: false
+      compareQuantile: false
     }
   }
 
   if chart.type is "bar"
     if chartGeographic is "state"
-      chart.interact.query.compareRegion = "CA"
-      chart.interact.ui.compareRegion = true
+      chart.dataRequester.query.compareRegion = "CA"
+      chart.ui.compareRegion = true
     else if chartGeographic is "national"
-      chart.interact.query.compareRegion = "US"
+      chart.dataRequester.query.compareRegion = "US"
   else if chart.type is "map"
-    chart.interact.query.compare = "state"
+    chart.dataRequester.query.compare = "state"
 
-  if chart.interact.type is "IncomeQuantileRatio"
+  if chart.dataRequester.type is "IncomeQuantileRatio"
     if chartRatio?
-      chart.interact.query.ratioType = chartDemographic
-      chart.interact.query.ratioNumerator = chartRatio[0]
-      chart.interact.query.ratioDenominator = chartRatio[1]
-      chart.interact.query.compareQuantile = 50
+      chart.dataRequester.query.ratioType = chartDemographic
+      chart.dataRequester.query.ratioNumerator = chartRatio[0]
+      chart.dataRequester.query.ratioDenominator = chartRatio[1]
+      chart.dataRequester.query.compareQuantile = 50
 
   Ag.config[chartId] = chart
 

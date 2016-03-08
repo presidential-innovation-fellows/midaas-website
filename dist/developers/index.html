@@ -45,10 +45,10 @@
     <title>MIDAAS | PIF.gov</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/assets/css/midaas.css">
+    <link rel="stylesheet" href="/assets/css/midaas.min.css">
     <link rel="shortcut icon" type="image/ico" href="/assets/img/favicons/favicon.ico">
     <link rel="icon" type="image/png" href="/assets/img/favicons/favicon.png">
-    <script src="/assets/js/midaas.js"></script>
+    <script src="/assets/js/midaas.min.js"></script>
     <!-- Polyfills--><!--[if lt IE 9]>
       <script src="/assets/js/vendor/html5shiv.js"></script>
       <script src="/assets/js/vendor/respond.min.js"></script>
@@ -104,10 +104,10 @@
               <h2>Widgets</h2>
             </header>
             <p>
-              These prebuilt visualization, which are linked to APIs, will 
-              make it easier for developers of all skill to add rich income 
+              These prebuilt visualization, which are linked to APIs, will
+              make it easier for developers of all skill to add rich income
               insights to their page.
-              Below are two widgets for embedding barcharts and maps that pull 
+              Below are two widgets for embedding barcharts and maps that pull
               from our custom APIs.  More to come...
             </p>
             <section id="widgets-bar-chart">
@@ -153,14 +153,6 @@
               of the population based on race, gender, and agegroups. Please review documentation
               on our github.
             </p>
-            <section id="api-examples">
-              <header>
-                <h3>Examples</h3>
-              </header>
-              <p>Luke put code block here</p>
-              <p>Luke put output here</p>
-              <p>LUke put params here</p>
-            </section>
           </section>
         </div>
       </div>
@@ -193,22 +185,22 @@
       chart1: {
         title: "Explore Income Distributions",
         type: "bar",
-        interact: {
+        dataRequester: {
           type: "IncomeQuantilesCompare",
           query: {
             compare: "overall",
             compareRegion: "US"
-          },
-          ui: {
-            compare: true,
-            compareRegion: true
           }
+        },
+        ui: {
+          compare: true,
+          compareRegion: true
         }
       },
       chart2: {
         title: "Explore Income Distribution Map",
         type: "map",
-        interact: {
+        dataRequester: {
           type: "IncomeQuantileRatio",
           query: {
             compare: "state",
@@ -217,6 +209,9 @@
             ratioNumerator: "female",
             ratioDenominator: "male"
           }
+        },
+        ui: {
+          compareQuantile: true
         }
       }
     };

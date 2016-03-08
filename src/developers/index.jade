@@ -43,10 +43,10 @@ html.no-js(lang='en')
             header
               h2 Widgets
             p
-              | These prebuilt visualization, which are linked to APIs, will 
-              | make it easier for developers of all skill to add rich income 
+              | These prebuilt visualization, which are linked to APIs, will
+              | make it easier for developers of all skill to add rich income
               | insights to their page.
-              | Below are two widgets for embedding barcharts and maps that pull 
+              | Below are two widgets for embedding barcharts and maps that pull
               | from our custom APIs.  More to come...
             section#widgets-bar-chart
               header
@@ -80,15 +80,6 @@ html.no-js(lang='en')
               | for various geographies. In addition, you can make calls for different subsets
               | of the population based on race, gender, and agegroups. Please review documentation
               | on our github.
-            section#api-examples
-              header
-                h3 Examples
-              p
-                | Luke put code block here
-              p
-                | Luke put output here
-              p
-                | LUke put params here
 
     include ../modules/_footer.jade
   script.
@@ -100,22 +91,22 @@ html.no-js(lang='en')
       chart1: {
         title: "Explore Income Distributions",
         type: "bar",
-        interact: {
+        dataRequester: {
           type: "IncomeQuantilesCompare",
           query: {
             compare: "overall",
             compareRegion: "US"
-          },
-          ui: {
-            compare: true,
-            compareRegion: true
           }
+        },
+        ui: {
+          compare: true,
+          compareRegion: true
         }
       },
       chart2: {
         title: "Explore Income Distribution Map",
         type: "map",
-        interact: {
+        dataRequester: {
           type: "IncomeQuantileRatio",
           query: {
             compare: "state",
@@ -124,6 +115,9 @@ html.no-js(lang='en')
             ratioNumerator: "female",
             ratioDenominator: "male"
           }
+        },
+        ui: {
+          compareQuantile: true
         }
       }
     };

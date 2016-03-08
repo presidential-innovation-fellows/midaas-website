@@ -10,22 +10,22 @@ html.no-js(lang='en')
       chart1: {
         title: "National Income Data",
         type: "bar",
-        interact: {
+        dataRequester: {
           type: "IncomeQuantilesCompare",
           query: {
             compare: "sex",
             compareRegion: "US"
-          },
-          ui: {
-            compare: false,
-            compareRegion: false
           }
+        },
+        ui: {
+          compare: false,
+          compareRegion: false
         }
       },
       chart2: {
         title: "Ratio of Male to Female Income by State",
         type: "map",
-        interact: {
+        dataRequester: {
           type: "IncomeQuantileRatio",
           query: {
             compare: "state",
@@ -33,26 +33,26 @@ html.no-js(lang='en')
             ratioType: "sex",
             ratioNumerator: "female",
             ratioDenominator: "male"
-          },
-          ui: {
-            compareQuantile: true
-          },
-          connect: "chart3"
-        }
+          }
+        },
+        ui: {
+          compareQuantile: true
+        },
+        connect: "chart3"
       },
       chart3: {
         title: "State Income Data",
         type: "bar",
-        interact: {
+        dataRequester: {
           type: "IncomeQuantilesCompare",
           query: {
             compare: "sex",
             compareRegion: "CA"
           },
-          ui: {
-            compare: false,
-            compareRegion: true
-          }
+        },
+        ui: {
+          compare: false,
+          compareRegion: true
         }
       }
     };

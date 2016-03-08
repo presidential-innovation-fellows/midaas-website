@@ -1,66 +1,30 @@
 (function() {
-  var InteractAbstract, base,
-    bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+  var DataRequesterAbstract, base;
 
-  InteractAbstract = (function() {
-    InteractAbstract.prototype.apiUrlBase = "https://brbimhg0w9.execute-api.us-west-2.amazonaws.com/dev/";
+  DataRequesterAbstract = (function() {
+    DataRequesterAbstract.prototype.apiUrlBase = "https://brbimhg0w9.execute-api.us-west-2.amazonaws.com/dev/";
 
-    function InteractAbstract(chart) {
-      var base, base1, ref;
+    function DataRequesterAbstract(chart) {
+      var base, ref;
       this.chart = chart;
-      this.trigger = bind(this.trigger, this);
-      this.config = (ref = this.chart.config) != null ? ref.interact : void 0;
-      if ((base = this.config).ui == null) {
-        base.ui = {};
+      this.config = (ref = this.chart.config) != null ? ref.dataRequester : void 0;
+      if ((base = this.config).query == null) {
+        base.query = {};
       }
-      if ((base1 = this.config).query == null) {
-        base1.query = {};
-      }
-      this.initObservers();
     }
 
-    InteractAbstract.prototype.initUi = function() {
-      var include, ref, ref1, results, uiKey;
-      this.setTitle();
-      ref1 = (ref = this.config) != null ? ref.ui : void 0;
-      results = [];
-      for (uiKey in ref1) {
-        include = ref1[uiKey];
-        if (!include) {
-          results.push($("#" + this.chart.id + " #" + uiKey).hide());
-        } else {
-          results.push(void 0);
-        }
-      }
-      return results;
+    DataRequesterAbstract.prototype.fetchData = function(callback) {
+      var data, err;
+      err = null;
+      data = null;
+      return callback(err, data);
     };
 
-    InteractAbstract.prototype.initObservers = function() {
-      this.observers = {
-        ui: new ObjectObserver(this.config.ui),
-        query: new ObjectObserver(this.config.query),
-        title: new PathObserver(this.chart.config, "title")
-      };
-      this.observers.ui.open((function(_this) {
-        return function(added, removed, changed, getOldValueFn) {
-          return _this.initUi();
-        };
-      })(this));
-      this.observers.query.open((function(_this) {
-        return function(added, removed, changed, getOldValueFn) {
-          return _this.chart.update();
-        };
-      })(this));
-      return this.observers.title.open((function(_this) {
-        return function(title, oldTitle) {
-          if (title !== oldTitle) {
-            return _this.setTitle();
-          }
-        };
-      })(this));
+    DataRequesterAbstract.prototype.react = function(queryUpdate) {
+      return null;
     };
 
-    InteractAbstract.prototype.closeObservers = function() {
+    DataRequesterAbstract.prototype.closeObservers = function() {
       var observer, observerKey, ref, results;
       ref = this.observers;
       results = [];
@@ -71,53 +35,11 @@
       return results;
     };
 
-    InteractAbstract.prototype.fetchData = function(callback) {
-      var data, err;
-      err = null;
-      data = null;
-      return callback(err, data);
-    };
-
-    InteractAbstract.prototype.setTitle = function() {
-      var el, ref, title;
-      el = $("#" + this.chart.id);
-      title = (ref = this.chart.config) != null ? ref.title : void 0;
-      return el.find(".chart-title").text(title);
-    };
-
-    InteractAbstract.prototype.trigger = function(selectionValue) {
-      var queryKey, queryUpdate;
-      if (this.config.connect == null) {
-        return;
-      }
-      queryKey = (function() {
-        var ref, ref1;
-        switch ((ref = this.config.query) != null ? (ref1 = ref.compare) != null ? ref1.toLowerCase() : void 0 : void 0) {
-          case "race":
-            return "compareRace";
-          case "sex":
-          case "gender":
-            return "compareSex";
-          case "age":
-            return "compareAge";
-          case "state":
-            return "compareRegion";
-        }
-      }).call(this);
-      queryUpdate = {};
-      queryUpdate[queryKey] = selectionValue;
-      return $("#" + this.config.connect).trigger("interact", queryUpdate);
-    };
-
-    InteractAbstract.prototype.react = function(queryUpdate) {
-      return null;
-    };
-
-    InteractAbstract.prototype.destroy = function() {
+    DataRequesterAbstract.prototype.destroy = function() {
       return this.closeObservers();
     };
 
-    return InteractAbstract;
+    return DataRequesterAbstract;
 
   })();
 
@@ -125,63 +47,35 @@
     window.Ag = {};
   }
 
-  if ((base = window.Ag).Interact == null) {
-    base.Interact = {};
+  if ((base = window.Ag).DataRequester == null) {
+    base.DataRequester = {};
   }
 
-  window.Ag.Interact.Abstract = InteractAbstract;
+  window.Ag.DataRequester.Abstract = DataRequesterAbstract;
 
 }).call(this);
 
 (function() {
-  var InteractIncomeQuantilesCompare, base,
+  var DataRequesterIncomeQuantilesCompare, base,
     bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
     extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
     hasProp = {}.hasOwnProperty;
 
-  InteractIncomeQuantilesCompare = (function(superClass) {
-    extend(InteractIncomeQuantilesCompare, superClass);
+  DataRequesterIncomeQuantilesCompare = (function(superClass) {
+    extend(DataRequesterIncomeQuantilesCompare, superClass);
 
-    function InteractIncomeQuantilesCompare(chart) {
-      var el, template;
-      this.chart = chart;
+    function DataRequesterIncomeQuantilesCompare() {
       this.fetchData = bind(this.fetchData, this);
       this.getApiUrl = bind(this.getApiUrl, this);
-      InteractIncomeQuantilesCompare.__super__.constructor.call(this, this.chart);
-      el = $("#" + this.chart.id);
-      template = "/assets/templates/income-quantiles-compare.html";
-      $("#" + this.chart.id).load(template, null, (function(_this) {
-        return function() {
-          return _this.initUi();
-        };
-      })(this));
+      return DataRequesterIncomeQuantilesCompare.__super__.constructor.apply(this, arguments);
     }
 
-    InteractIncomeQuantilesCompare.prototype.initUi = function() {
-      InteractIncomeQuantilesCompare.__super__.initUi.call(this);
-      this.react(this.config.query);
-      $("#" + this.chart.id + " #compare .toggle").on("click", (function(_this) {
-        return function(event) {
-          return _this.react({
-            compare: event.currentTarget.innerText.toLowerCase()
-          });
-        };
-      })(this));
-      return $("#" + this.chart.id + " #compareRegion").change((function(_this) {
-        return function(event) {
-          return _this.react({
-            compareRegion: event.target.value.toUpperCase()
-          });
-        };
-      })(this));
-    };
-
-    InteractIncomeQuantilesCompare.prototype.getApiUrl = function() {
+    DataRequesterIncomeQuantilesCompare.prototype.getApiUrl = function() {
       return this.apiUrlBase + "income/quantiles";
     };
 
-    InteractIncomeQuantilesCompare.prototype.fetchData = function(callback) {
-      var compare, compareRegion, params, query, ref, ref1, ref2, url;
+    DataRequesterIncomeQuantilesCompare.prototype.fetchData = function(callback) {
+      var compare, compareQuantile, compareRegion, params, query, ref, ref1, ref2, url;
       params = [];
       url = this.getApiUrl();
       query = (ref = this.config) != null ? ref.query : void 0;
@@ -204,6 +98,10 @@
       if (compareRegion && compareRegion !== "US") {
         params.push("state=" + compareRegion);
       }
+      compareQuantile = query.compareQuantile;
+      if (parseInt(compareQuantile) >= 0 && parseInt(compareQuantile) <= 100) {
+        params.push("quantile=" + compareQuantile);
+      }
       if (params.length) {
         url += "?" + params.join('&');
       }
@@ -222,86 +120,42 @@
       })(this));
     };
 
-    InteractIncomeQuantilesCompare.prototype.react = function(queryUpdate) {
-      var base, compare, compareRegion, ref, ref1;
-      if (queryUpdate == null) {
-        return;
-      }
-      if ((base = this.config).query == null) {
-        base.query = {};
-      }
-      compare = (ref = queryUpdate.compare) != null ? ref.toLowerCase() : void 0;
-      if (compare === "overall" || compare === "race" || compare === "gender" || compare === "sex" || compare === "age") {
-        this.config.query.compare = compare;
-        $("#" + this.chart.id + " #compare .toggles li").removeClass("active");
-        $("#" + this.chart.id + " #compare .toggles li ." + compare).addClass("active");
-      }
-      compareRegion = (ref1 = queryUpdate.compareRegion) != null ? ref1.toUpperCase() : void 0;
-      if (compareRegion != null) {
-        this.config.query.compareRegion = compareRegion;
-        return $("#" + this.chart.id + " #compareRegion").val(compareRegion);
-      }
-    };
+    return DataRequesterIncomeQuantilesCompare;
 
-    return InteractIncomeQuantilesCompare;
-
-  })(Ag.Interact.Abstract);
+  })(Ag.DataRequester.Abstract);
 
   if (window.Ag == null) {
     window.Ag = {};
   }
 
-  if ((base = window.Ag).Interact == null) {
-    base.Interact = {};
+  if ((base = window.Ag).DataRequester == null) {
+    base.DataRequester = {};
   }
 
-  window.Ag.Interact.IncomeQuantilesCompare = InteractIncomeQuantilesCompare;
+  window.Ag.DataRequester.IncomeQuantilesCompare = DataRequesterIncomeQuantilesCompare;
 
 }).call(this);
 
 (function() {
-  var InteractIncomeQuantileRatio, base,
+  var DataRequesterIncomeQuantileRatio, base,
     bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
     extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
     hasProp = {}.hasOwnProperty;
 
-  InteractIncomeQuantileRatio = (function(superClass) {
-    extend(InteractIncomeQuantileRatio, superClass);
+  DataRequesterIncomeQuantileRatio = (function(superClass) {
+    extend(DataRequesterIncomeQuantileRatio, superClass);
 
-    function InteractIncomeQuantileRatio(chart) {
-      var el, template;
-      this.chart = chart;
+    function DataRequesterIncomeQuantileRatio() {
       this.fetchData = bind(this.fetchData, this);
       this.getApiUrl = bind(this.getApiUrl, this);
-      InteractIncomeQuantileRatio.__super__.constructor.call(this, this.chart);
-      el = $("#" + this.chart.id);
-      template = "/assets/templates/income-quantile-ratio.html";
-      $("#" + this.chart.id).load(template, null, (function(_this) {
-        return function() {
-          return _this.initUi();
-        };
-      })(this));
+      return DataRequesterIncomeQuantileRatio.__super__.constructor.apply(this, arguments);
     }
 
-    InteractIncomeQuantileRatio.prototype.initUi = function() {
-      var ref, ref1;
-      InteractIncomeQuantileRatio.__super__.initUi.call(this);
-      this.react(this.config.query);
-      $("#" + this.chart.id + " #compareQuantile").val((ref = (ref1 = this.config.query) != null ? ref1.compareQuantile : void 0) != null ? ref : "50");
-      return $("#" + this.chart.id + " #compareQuantile").change((function(_this) {
-        return function(event) {
-          return _this.react({
-            compareQuantile: event.target.value
-          });
-        };
-      })(this));
-    };
-
-    InteractIncomeQuantileRatio.prototype.getApiUrl = function() {
+    DataRequesterIncomeQuantileRatio.prototype.getApiUrl = function() {
       return this.apiUrlBase + "income/quantiles";
     };
 
-    InteractIncomeQuantileRatio.prototype.fetchData = function(callback) {
+    DataRequesterIncomeQuantileRatio.prototype.fetchData = function(callback) {
       var compare, compareQuantile, params, paramsDenominator, paramsNumerator, query, ratioDenominator, ratioNumerator, ratioType, ref, ref1, ref2, ref3, ref4, url;
       params = [];
       url = this.getApiUrl();
@@ -346,10 +200,10 @@
           data = {};
           for (state in nData) {
             for (quantile in nData[state]) {
-              if (data[quantile] == null) {
-                data[quantile] = {};
+              if (data[state] == null) {
+                data[state] = {};
               }
-              data[quantile][state] = nData[state][quantile] / dData[state][quantile];
+              data[state][quantile] = nData[state][quantile] / dData[state][quantile];
             }
           }
           return callback(null, data);
@@ -361,52 +215,37 @@
       })(this));
     };
 
-    InteractIncomeQuantileRatio.prototype.react = function(queryUpdate) {
-      var base, compareQuantile;
-      if (queryUpdate == null) {
-        return;
-      }
-      if ((base = this.config).query == null) {
-        base.query = {};
-      }
-      compareQuantile = parseInt(queryUpdate.compareQuantile);
-      if (compareQuantile >= 0 && compareQuantile <= 100) {
-        this.config.query.compareQuantile = compareQuantile;
-        return $("#" + this.chart.id + " #compareQuantile").val(compareQuantile);
-      }
-    };
+    return DataRequesterIncomeQuantileRatio;
 
-    return InteractIncomeQuantileRatio;
-
-  })(Ag.Interact.Abstract);
+  })(Ag.DataRequester.Abstract);
 
   if (window.Ag == null) {
     window.Ag = {};
   }
 
-  if ((base = window.Ag).Interact == null) {
-    base.Interact = {};
+  if ((base = window.Ag).DataRequester == null) {
+    base.DataRequester = {};
   }
 
-  window.Ag.Interact.IncomeQuantileRatio = InteractIncomeQuantileRatio;
+  window.Ag.DataRequester.IncomeQuantileRatio = DataRequesterIncomeQuantileRatio;
 
 }).call(this);
 
 (function() {
-  var base, createInteract;
+  var base, createDataRequester;
 
-  createInteract = function(chart) {
-    var interact, ref, type;
-    interact = chart != null ? (ref = chart.config) != null ? ref.interact : void 0 : void 0;
-    type = interact != null ? interact.type : void 0;
+  createDataRequester = function(chart) {
+    var dataRequester, ref, type;
+    dataRequester = chart != null ? (ref = chart.config) != null ? ref.dataRequester : void 0 : void 0;
+    type = dataRequester != null ? dataRequester.type : void 0;
     if (type == null) {
-      return console.error(new Error("Missing interact.type in Ag config."));
+      return console.error(new Error("Missing data.type in Ag config."));
     }
     switch (type) {
       case "IncomeQuantilesCompare":
-        return new Ag.Interact.IncomeQuantilesCompare(chart);
+        return new Ag.DataRequester.IncomeQuantilesCompare(chart);
       case "IncomeQuantileRatio":
-        return new Ag.Interact.IncomeQuantileRatio(chart);
+        return new Ag.DataRequester.IncomeQuantileRatio(chart);
     }
   };
 
@@ -414,47 +253,137 @@
     window.Ag = {};
   }
 
-  if ((base = window.Ag).Interact == null) {
-    base.Interact = {};
+  if ((base = window.Ag).DataRequester == null) {
+    base.DataRequester = {};
   }
 
-  window.Ag.Interact.Create = createInteract;
+  window.Ag.DataRequester.Create = createDataRequester;
 
 }).call(this);
 
 (function() {
-  var ChartAbstract, base;
+  var ChartAbstract, base,
+    bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
   ChartAbstract = (function() {
     function ChartAbstract(id, config) {
       this.id = id;
       this.config = config;
-      this.initInteract();
-      this.initObservers();
-      this.initChart();
+      this.trigger = bind(this.trigger, this);
+      $("#" + this.id).load("/assets/templates/chart.html", null, (function(_this) {
+        return function() {
+          _this.initUi();
+          _this.initDataRequester();
+          _this.initObservers();
+          _this.initChart();
+          return _this.initTriggerListeners();
+        };
+      })(this));
     }
+
+    ChartAbstract.prototype.initUi = function() {
+      var ref;
+      if ((ref = this.config.ui) != null ? ref.compareQuantile : void 0) {
+        return $.get("/assets/templates/ui/select-compare-quantile.html", (function(_this) {
+          return function(html) {
+            var ref1, ref2;
+            $("#" + _this.id + " .ui").append(html);
+            $("#" + _this.id + " #compareQuantile").change(function(event) {
+              return _this.react({
+                compareQuantile: event.target.value.toUpperCase()
+              });
+            });
+            return _this.react({
+              compareQuantile: (ref1 = _this.config.dataRequester) != null ? (ref2 = ref1.query) != null ? ref2.compareQuantile : void 0 : void 0
+            });
+          };
+        })(this));
+      }
+    };
 
     ChartAbstract.prototype.initChart = function() {};
 
-    ChartAbstract.prototype.initInteract = function() {
-      this.interact = Ag.Interact.Create(this);
-      return $("#" + this.id).on("interact", (function(_this) {
-        return function(evt, queryUpdate) {
-          return _this.interact.react(queryUpdate);
-        };
-      })(this));
+    ChartAbstract.prototype.initDataRequester = function() {
+      return this.dataRequester = Ag.DataRequester.Create(this);
     };
 
     ChartAbstract.prototype.initObservers = function() {
       this.observers = {
-        type: new PathObserver(this.config, "interact.type")
+        title: new PathObserver(this.config, "title"),
+        type: new PathObserver(this.config.dataRequester, "type"),
+        query: new ObjectObserver(this.config.dataRequester.query),
+        ui: new ObjectObserver(this.config.ui)
       };
-      return this.observers.type.open((function(_this) {
+      this.observers.title.open((function(_this) {
+        return function(title, oldTitle) {
+          if (title !== oldTitle) {
+            return _this.setTitle();
+          }
+        };
+      })(this));
+      this.observers.type.open((function(_this) {
         return function(type, oldType) {
-          _this.initInteract();
+          _this.initDataRequester();
           return _this.initChart();
         };
       })(this));
+      this.observers.query.open((function(_this) {
+        return function(added, removed, changed, getOldValueFn) {
+          return _this.update();
+        };
+      })(this));
+      return this.observers.ui.open((function(_this) {
+        return function(added, removed, changed, getOldValueFn) {
+          return _this.initUi();
+        };
+      })(this));
+    };
+
+    ChartAbstract.prototype.initTriggerListeners = function() {
+      return $("#" + this.id).on("query-change", (function(_this) {
+        return function(evt, queryUpdate) {
+          return _this.react(queryUpdate);
+        };
+      })(this));
+    };
+
+    ChartAbstract.prototype.trigger = function(selectionValue) {
+      var queryKey, queryUpdate;
+      if (this.config.connect == null) {
+        return;
+      }
+      queryKey = (function() {
+        var ref, ref1, ref2;
+        switch ((ref = this.config.dataRequester) != null ? (ref1 = ref.query) != null ? (ref2 = ref1.compare) != null ? ref2.toLowerCase() : void 0 : void 0 : void 0) {
+          case "race":
+            return "compareRace";
+          case "sex":
+          case "gender":
+            return "compareSex";
+          case "age":
+            return "compareAge";
+          case "state":
+            return "compareRegion";
+        }
+      }).call(this);
+      queryUpdate = {};
+      queryUpdate[queryKey] = selectionValue;
+      return $("#" + this.config.connect).trigger("query-change", queryUpdate);
+    };
+
+    ChartAbstract.prototype.react = function(queryUpdate) {
+      var base, compareQuantile;
+      if (queryUpdate == null) {
+        return;
+      }
+      if ((base = this.config.dataRequester).query == null) {
+        base.query = {};
+      }
+      compareQuantile = parseInt(queryUpdate.compareQuantile);
+      if (compareQuantile >= 0 && compareQuantile <= 100) {
+        this.config.dataRequester.query.compareQuantile = compareQuantile;
+        return $("#" + this.id + " #compareQuantile").val(compareQuantile);
+      }
     };
 
     ChartAbstract.prototype.showLoading = function() {
@@ -463,6 +392,13 @@
 
     ChartAbstract.prototype.hideLoading = function() {
       return $("#" + this.id + " #loading-icon").fadeOut("fast");
+    };
+
+    ChartAbstract.prototype.setTitle = function() {
+      var el, ref, title;
+      el = $("#" + this.chart.id);
+      title = (ref = this.chart.config) != null ? ref.title : void 0;
+      return el.find(".chart-title").text(title);
     };
 
     ChartAbstract.prototype.closeObservers = function() {
@@ -478,7 +414,7 @@
 
     ChartAbstract.prototype.destroy = function() {
       this.closeObservers();
-      this.interact.destroy();
+      this.dataRequester.destroy();
       return $("#" + this.id).html("");
     };
 
@@ -512,11 +448,48 @@
       ChartBar.__super__.constructor.call(this, this.id, this.config);
     }
 
+    ChartBar.prototype.initUi = function() {
+      var ref, ref1;
+      ChartBar.__super__.initUi.call(this);
+      if ((ref = this.config.ui) != null ? ref.compare : void 0) {
+        $.get("/assets/templates/ui/toggle-compare-dropdown.html", (function(_this) {
+          return function(html) {
+            var ref1, ref2;
+            $("#" + _this.id + " .ui").append(html);
+            $("#" + _this.id + " #compare .toggle").on("click", function(event) {
+              return _this.react({
+                compare: event.currentTarget.innerText.toLowerCase()
+              });
+            });
+            return _this.react({
+              compare: (ref1 = _this.config.dataRequester) != null ? (ref2 = ref1.query) != null ? ref2.compare : void 0 : void 0
+            });
+          };
+        })(this));
+      }
+      if ((ref1 = this.config.ui) != null ? ref1.compareRegion : void 0) {
+        return $.get("/assets/templates/ui/select-compare-region.html", (function(_this) {
+          return function(html) {
+            var ref2, ref3;
+            $("#" + _this.id + " .ui").append(html);
+            $("#" + _this.id + " #compareRegion").change(function(event) {
+              return _this.react({
+                compareRegion: event.target.value.toUpperCase()
+              });
+            });
+            return _this.react({
+              compareRegion: (ref2 = _this.config.dataRequester) != null ? (ref3 = ref2.query) != null ? ref3.compareRegion : void 0 : void 0
+            });
+          };
+        })(this));
+      }
+    };
+
     ChartBar.prototype.initChart = function() {
       var bindElement;
       this.showLoading();
       bindElement = "#" + this.id + " .chart";
-      return this.interact.fetchData((function(_this) {
+      return this.dataRequester.fetchData((function(_this) {
         return function(err, data) {
           data = _this.translateData(data);
           _this._chart = c3.generate({
@@ -526,7 +499,7 @@
               columns: data,
               type: "bar",
               onclick: function(d, el) {
-                return _this.interact.trigger(d.id);
+                return _this.trigger(d.id);
               }
             },
             bar: {
@@ -550,7 +523,7 @@
 
     ChartBar.prototype.update = function() {
       this.showLoading();
-      return this.interact.fetchData((function(_this) {
+      return this.dataRequester.fetchData((function(_this) {
         return function(err, data) {
           data = _this.translateData(data);
           _this._chart.load({
@@ -575,6 +548,22 @@
         seriesArr.push(dataArr);
       }
       return [labelArr].concat(seriesArr);
+    };
+
+    ChartBar.prototype.react = function(queryUpdate) {
+      var compare, compareRegion, ref, ref1;
+      ChartBar.__super__.react.call(this, queryUpdate);
+      compare = (ref = queryUpdate.compare) != null ? ref.toLowerCase() : void 0;
+      if (compare === "overall" || compare === "race" || compare === "gender" || compare === "sex" || compare === "age") {
+        this.config.dataRequester.query.compare = compare;
+        $("#" + this.id + " #compare .toggles li").removeClass("active");
+        $("#" + this.id + " #compare .toggles li." + compare).addClass("active");
+      }
+      compareRegion = (ref1 = queryUpdate.compareRegion) != null ? ref1.toUpperCase() : void 0;
+      if (compareRegion != null) {
+        this.config.dataRequester.query.compareRegion = compareRegion;
+        return $("#" + this.id + " #compareRegion").val(compareRegion);
+      }
     };
 
     return ChartBar;
@@ -607,15 +596,36 @@
       ChartMap.__super__.constructor.call(this, this.id, this.config);
     }
 
+    ChartMap.prototype.initUi = function() {
+      var ref;
+      ChartMap.__super__.initUi.call(this);
+      if ((ref = this.config.ui) != null ? ref.compare : void 0) {
+        return $.get("/assets/templates/ui/toggle-compare-dropdown.html", (function(_this) {
+          return function(html) {
+            var ref1, ref2;
+            $("#" + _this.id + " .ui").append(html);
+            $("#" + _this.id + " #compare .toggle").on("click", function(event) {
+              return _this.react({
+                compare: event.currentTarget.innerText.toLowerCase()
+              });
+            });
+            return _this.react({
+              compare: (ref1 = _this.config.dataRequester) != null ? (ref2 = ref1.query) != null ? ref2.compare : void 0 : void 0
+            });
+          };
+        })(this));
+      }
+    };
+
     ChartMap.prototype.initChart = function() {
       var bindElement;
       this.showLoading();
       bindElement = "#" + this.id + " .chart";
-      return this.interact.fetchData((function(_this) {
+      return this.dataRequester.fetchData((function(_this) {
         return function(err, data) {
           data = _this.translateData(data);
           _this._chart = d3.geomap.choropleth().geofile('/assets/topojson/USA.json').projection(d3.geo.albersUsa).colors(colorbrewer.Midaas[11]).column('Data').unitId('Fips').click(function(d, el) {
-            return _this.interact.trigger(d.properties.code);
+            return _this.trigger(d.properties.code);
           }).scale(800).legend(true);
           d3.select(bindElement).datum(data).call(_this._chart.draw, _this._chart);
           return _this.hideLoading();
@@ -627,7 +637,7 @@
       var bindElement;
       this.showLoading();
       bindElement = "#" + this.id + " .chart";
-      return this.interact.fetchData((function(_this) {
+      return this.dataRequester.fetchData((function(_this) {
         return function(err, data) {
           data = _this.translateData(data);
           _this._chart.data = data;
@@ -697,17 +707,28 @@
     ChartMap.prototype.translateData = function(data) {
       var dataArr, fips, group, state;
       dataArr = [];
-      for (group in data) {
-        for (state in data[group]) {
+      for (state in data) {
+        for (group in data[state]) {
           fips = this.lookupFips(state);
           dataArr.push({
             "State": state,
-            "Data": data[group][state],
+            "Data": data[state][group],
             "Fips": "US" + fips
           });
         }
       }
       return dataArr;
+    };
+
+    ChartMap.prototype.react = function(queryUpdate) {
+      var compare, ref;
+      ChartMap.__super__.react.call(this, queryUpdate);
+      compare = (ref = queryUpdate.compare) != null ? ref.toLowerCase() : void 0;
+      if (compare === "overall" || compare === "race" || compare === "gender" || compare === "sex" || compare === "age") {
+        this.config.dataRequester.query.compare = compare;
+        $("#" + this.id + " #compare .toggles li").removeClass("active");
+        return $("#" + this.id + " #compare .toggles li ." + compare).addClass("active");
+      }
     };
 
     return ChartMap;
@@ -1090,7 +1111,7 @@
 
     function WidgetChartBar(el) {
       var template;
-      template = "/assets/templates/widget-chart-bar.html";
+      template = "/assets/templates/widget/chart-bar.html";
       $(el).load(template, null, (function(_this) {
         return function() {
           return _this.init(el);
@@ -1120,7 +1141,7 @@
 
     function WidgetChartMap(el) {
       var template;
-      template = "/assets/templates/widget-chart-map.html";
+      template = "/assets/templates/widget/chart-map.html";
       $(el).load(template, null, (function(_this) {
         return function() {
           return _this.init(el);
@@ -1144,7 +1165,7 @@
   var base, editConfigForWidget;
 
   editConfigForWidget = function(widgetId) {
-    var chart, chartDemographic, chartGeographic, chartId, chartInteract, chartRatio, chartTitle, chartType, ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7, widget;
+    var chart, chartDataRequester, chartDemographic, chartGeographic, chartId, chartRatio, chartTitle, chartType, ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7, widget;
     widget = {
       title: (ref = $('#widget-0 input.widget-title')) != null ? ref.val() : void 0,
       type: (ref1 = $("#" + widgetId)) != null ? ref1.attr("data-widget") : void 0,
@@ -1161,7 +1182,7 @@
     if (chartType == null) {
       return;
     }
-    chartInteract = (ref6 = {
+    chartDataRequester = (ref6 = {
       "quantiles": "IncomeQuantilesCompare",
       "ratios": "IncomeQuantileRatio"
     }[widget.data]) != null ? ref6 : "IncomeQuantilesCompare";
@@ -1180,34 +1201,34 @@
     chart = {
       title: chartTitle,
       type: chartType,
-      interact: {
-        type: chartInteract,
+      dataRequester: {
+        type: chartDataRequester,
         query: {
           compare: chartDemographic
-        },
-        ui: {
-          compare: false,
-          compareRegion: false,
-          compareQuantile: false
         }
+      },
+      ui: {
+        compare: false,
+        compareRegion: false,
+        compareQuantile: false
       }
     };
     if (chart.type === "bar") {
       if (chartGeographic === "state") {
-        chart.interact.query.compareRegion = "CA";
-        chart.interact.ui.compareRegion = true;
+        chart.dataRequester.query.compareRegion = "CA";
+        chart.ui.compareRegion = true;
       } else if (chartGeographic === "national") {
-        chart.interact.query.compareRegion = "US";
+        chart.dataRequester.query.compareRegion = "US";
       }
     } else if (chart.type === "map") {
-      chart.interact.query.compare = "state";
+      chart.dataRequester.query.compare = "state";
     }
-    if (chart.interact.type === "IncomeQuantileRatio") {
+    if (chart.dataRequester.type === "IncomeQuantileRatio") {
       if (chartRatio != null) {
-        chart.interact.query.ratioType = chartDemographic;
-        chart.interact.query.ratioNumerator = chartRatio[0];
-        chart.interact.query.ratioDenominator = chartRatio[1];
-        chart.interact.query.compareQuantile = 50;
+        chart.dataRequester.query.ratioType = chartDemographic;
+        chart.dataRequester.query.ratioNumerator = chartRatio[0];
+        chart.dataRequester.query.ratioDenominator = chartRatio[1];
+        chart.dataRequester.query.compareQuantile = 50;
       }
     }
     return Ag.config[chartId] = chart;

@@ -45,10 +45,10 @@
     <title>MIDAAS | PIF.gov</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/assets/css/midaas.css">
+    <link rel="stylesheet" href="/assets/css/midaas.min.css">
     <link rel="shortcut icon" type="image/ico" href="/assets/img/favicons/favicon.ico">
     <link rel="icon" type="image/png" href="/assets/img/favicons/favicon.png">
-    <script src="/assets/js/midaas.js"></script>
+    <script src="/assets/js/midaas.min.js"></script>
     <!-- Polyfills--><!--[if lt IE 9]>
       <script src="/assets/js/vendor/html5shiv.js"></script>
       <script src="/assets/js/vendor/respond.min.js"></script>
@@ -64,22 +64,22 @@
       chart1: {
         title: "National Income Data",
         type: "bar",
-        interact: {
+        dataRequester: {
           type: "IncomeQuantilesCompare",
           query: {
             compare: "sex",
             compareRegion: "US"
-          },
-          ui: {
-            compare: false,
-            compareRegion: false
           }
+        },
+        ui: {
+          compare: false,
+          compareRegion: false
         }
       },
       chart2: {
         title: "Ratio of Male to Female Income by State",
         type: "map",
-        interact: {
+        dataRequester: {
           type: "IncomeQuantileRatio",
           query: {
             compare: "state",
@@ -87,26 +87,26 @@
             ratioType: "sex",
             ratioNumerator: "female",
             ratioDenominator: "male"
-          },
-          ui: {
-            compareQuantile: true
-          },
-          connect: "chart3"
-        }
+          }
+        },
+        ui: {
+          compareQuantile: true
+        },
+        connect: "chart3"
       },
       chart3: {
         title: "State Income Data",
         type: "bar",
-        interact: {
+        dataRequester: {
           type: "IncomeQuantilesCompare",
           query: {
             compare: "sex",
             compareRegion: "CA"
           },
-          ui: {
-            compare: false,
-            compareRegion: true
-          }
+        },
+        ui: {
+          compare: false,
+          compareRegion: true
         }
       }
     };

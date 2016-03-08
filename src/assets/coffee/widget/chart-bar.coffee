@@ -1,7 +1,7 @@
 class WidgetChartBar extends Ag.Widget.Abstract
 
   constructor: (el) ->
-    template = "/assets/templates/widget-chart-bar.html"
+    template = "/assets/templates/widget/chart-bar.html"
     $(el).load(template, null, =>
       @init(el)
     )

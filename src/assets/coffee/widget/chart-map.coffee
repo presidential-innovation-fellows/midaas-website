@@ -1,7 +1,7 @@
 class WidgetChartMap extends Ag.Widget.Abstract
 
   constructor: (el) ->
-    template = "/assets/templates/widget-chart-map.html"
+    template = "/assets/templates/widget/chart-map.html"
     $(el).load(template, null, =>
       @init(el)
     )

@@ -3,10 +3,22 @@ class ChartMap extends Ag.Chart.Abstract
   constructor: (@id, @config) ->
     super(@id, @config)
 
+  initUi: ->
+    super()
+
+    if @config.ui?.compare
+      $.get("/assets/templates/ui/toggle-compare-dropdown.html", (html) =>
+        $("##{@id} .ui").append(html)
+        $("##{@id} #compare .toggle").on("click", (event) =>
+          @react({ compare: event.currentTarget.innerText.toLowerCase() })
+        )
+        @react({ compare: @config.dataRequester?.query?.compare })
+      )
+
   initChart: ->
     @showLoading()
     bindElement = "##{@id} .chart"
-    @interact.fetchData((err, data) =>
+    @dataRequester.fetchData((err, data) =>
       data = @translateData(data)
       @_chart = d3.geomap.choropleth()
         .geofile('/assets/topojson/USA.json')
@@ -15,7 +27,7 @@ class ChartMap extends Ag.Chart.Abstract
         .column('Data')
         .unitId('Fips')
         .click((d, el) =>
-          @interact.trigger(d.properties.code)
+          @trigger(d.properties.code)
         )
         .scale(800)
         .legend(true)
@@ -30,7 +42,7 @@ class ChartMap extends Ag.Chart.Abstract
   update: ->
     @showLoading()
     bindElement = "##{@id} .chart"
-    @interact.fetchData((err, data) =>
+    @dataRequester.fetchData((err, data) =>
       data = @translateData(data)
       @_chart.data = data
       @_chart.update()
@@ -61,15 +73,24 @@ class ChartMap extends Ag.Chart.Abstract
 
   translateData: (data) ->
     dataArr = []
-    for group of data
-      for state of data[group]
+    for state of data
+      for group of data[state]
         fips = @lookupFips(state)
         dataArr.push({
           "State": state
-          "Data": data[group][state]
+          "Data": data[state][group]
           "Fips": "US" + fips
         })
     return dataArr
+
+  react: (queryUpdate) ->
+    super(queryUpdate)
+
+    compare = queryUpdate.compare?.toLowerCase()
+    if compare in ["overall", "race", "gender", "sex", "age"]
+      @config.dataRequester.query.compare = compare
+      $("##{@id} #compare .toggles li").removeClass("active")
+      $("##{@id} #compare .toggles li .#{compare}").addClass("active")
 
 window.Ag ?= {}
 window.Ag.Chart ?= {}
