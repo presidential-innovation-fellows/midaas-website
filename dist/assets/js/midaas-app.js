@@ -220,6 +220,7 @@
               data[state][quantile] = nData[state][quantile] / dData[state][quantile];
             }
           }
+          data.yLabel = "Ratio " + ratioNumerator + "/" + ratioDenominator;
           return callback(null, data);
         };
       })(this)).fail((function(_this) {

@@ -49,6 +49,7 @@ class DataRequesterIncomeQuantileRatio extends Ag.DataRequester.Abstract
         for quantile of nData[state]
           data[state] ?= {}
           data[state][quantile] = nData[state][quantile] / dData[state][quantile]
+      data.yLabel = "Ratio #{ratioNumerator}/#{ratioDenominator}"
       return callback(null, data)
     ).fail((err) =>
       return callback(err)
