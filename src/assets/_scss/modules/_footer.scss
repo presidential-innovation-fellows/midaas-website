@@ -2,8 +2,40 @@
   background-color: $color-gray-dark;
   padding: 2em 0;
 
+  h2 {
+    color: $color-white;
+    font-size: 1.1em;
+    margin: 1em 0 0.1em;
+  }
+
+  ul {
+    margin: 0;
+  }
+
   .col {
     @include span-columns(6);
+  }
+
+  .commerce-footer {
+    @include clearfix;
+  }
+
+  .commerce-links {
+    @include span-columns(6);
+    font-size: 0.9em;
+    margin-bottom: 2em;
+
+    a {
+      color: $color-white;
+
+      &:hover {
+        color: lighten($color-primary, 10);
+      }
+    }
+
+    li {
+      margin: 0 1em 0 0;
+    }
   }
 
   .label {
@@ -37,6 +69,7 @@
 }
 
 .footer-logos {
+  float: right;
 
   li {
     @include span-columns(1 of 4);
@@ -50,10 +83,5 @@
     a {
       display: block;
     }
-  }
-
-  ul {
-    @include clearfix;
-    margin: 0;
   }
 }
