@@ -4624,6 +4624,8 @@ module.exports = eventmap;
         timeout: 10000
       }).done((function(_this) {
         return function(data) {
+          data.xLabel = "Quantile";
+          data.yLabel = "Income ($s)";
           return callback(null, data);
         };
       })(this)).fail((function(_this) {
@@ -5004,6 +5006,15 @@ module.exports = eventmap;
       bindElement = "#" + this.id + " .chart";
       return this.dataRequester.fetchData((function(_this) {
         return function(err, data) {
+          var xLabel, yLabel;
+          xLabel = data.xLabel;
+          yLabel = data.yLabel;
+          if (data.xLabel != null) {
+            delete data.xLabel;
+          }
+          if (data.yLabel != null) {
+            delete data.yLabel;
+          }
           data = _this.translateData(data);
           _this._chart = c3.generate({
             bindto: bindElement,
@@ -5022,7 +5033,11 @@ module.exports = eventmap;
             },
             axis: {
               x: {
+                label: xLabel,
                 type: "category"
+              },
+              y: {
+                label: yLabel
               }
             },
             color: {

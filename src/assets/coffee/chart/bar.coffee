@@ -28,6 +28,10 @@ class ChartBar extends Ag.Chart.Abstract
     @showLoading()
     bindElement = "##{@id} .chart"
     @dataRequester.fetchData((err, data) =>
+      xLabel = data.xLabel
+      yLabel = data.yLabel
+      delete data.xLabel if data.xLabel?
+      delete data.yLabel if data.yLabel?
       data = @translateData(data)
       @_chart = c3.generate({
         bindto: bindElement
@@ -45,7 +49,11 @@ class ChartBar extends Ag.Chart.Abstract
         }
         axis: {
           x: {
+            label: xLabel
             type: "category"
+          }
+          y: {
+            label: yLabel
           }
         }
         color: {
