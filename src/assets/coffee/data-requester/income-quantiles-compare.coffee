@@ -21,7 +21,19 @@ class DataRequesterIncomeQuantilesCompare extends Ag.DataRequester.Abstract
 
     compareRegion = query.compareRegion?.toUpperCase()
     if compareRegion and compareRegion isnt "US"
-      params.push("state=" + compareRegion)
+      params.push("state=" + encodeURIComponent(compareRegion))
+
+    compareRace = query.compareRace?.toLowerCase()
+    if compareRace
+      params.push("race=" + encodeURIComponent(compareRace))
+
+    compareGender = query.compareGender?.toLowerCase()
+    if compareGender
+      params.push("sex=" + encodeURIComponent(compareGender))
+
+    compareAge = query.compareAge?.toLowerCase()
+    if compareAge
+      params.push("agegroup=" + encodeURIComponent(compareAge))
 
     compareQuantile = query.compareQuantile
     if parseInt(compareQuantile) >= 0 and parseInt(compareQuantile) <= 100

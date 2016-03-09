@@ -107,16 +107,14 @@ html.no-js(lang='en')
         title: "Explore Income Distribution Map",
         type: "map",
         dataRequester: {
-          type: "IncomeQuantileRatio",
+          type: "IncomeQuantilesCompare",
           query: {
             compare: "state",
-            compareQuantile: 50,
-            ratioType: "sex",
-            ratioNumerator: "female",
-            ratioDenominator: "male"
+            compareQuantile: 50
           }
         },
         ui: {
+          compare: true,
           compareQuantile: true
         }
       }

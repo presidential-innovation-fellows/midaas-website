@@ -7,7 +7,7 @@ class ChartBar extends Ag.Chart.Abstract
     super()
 
     if @config.ui?.compare
-      $.get("/assets/templates/ui/toggle-compare-dropdown.html", (html) =>
+      $.get("/assets/templates/ui/toggle-compare.html", (html) =>
         $("##{@id} .ui").append(html)
         $("##{@id} #compare .toggle").on("click", (event) =>
           @react({ compare: event.currentTarget.innerText.toLowerCase() })

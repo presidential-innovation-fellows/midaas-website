@@ -7,10 +7,43 @@ class ChartMap extends Ag.Chart.Abstract
     super()
 
     if @config.ui?.compare
-      $.get("/assets/templates/ui/toggle-compare-dropdown.html", (html) =>
+      $.get("/assets/templates/ui/toggle-compare-multi.html", (html) =>
         $("##{@id} .ui").append(html)
+        $("##{@id} #compare .toggles").hide()
+        $("##{@id} #compare .nav").on("click", (event) =>
+          $("##{@id} #compare .nav").removeClass("active")
+          $(event.currentTarget).addClass("active")
+          $("##{@id} #compare .toggles").hide()
+          selectedNav = event.currentTarget.innerText.toLowerCase()
+          if selectedNav is "overall"
+            @react({
+              compareRace: undefined
+              compareGender: undefined
+              compareAge: undefined
+            })
+          else
+            $("##{@id} #compare .toggles.#{selectedNav}").show()
+        )
         $("##{@id} #compare .toggle").on("click", (event) =>
-          @react({ compare: event.currentTarget.innerText.toLowerCase() })
+          selectedNav = $("##{@id} #compare .nav.active").text().toLowerCase()
+          selectedTrigger = event.currentTarget.innerText.toLowerCase()
+          queryUpdate = {
+            compareRace: undefined
+            compareGender: undefined
+            compareAge: undefined
+          }
+          switch selectedNav
+            when "race"
+              queryUpdate.compareRace = selectedTrigger
+              @react(queryUpdate)
+            when "gender"
+              queryUpdate.compareGender = selectedTrigger
+              @react(queryUpdate)
+            when "age"
+              queryUpdate.compareAge = selectedTrigger
+              @react(queryUpdate)
+            when "overall"
+              @react(queryUpdate)
         )
         @react({ compare: @config.dataRequester?.query?.compare })
       )
@@ -86,11 +119,29 @@ class ChartMap extends Ag.Chart.Abstract
   react: (queryUpdate) ->
     super(queryUpdate)
 
-    compare = queryUpdate.compare?.toLowerCase()
-    if compare in ["overall", "race", "gender", "sex", "age"]
-      @config.dataRequester.query.compare = compare
+    compareRace = queryUpdate.compareRace?.toLowerCase()
+    if compareRace in ["asian", "black", "hispanic", "white"]
+      @config.dataRequester.query.compareRace = compareRace
       $("##{@id} #compare .toggles li").removeClass("active")
-      $("##{@id} #compare .toggles li .#{compare}").addClass("active")
+      $("##{@id} #compare .toggle.#{compareRace}").addClass("active")
+    else
+      @config.dataRequester.query.compareRace = undefined
+
+    compareGender = queryUpdate.compareGender?.toLowerCase()
+    if compareGender in ["male", "female"]
+      @config.dataRequester.query.compareGender = compareGender
+      $("##{@id} #compare .toggles li").removeClass("active")
+      $("##{@id} #compare .toggle.#{compareGender}").addClass("active")
+    else
+      @config.dataRequester.query.compareGender = undefined
+
+    compareAge = queryUpdate.compareAge?.toLowerCase()
+    if compareAge in ["18-24", "25-34", "35-44", "45-54", "55-64", "65+"]
+      @config.dataRequester.query.compareAge = compareAge
+      $("##{@id} #compare .toggles li").removeClass("active")
+      $("##{@id} #compare .toggle.#{compareAge}").addClass("active")
+    else
+      @config.dataRequester.query.compareAge = undefined
 
 window.Ag ?= {}
 window.Ag.Chart ?= {}
