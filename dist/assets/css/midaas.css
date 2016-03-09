@@ -4678,9 +4678,19 @@ input[type="range"] {
 .beta {
   bottom: 0.4em;
   color: #aeb0b5;
-  font-size: 0.8em;
-  position: absolute;
-  right: 0; }
+  display: inline-block;
+  font-size: 0.8em; }
+
+.commerce-logo {
+  float: left;
+  margin-right: 0.5em;
+  width: 50px; }
+  .commerce-logo img {
+    width: 100%; }
+
+.data-service {
+  font-size: 0.85em;
+  line-height: 0.9em; }
 
 .disclaimer {
   background-color: #1d2127;
@@ -4697,14 +4707,16 @@ input[type="range"] {
 .logo {
   float: left;
   position: relative;
-  width: 8em; }
+  width: 12em; }
   .logo a {
+    display: inline-block;
     text-decoration: none; }
 
 .logotype {
   color: #f1f1f1;
   font-size: 1.75em;
-  margin: 0; }
+  line-height: 1em;
+  margin: 0.05em 0 0; }
 
 .completion-bar {
   bottom: 0;
@@ -5087,6 +5099,8 @@ input.widget-title {
 
 .pages-home {
   position: relative; }
+  .pages-home .app-links a:hover {
+    background-color: rgba(17, 46, 81, 0.65); }
   .pages-home .app-nav {
     background-color: transparent;
     color: #ffffff;
@@ -5095,8 +5109,6 @@ input.widget-title {
     right: 0;
     top: 28px;
     z-index: 1000; }
-    .pages-home .app-nav a:hover {
-      background-color: rgba(17, 46, 81, 0.65); }
   .pages-home .calls-to-action a {
     margin: 0; }
   .pages-home .calls-to-action li {

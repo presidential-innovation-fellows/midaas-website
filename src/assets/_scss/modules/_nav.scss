@@ -55,9 +55,23 @@
 .beta {
   bottom: 0.4em;
   color: $color-gray-light;
+  display: inline-block;
   font-size: 0.8em;
-  position: absolute;
-  right: 0;
+}
+
+.commerce-logo {
+  float: left;
+  margin-right: 0.5em;
+  width: 50px;
+
+  img {
+    width: 100%;
+  }
+}
+
+.data-service {
+  font-size: 0.85em;
+  line-height: 0.9em;
 }
 
 .disclaimer {
@@ -80,9 +94,10 @@
 .logo {
   float: left;
   position: relative;
-  width: 8em;
+  width: 12em;
 
   a {
+    display: inline-block;
     text-decoration: none;
   }
 }
@@ -90,5 +105,6 @@
 .logotype {
   color: $color-gray-lightest;
   font-size: 1.75em;
-  margin: 0;
+  line-height: 1em;
+  margin: 0.05em 0 0;
 }
