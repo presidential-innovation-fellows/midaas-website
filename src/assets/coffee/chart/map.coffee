@@ -105,6 +105,8 @@ class ChartMap extends Ag.Chart.Abstract
     }[state]
 
   translateData: (data) ->
+    delete data.xLabel if data.xLabel?
+    delete data.yLabel if data.yLabel?
     dataArr = []
     for state of data
       for group of data[state]

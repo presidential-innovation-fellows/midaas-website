@@ -30,8 +30,6 @@ class ChartBar extends Ag.Chart.Abstract
     @dataRequester.fetchData((err, data) =>
       xLabel = data.xLabel
       yLabel = data.yLabel
-      delete data.xLabel if data.xLabel?
-      delete data.yLabel if data.yLabel?
       data = @translateData(data)
       @_chart = c3.generate({
         bindto: bindElement
@@ -75,6 +73,8 @@ class ChartBar extends Ag.Chart.Abstract
     )
 
   translateData: (data) ->
+    delete data.xLabel if data.xLabel?
+    delete data.yLabel if data.yLabel?
     seriesArr = []
     for group of data
       labelArr = ["x"]
