@@ -9,7 +9,7 @@ class ChartBar extends Ag.Chart.Abstract
     if @config.ui?.compare
       $.get("/assets/templates/ui/toggle-compare.html", (html) =>
         $("##{@id} .ui").append(html)
-        $("##{@id} #compare .toggle").on("click", (event) =>
+        $("##{@id} .compare .toggle").on("click", (event) =>
           @react({ compare: event.currentTarget.innerText.toLowerCase() })
         )
         @react({ compare: @config.dataRequester?.query?.compare })
@@ -18,7 +18,7 @@ class ChartBar extends Ag.Chart.Abstract
     if @config.ui?.compareRegion
       $.get("/assets/templates/ui/select-compare-region.html", (html) =>
         $("##{@id} .ui").append(html)
-        $("##{@id} #compareRegion").change((event) =>
+        $("##{@id} .compareRegion").change((event) =>
           @react({ compareRegion: event.target.value.toUpperCase() })
         )
         @react({ compareRegion: @config.dataRequester?.query?.compareRegion })
@@ -91,13 +91,13 @@ class ChartBar extends Ag.Chart.Abstract
     compare = queryUpdate.compare?.toLowerCase()
     if compare in ["overall", "race", "gender", "sex", "age"]
       @config.dataRequester.query.compare = compare
-      $("##{@id} #compare .toggles li").removeClass("active")
-      $("##{@id} #compare .toggles li.#{compare}").addClass("active")
+      $("##{@id} .compare .toggles li").removeClass("active")
+      $("##{@id} .compare .toggles li.#{compare}").addClass("active")
 
     compareRegion = queryUpdate.compareRegion?.toUpperCase()
     if compareRegion?
       @config.dataRequester.query.compareRegion = compareRegion
-      $("##{@id} #compareRegion").val(compareRegion)
+      $("##{@id} .compareRegion").val(compareRegion)
 
     @setTitle()
 

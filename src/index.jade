@@ -4,7 +4,8 @@ html.no-js(lang='en')
   body.pages-home
     include modules/_nav.jade
     section.usa-hero
-      video(src="assets/video/banner-video.mp4", autoplay="true", loop="true")
+      video(autoplay="true" loop="true" title="Background Video of American Highways" controls)
+        source(src="assets/video/banner-video.mp4")
       .content-container
         .usa-grid
           header

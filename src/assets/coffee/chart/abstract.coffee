@@ -13,7 +13,7 @@ class ChartAbstract
     if @config.ui?.compareQuantile
       $.get("/assets/templates/ui/select-compare-quantile.html", (html) =>
         $("##{@id} .ui").append(html)
-        $("##{@id} #compareQuantile").change((event) =>
+        $("##{@id} .compareQuantile").change((event) =>
           @react({ compareQuantile: event.target.value.toUpperCase() })
         )
         @react({ compareQuantile: @config.dataRequester?.query?.compareQuantile })
@@ -77,18 +77,18 @@ class ChartAbstract
     compareQuantile = parseInt(queryUpdate.compareQuantile)
     if compareQuantile >= 0 and compareQuantile <= 100
       @config.dataRequester.query.compareQuantile = compareQuantile
-      $("##{@id} #compareQuantile").val(compareQuantile)
+      $("##{@id} .compareQuantile").val(compareQuantile)
 
   showLoading: ->
-    $("##{@id} #loading-icon").fadeIn("fast")
+    $("##{@id} .loading-icon").fadeIn("fast")
 
   hideLoading: ->
-    $("##{@id} #loading-icon").fadeOut("fast")
+    $("##{@id} .loading-icon").fadeOut("fast")
 
   setTitle: ->
     el = $("##{@id}")
     title = @config?.title
-    state = $("#compareRegion option:selected").text()
+    state = $(".compareRegion option:selected").text()
     title = title.replace("{{state}}", state)
     el.find(".chart-title").text(title)
 

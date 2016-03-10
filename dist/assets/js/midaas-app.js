@@ -303,7 +303,7 @@
           return function(html) {
             var ref1, ref2;
             $("#" + _this.id + " .ui").append(html);
-            $("#" + _this.id + " #compareQuantile").change(function(event) {
+            $("#" + _this.id + " .compareQuantile").change(function(event) {
               return _this.react({
                 compareQuantile: event.target.value.toUpperCase()
               });
@@ -397,23 +397,23 @@
       compareQuantile = parseInt(queryUpdate.compareQuantile);
       if (compareQuantile >= 0 && compareQuantile <= 100) {
         this.config.dataRequester.query.compareQuantile = compareQuantile;
-        return $("#" + this.id + " #compareQuantile").val(compareQuantile);
+        return $("#" + this.id + " .compareQuantile").val(compareQuantile);
       }
     };
 
     ChartAbstract.prototype.showLoading = function() {
-      return $("#" + this.id + " #loading-icon").fadeIn("fast");
+      return $("#" + this.id + " .loading-icon").fadeIn("fast");
     };
 
     ChartAbstract.prototype.hideLoading = function() {
-      return $("#" + this.id + " #loading-icon").fadeOut("fast");
+      return $("#" + this.id + " .loading-icon").fadeOut("fast");
     };
 
     ChartAbstract.prototype.setTitle = function() {
       var el, ref, state, title;
       el = $("#" + this.id);
       title = (ref = this.config) != null ? ref.title : void 0;
-      state = $("#compareRegion option:selected").text();
+      state = $(".compareRegion option:selected").text();
       title = title.replace("{{state}}", state);
       return el.find(".chart-title").text(title);
     };
@@ -473,7 +473,7 @@
           return function(html) {
             var ref1, ref2;
             $("#" + _this.id + " .ui").append(html);
-            $("#" + _this.id + " #compare .toggle").on("click", function(event) {
+            $("#" + _this.id + " .compare .toggle").on("click", function(event) {
               return _this.react({
                 compare: event.currentTarget.innerText.toLowerCase()
               });
@@ -489,7 +489,7 @@
           return function(html) {
             var ref2, ref3;
             $("#" + _this.id + " .ui").append(html);
-            $("#" + _this.id + " #compareRegion").change(function(event) {
+            $("#" + _this.id + " .compareRegion").change(function(event) {
               return _this.react({
                 compareRegion: event.target.value.toUpperCase()
               });
@@ -586,13 +586,13 @@
       compare = (ref = queryUpdate.compare) != null ? ref.toLowerCase() : void 0;
       if (compare === "overall" || compare === "race" || compare === "gender" || compare === "sex" || compare === "age") {
         this.config.dataRequester.query.compare = compare;
-        $("#" + this.id + " #compare .toggles li").removeClass("active");
-        $("#" + this.id + " #compare .toggles li." + compare).addClass("active");
+        $("#" + this.id + " .compare .toggles li").removeClass("active");
+        $("#" + this.id + " .compare .toggles li." + compare).addClass("active");
       }
       compareRegion = (ref1 = queryUpdate.compareRegion) != null ? ref1.toUpperCase() : void 0;
       if (compareRegion != null) {
         this.config.dataRequester.query.compareRegion = compareRegion;
-        $("#" + this.id + " #compareRegion").val(compareRegion);
+        $("#" + this.id + " .compareRegion").val(compareRegion);
       }
       return this.setTitle();
     };
