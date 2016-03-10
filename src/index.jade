@@ -29,23 +29,28 @@ html.no-js(lang='en')
 
       ul.feature-list
         li
-          figure
-            img(alt="API Icon" src="assets/img/feature-icons/api-icon.svg")
-          h2 Powerful API
-          p to accelerate new developments.
+          a(href="/developers#api-get-started", style="text-decoration: none;")
+            figure
+              img(alt="API Icon" src="assets/img/feature-icons/api-icon.svg")
+            h2 Powerful API
+            p to accelerate new developments.
         li
-          figure
-            img(alt="Browse Topics Icon" src="assets/img/feature-icons/topics-icon.svg")
-          h2 Browse Topics
-          p to take a deep dive into complex topics.
+          a(href="/topics", style="text-decoration: none;")
+            figure
+              img(alt="Browse Topics Icon" src="assets/img/feature-icons/topics-icon.svg")
+            h2 Browse Topics
+            p to take a deep dive into complex topics.
         li.in-progress
           figure
             img(alt="Create Visualizations Icon" src="assets/img/feature-icons/create-your-own-icon.svg")
           h2 Create Visualizations
-          p to learn and share insights. (Coming Soon...)
+          p to learn and share insights.
+          p
+            |[Coming Soon...]
         li
-          figure
-            img(alt="Create Visualizations Icon" src="assets/img/feature-icons/developer-tools-icon.svg")
-          h2 Developer Tools
-          p to accelerate the dissemination of data.
+          a(href="/developers", style="text-decoration: none;")
+            figure
+              img(alt="Developer Tools Icon" src="assets/img/feature-icons/developer-tools-icon.svg")
+            h2 Developer Tools
+            p to accelerate the dissemination of data.
     include modules/_footer.jade
