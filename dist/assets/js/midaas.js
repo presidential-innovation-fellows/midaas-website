@@ -4625,7 +4625,7 @@ module.exports = eventmap;
       }).done((function(_this) {
         return function(data) {
           data.xLabel = "Quantile";
-          data.yLabel = "Income ($s)";
+          data.yLabel = "Earnings ($s)";
           return callback(null, data);
         };
       })(this)).fail((function(_this) {
