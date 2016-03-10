@@ -1,61 +1,7 @@
 doctype html
 html.no-js(lang='en')
+  - var pageTitle = 'MIDAAS | Gender Equality'
   include ../../modules/_head.jade
-  script.
-    if (window.Ag == null) {
-      window.Ag = {};
-    }
-
-    window.Ag.config = {
-      chart1: {
-        title: "National Income Data",
-        type: "bar",
-        dataRequester: {
-          type: "IncomeQuantilesCompare",
-          query: {
-            compare: "sex",
-            compareRegion: "US"
-          }
-        },
-        ui: {
-          compare: false,
-          compareRegion: false
-        }
-      },
-      chart2: {
-        title: "Ratio of Male to Female Income by State",
-        type: "map",
-        dataRequester: {
-          type: "IncomeQuantileRatio",
-          query: {
-            compare: "state",
-            compareQuantile: 50,
-            ratioType: "sex",
-            ratioNumerator: "female",
-            ratioDenominator: "male"
-          }
-        },
-        ui: {
-          compareQuantile: true
-        },
-        connect: "chart3"
-      },
-      chart3: {
-        title: "{{state}} Income Data",
-        type: "bar",
-        dataRequester: {
-          type: "IncomeQuantilesCompare",
-          query: {
-            compare: "sex",
-            compareRegion: "CA"
-          },
-        },
-        ui: {
-          compare: false,
-          compareRegion: true
-        }
-      }
-    };
   body.topics-gender
     include ../../modules/_nav.jade
     section.main-content
@@ -74,3 +20,58 @@ html.no-js(lang='en')
         .chart-widget.widget.primary-widget
           #chart3
     include ../../modules/_footer.jade
+    script.
+      if (window.Ag == null) {
+        window.Ag = {};
+      }
+
+      window.Ag.config = {
+        chart1: {
+          title: "National Income Data",
+          type: "bar",
+          dataRequester: {
+            type: "IncomeQuantilesCompare",
+            query: {
+              compare: "sex",
+              compareRegion: "US"
+            }
+          },
+          ui: {
+            compare: false,
+            compareRegion: false
+          }
+        },
+        chart2: {
+          title: "Ratio of Male to Female Income by State",
+          type: "map",
+          dataRequester: {
+            type: "IncomeQuantileRatio",
+            query: {
+              compare: "state",
+              compareQuantile: 50,
+              ratioType: "sex",
+              ratioNumerator: "female",
+              ratioDenominator: "male"
+            }
+          },
+          ui: {
+            compareQuantile: true
+          },
+          connect: "chart3"
+        },
+        chart3: {
+          title: "{{state}} Income Data",
+          type: "bar",
+          dataRequester: {
+            type: "IncomeQuantilesCompare",
+            query: {
+              compare: "sex",
+              compareRegion: "CA"
+            },
+          },
+          ui: {
+            compare: false,
+            compareRegion: true
+          }
+        }
+      };
