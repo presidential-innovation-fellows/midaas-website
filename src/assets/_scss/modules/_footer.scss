@@ -46,7 +46,7 @@
   }
 
   .links {
-    font-size: 1.5em;
+    font-size: 1.1em;
 
     a {
       color: $color-white;
@@ -54,6 +54,11 @@
       &:hover {
         color: lighten($color-primary, 30);
       }
+    }
+
+    i {
+      color: lighten($color-primary, 30);
+      margin-right: 0.25em;
     }
   }
 }
@@ -69,12 +74,15 @@
 }
 
 .footer-logos {
-  float: right;
+  @include clearfix;
+  display: block;
+  margin: 0;
 
   li {
-    @include span-columns(1 of 4);
+    float: right;
+    margin-left: 5%;
     margin-top: 0;
-    max-width: 85px;
+    width: 20%;
 
     &.census {
       padding-top: 1em;
@@ -84,4 +92,12 @@
       display: block;
     }
   }
+}
+
+.footer-logos-container {
+  clear: both;
+  float: right;
+  margin-top: 1em;
+  max-width: 350px;
+  width: 100%;
 }

@@ -158,6 +158,37 @@
     }
   }
 
+  .powered-by {
+    text-align: center;
+
+    a {
+      display: inline-block;
+    }
+
+    h2 {
+      font-size: 1.3em;
+      font-weight: normal;
+    }
+
+    li {
+      display: inline-block;
+      vertical-align: top;
+      width: 100px;
+
+      &:first-child {
+        margin-right: 1em;
+      }
+
+      &.census {
+        padding-top: 1em;
+      }
+    }
+
+    ul {
+      width: 100%;
+    }
+  }
+
   .preposition {
     margin: 0 0.5em;
   }
