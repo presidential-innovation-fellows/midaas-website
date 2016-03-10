@@ -1,0 +1,50 @@
+doctype html
+html.no-js(lang='en')
+  include ../modules/_head.jade
+  body.pages-explore
+    include ../modules/_nav.jade
+    section.main-content
+      .usa-grid
+        header
+          h1 Explore Data
+        .chart-widget.widget.primary-widget
+          #chart1
+        .chart-widget.widget.primary-widget
+          #chart2.map-chart
+    script.
+      if (window.Ag == null) {
+        window.Ag = {};
+      }
+
+      window.Ag.config = {
+        chart1: {
+          title: "Explore Income Distributions",
+          type: "bar",
+          dataRequester: {
+            type: "IncomeQuantilesCompare",
+            query: {
+              compare: "overall",
+              compareRegion: "US"
+            }
+          },
+          ui: {
+            compare: true,
+            compareRegion: true
+          }
+        },
+        chart2: {
+          title: "Explore Income Distribution Map",
+          type: "map",
+          dataRequester: {
+            type: "IncomeQuantilesCompare",
+            query: {
+              compare: "state",
+              compareQuantile: 50
+            }
+          },
+          ui: {
+            compare: true,
+            compareQuantile: true
+          }
+        }
+      };
