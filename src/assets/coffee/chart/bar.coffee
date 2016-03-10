@@ -99,6 +99,8 @@ class ChartBar extends Ag.Chart.Abstract
       @config.dataRequester.query.compareRegion = compareRegion
       $("##{@id} #compareRegion").val(compareRegion)
 
+    @setTitle()
+
 window.Ag ?= {}
 window.Ag.Chart ?= {}
 window.Ag.Chart.Bar = ChartBar

@@ -86,8 +86,10 @@ class ChartAbstract
     $("##{@id} #loading-icon").fadeOut("fast")
 
   setTitle: ->
-    el = $("##{@chart.id}")
-    title = @chart.config?.title
+    el = $("##{@id}")
+    title = @config?.title
+    state = $("#compareRegion option:selected").text()
+    title = title.replace("{{state}}", state)
     el.find(".chart-title").text(title)
 
   closeObservers: ->

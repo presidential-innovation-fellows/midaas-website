@@ -143,6 +143,8 @@ class ChartMap extends Ag.Chart.Abstract
     else
       @config.dataRequester.query.compareAge = undefined
 
+    @setTitle()
+
 window.Ag ?= {}
 window.Ag.Chart ?= {}
 window.Ag.Chart.Map = ChartMap

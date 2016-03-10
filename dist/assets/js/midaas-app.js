@@ -410,9 +410,11 @@
     };
 
     ChartAbstract.prototype.setTitle = function() {
-      var el, ref, title;
-      el = $("#" + this.chart.id);
-      title = (ref = this.chart.config) != null ? ref.title : void 0;
+      var el, ref, state, title;
+      el = $("#" + this.id);
+      title = (ref = this.config) != null ? ref.title : void 0;
+      state = $("#compareRegion option:selected").text();
+      title = title.replace("{{state}}", state);
       return el.find(".chart-title").text(title);
     };
 
@@ -590,8 +592,9 @@
       compareRegion = (ref1 = queryUpdate.compareRegion) != null ? ref1.toUpperCase() : void 0;
       if (compareRegion != null) {
         this.config.dataRequester.query.compareRegion = compareRegion;
-        return $("#" + this.id + " #compareRegion").val(compareRegion);
+        $("#" + this.id + " #compareRegion").val(compareRegion);
       }
+      return this.setTitle();
     };
 
     return ChartBar;
@@ -806,10 +809,11 @@
       if (compareAge === "18-24" || compareAge === "25-34" || compareAge === "35-44" || compareAge === "45-54" || compareAge === "55-64" || compareAge === "65+") {
         this.config.dataRequester.query.compareAge = compareAge;
         $("#" + this.id + " #compare .toggles li").removeClass("active");
-        return $("#" + this.id + " #compare .toggle." + compareAge).addClass("active");
+        $("#" + this.id + " #compare .toggle." + compareAge).addClass("active");
       } else {
-        return this.config.dataRequester.query.compareAge = void 0;
+        this.config.dataRequester.query.compareAge = void 0;
       }
+      return this.setTitle();
     };
 
     return ChartMap;
