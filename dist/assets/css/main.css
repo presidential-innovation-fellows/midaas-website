@@ -5226,6 +5226,8 @@ input.widget-title {
     .pages-home .powered-by h2 {
       font-size: 1.3em;
       font-weight: normal; }
+    .pages-home .powered-by img {
+      width: 100%; }
     .pages-home .powered-by li {
       display: inline-block;
       vertical-align: top;

@@ -4806,7 +4806,7 @@ module.exports = eventmap;
             $("#" + _this.id + " .ui").append(html);
             $("#" + _this.id + " .compareQuantile").change(function(event) {
               return _this.react({
-                compareQuantile: event.target.value.toUpperCase()
+                compareQuantile: $(event.currentTarget).text().toUpperCase()
               });
             });
             return _this.react({
@@ -4976,7 +4976,7 @@ module.exports = eventmap;
             $("#" + _this.id + " .ui").append(html);
             $("#" + _this.id + " .compare .toggle").on("click", function(event) {
               return _this.react({
-                compare: event.currentTarget.innerText.toLowerCase()
+                compare: $(event.target).text().toLowerCase()
               });
             });
             return _this.react({
@@ -4992,7 +4992,7 @@ module.exports = eventmap;
             $("#" + _this.id + " .ui").append(html);
             $("#" + _this.id + " .compareRegion").change(function(event) {
               return _this.react({
-                compareRegion: event.target.value.toUpperCase()
+                compareRegion: $(event.target).text().toUpperCase()
               });
             });
             return _this.react({
@@ -5142,7 +5142,7 @@ module.exports = eventmap;
               $("#" + _this.id + " #compare .nav").removeClass("active");
               $(event.currentTarget).addClass("active");
               $("#" + _this.id + " #compare .toggles").hide();
-              selectedNav = event.currentTarget.innerText.toLowerCase();
+              selectedNav = $(event.currentTarget).text().toLowerCase();
               if (selectedNav === "overall") {
                 return _this.react({
                   compareRace: void 0,
@@ -5156,7 +5156,7 @@ module.exports = eventmap;
             $("#" + _this.id + " #compare .toggle").on("click", function(event) {
               var queryUpdate, selectedNav, selectedTrigger;
               selectedNav = $("#" + _this.id + " #compare .nav.active").text().toLowerCase();
-              selectedTrigger = event.currentTarget.innerText.toLowerCase();
+              selectedTrigger = $(event.currentTarget).text().toLowerCase();
               queryUpdate = {
                 compareRace: void 0,
                 compareGender: void 0,

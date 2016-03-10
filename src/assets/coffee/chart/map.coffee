@@ -14,7 +14,7 @@ class ChartMap extends Ag.Chart.Abstract
           $("##{@id} #compare .nav").removeClass("active")
           $(event.currentTarget).addClass("active")
           $("##{@id} #compare .toggles").hide()
-          selectedNav = event.currentTarget.innerText.toLowerCase()
+          selectedNav = $(event.currentTarget).text().toLowerCase()
           if selectedNav is "overall"
             @react({
               compareRace: undefined
@@ -26,7 +26,7 @@ class ChartMap extends Ag.Chart.Abstract
         )
         $("##{@id} #compare .toggle").on("click", (event) =>
           selectedNav = $("##{@id} #compare .nav.active").text().toLowerCase()
-          selectedTrigger = event.currentTarget.innerText.toLowerCase()
+          selectedTrigger = $(event.currentTarget).text().toLowerCase()
           queryUpdate = {
             compareRace: undefined
             compareGender: undefined

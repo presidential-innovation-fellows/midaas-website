@@ -10,7 +10,7 @@ class ChartBar extends Ag.Chart.Abstract
       $.get("/assets/templates/ui/toggle-compare.html", (html) =>
         $("##{@id} .ui").append(html)
         $("##{@id} .compare .toggle").on("click", (event) =>
-          @react({ compare: event.currentTarget.innerText.toLowerCase() })
+          @react({ compare: $(event.target).text().toLowerCase()})
         )
         @react({ compare: @config.dataRequester?.query?.compare })
       )
@@ -19,7 +19,7 @@ class ChartBar extends Ag.Chart.Abstract
       $.get("/assets/templates/ui/select-compare-region.html", (html) =>
         $("##{@id} .ui").append(html)
         $("##{@id} .compareRegion").change((event) =>
-          @react({ compareRegion: event.target.value.toUpperCase() })
+          @react({ compareRegion: $(event.target).text().toUpperCase() })
         )
         @react({ compareRegion: @config.dataRequester?.query?.compareRegion })
       )
