@@ -5030,7 +5030,7 @@ module.exports = eventmap;
             },
             axis: {
               x: {
-                label: xLabel,
+                label: "Percentiles",
                 type: "category"
               },
               y: {

@@ -47,7 +47,7 @@ class ChartBar extends Ag.Chart.Abstract
         }
         axis: {
           x: {
-            label: xLabel
+            label: "Percentiles"
             type: "category"
           }
           y: {
