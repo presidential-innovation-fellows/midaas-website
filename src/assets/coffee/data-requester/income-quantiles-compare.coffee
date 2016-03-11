@@ -47,7 +47,7 @@ class DataRequesterIncomeQuantilesCompare extends Ag.DataRequester.Abstract
       url: url
       timeout: 10000
     }).done((data) =>
-      data.xLabel = "Quantile"
+      data.xLabel = "Percentile"
       data.yLabel = "Earnings ($s)"
       return callback(null, data)
     ).fail((err) =>

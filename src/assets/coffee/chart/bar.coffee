@@ -19,7 +19,7 @@ class ChartBar extends Ag.Chart.Abstract
       $.get("/assets/templates/ui/select-compare-region.html", (html) =>
         $("##{@id} .ui").append(html)
         $("##{@id} .compareRegion").change((event) =>
-          @react({ compareRegion: $(event.target).text().toUpperCase() })
+          @react({ compareRegion: $(event.target).val().toUpperCase() })
         )
         @react({ compareRegion: @config.dataRequester?.query?.compareRegion })
       )
@@ -28,8 +28,8 @@ class ChartBar extends Ag.Chart.Abstract
     @showLoading()
     bindElement = "##{@id} .chart"
     @dataRequester.fetchData((err, data) =>
-      xLabel = data.xLabel
-      yLabel = data.yLabel
+      xLabel = data.xLabel ? ""
+      yLabel = data.yLabel ? ""
       data = @translateData(data)
       @_chart = c3.generate({
         bindto: bindElement
@@ -47,7 +47,7 @@ class ChartBar extends Ag.Chart.Abstract
         }
         axis: {
           x: {
-            label: "Percentiles"
+            label: xLabel
             type: "category"
           }
           y: {

@@ -14,7 +14,7 @@ class ChartAbstract
       $.get("/assets/templates/ui/select-compare-quantile.html", (html) =>
         $("##{@id} .ui").append(html)
         $("##{@id} .compareQuantile").change((event) =>
-          @react({ compareQuantile: $(event.currentTarget).text().toUpperCase() })
+          @react({ compareQuantile: $(event.currentTarget).val().toUpperCase() })
         )
         @react({ compareQuantile: @config.dataRequester?.query?.compareQuantile })
       )
