@@ -8,6 +8,7 @@ class Midaas
   constructor: ->
     @initConfig()
     @createCharts()
+    @initObserveCheck()
 
   initConfig: ->
     # attempt to get the midaas configuration from either the url
@@ -51,6 +52,12 @@ class Midaas
         @destroyChart(id)
       )
     )
+
+  initObserveCheck: ->
+    unless Object.observe?
+      setInterval( ->
+        Platform.performMicrotaskCheckpoint()
+      , 100)
 
 # on load
 $( =>
